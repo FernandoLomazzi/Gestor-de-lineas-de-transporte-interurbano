@@ -1,0 +1,25 @@
+limpiar Map clases
+chequear los equals y to String
+to string formatear los double.
+cambiar los parent por su respectiva estructura
+Ver el tema del cursor en mod parada
+revisar los modStopButton.getScene().getWindow() para cerrar escena
+
+- (0.9.4) You can now annotate a method with `@SmartLabelSource` within a model class to provide the displayed label for a vertex/edge; see the example at `com.brunomnsilva.smartgraph.example`. If no annotation is present, then the `toString()` method is used to obtain the label's text.
+To string y lo de arriba
+
+modificar y eliminar unificarlos en un solo boton
+controladores y fxml están en cammelcase
+el tema de si esta activo o no depende de las incidencias. no hay nada de eso hecho,revisar codigo
+manager tendría que estar dentro de models.utils
+getRouteID posiblemente inutil en routedaopg
+
+Si en una clase tengo
+	public void updateMap() {
+		mapView.update();
+	}
+	public void addRouteMap(Route route) {
+		map.insertEdge(route.getSourceStop(),route.getDestinationStop(),route);
+		mapView.update();
+	}
+uso updateMap dentro?

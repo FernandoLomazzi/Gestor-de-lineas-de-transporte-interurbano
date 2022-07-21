@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="546.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.route.addRouteController">
+   <children>
+      <Label layoutX="48.0" layoutY="36.0" text="Parada Origen" />
+      <TextField fx:id="sourceStopField" disable="true" editable="false" layoutX="48.0" layoutY="53.0" />
+      <Label layoutX="346.0" layoutY="36.0" text="Parada Destino" />
+      <TextField fx:id="destinationStopField" disable="true" editable="false" layoutX="346.0" layoutY="53.0" />
+      <Label layoutX="50.0" layoutY="94.0" prefHeight="17.0" prefWidth="53.0" text="Distancia" />
+      <TextField fx:id="distanceField" layoutX="50.0" layoutY="111.0" prefHeight="25.0" prefWidth="296.0" promptText="Ingrese la distancia entre ambas Paradas" />
+      <ChoiceBox fx:id="distanceUnitBox" layoutX="346.0" layoutY="111.0" prefHeight="25.0" prefWidth="149.0" />
+      <Button fx:id="addRouteButton" layoutX="197.0" layoutY="156.0" mnemonicParsing="false" onAction="#addRoute" prefHeight="25.0" prefWidth="149.0" text="Agregar Calle" />
+   </children>
+</AnchorPane>

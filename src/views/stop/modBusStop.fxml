@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="587.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.stop.modBusStopController">
+   <children>
+      <TextField fx:id="stopNumberField" disable="true" editable="false" layoutX="69.0" layoutY="51.0" />
+      <Label layoutX="69.0" layoutY="34.0" text="Número de la parada" />
+      <TextField fx:id="stopStreetField" layoutX="69.0" layoutY="128.0" />
+      <Label layoutX="69.0" layoutY="111.0" text="Calle de la parada" />
+      <TextField fx:id="stopStreetNumberField" layoutX="258.0" layoutY="128.0" />
+      <Label layoutX="258.0" layoutY="111.0" text="Número de la calle de la parada" />
+      <CheckBox fx:id="stopActiveBox" layoutX="453.0" layoutY="132.0" mnemonicParsing="false" text="Habilitada" />
+      <Button fx:id="modStopButton" layoutX="241.0" layoutY="178.0" mnemonicParsing="false" onAction="#modifyStop" text="Modificar Parada" />
+      <Button fx:id="cancelButton" layoutX="64.0" layoutY="178.0" mnemonicParsing="false" onAction="#cancel" text="Cancelar" />
+   </children>
+</AnchorPane>
