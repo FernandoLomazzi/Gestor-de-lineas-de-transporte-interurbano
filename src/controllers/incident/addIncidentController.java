@@ -16,6 +16,7 @@ import db.dao.BusStopDao;
 import db.dao.IncidentDao;
 import db.dao.impl.BusStopDaoPG;
 import db.dao.impl.IncidentDaoPG;
+import exceptions.DBConnectionException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextArea;
@@ -77,11 +78,21 @@ public class addIncidentController implements Initializable{
 			IncidentDao incidentDao = new IncidentDaoPG();
 			Incident incident = new Incident(busStop,beginDate,endDate,description,concluded);
 			try {
-				incidentDao.addData(incident);
+				try {
+					incidentDao.addData(incident);
+				} catch (DBConnectionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if(busStop.isEnabled()) {
 					busStop.setEnabled(false);
 					BusStopDao busStopDao = new BusStopDaoPG();
-					busStopDao.modifyData(busStop);
+					try {
+						busStopDao.modifyData(busStop);
+					} catch (DBConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					MapManager mapManager = MapManager.getInstance();
 					mapManager.disableStyleStop(busStop);
 				}

@@ -14,6 +14,8 @@ import db.dao.BusStopDao;
 import db.dao.IncidentDao;
 import db.dao.impl.BusStopDaoPG;
 import db.dao.impl.IncidentDaoPG;
+import exceptions.DBConnectionException;
+import exceptions.ModifyFailException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextArea;
@@ -79,14 +81,35 @@ public class modIncidentController implements Initializable {
 			incident.setEndDate(endDate);
 			incident.setDescription(description);
 			incident.setConcluded(concluded);
-			incidentDao.modifyData(incident);
+			try {
+				incidentDao.modifyData(incident);
+			} catch (ModifyFailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DBConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			BusStopDao busStopDao = new BusStopDaoPG();
 			BusStop busStop = incident.getBusStopDisabled();
-			if(!busStop.isEnabled() && concluded && busStopDao.isEnabled(busStop)) {
-				busStop.setEnabled(true);
-				busStopDao.modifyData(busStop);
-				MapManager mapManager = MapManager.getInstance();
-				mapManager.enableStyleStop(busStop);
+			try {
+				if(!busStop.isEnabled() && concluded && busStopDao.isEnabled(busStop)) {
+					busStop.setEnabled(true);
+					try {
+						busStopDao.modifyData(busStop);
+					} catch (ModifyFailException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DBConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					MapManager mapManager = MapManager.getInstance();
+					mapManager.enableStyleStop(busStop);
+				}
+			} catch (DBConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

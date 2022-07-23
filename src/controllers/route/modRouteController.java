@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 
 import db.dao.RouteDao;
 import db.dao.impl.RouteDaoPG;
+import exceptions.DBConnectionException;
+import exceptions.ModifyFailException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.ChoiceBox;
@@ -69,7 +71,15 @@ public class modRouteController implements Initializable{
 		}
 		RouteDao routeDao = new RouteDaoPG();
 		route.setDistanceInKM(distance);
-		routeDao.modifyData(route);
+		try {
+			routeDao.modifyData(route);
+		} catch (ModifyFailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		MapManager mapManager = MapManager.getInstance();
 		mapManager.updateMap();
 	}

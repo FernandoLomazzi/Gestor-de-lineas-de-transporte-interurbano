@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 import db.dao.RouteDao;
 import db.dao.impl.RouteDaoPG;
+import exceptions.DBConnectionException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.ChoiceBox;
@@ -75,7 +76,12 @@ public class addRouteController implements Initializable{
 		Route route = new Route(sourceStop,destinationStop,distance);
 		RouteDao routeDao = new RouteDaoPG();
 		try {
-			routeDao.addData(route);
+			try {
+				routeDao.addData(route);
+			} catch (DBConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

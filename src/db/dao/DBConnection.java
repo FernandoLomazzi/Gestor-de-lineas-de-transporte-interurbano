@@ -4,7 +4,10 @@ import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.util.logging.Logger;
+
+import exceptions.DBConnectionException;
 
 public class DBConnection {
 	private static final String URL = "jdbc:postgresql://localhost:5432/Prueba";
@@ -14,19 +17,15 @@ public class DBConnection {
 	private DBConnection() {
 		;
 	}
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DBConnectionException{
 		Connection connection = null;
 		try {
 			Class.forName(DRIVER);
 			connection = DriverManager.getConnection(URL, USER, PASS);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			//Logger.getLogger(DBConnection.class.getName()).log(Level.Severe,null,ex);
-			//throw new ConexionDBException();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			//Logger.getLogger(DBConnection.class.getName()).log(Level.Severe,null,ex);
-			//throw new ConexionDBException();
+			throw new DBConnectionException("Hubo un problema al intentar cargar los drivers de la base de datos.");
+		} catch (SQLException  e) {
+			throw new DBConnectionException("Hubo un problema al intentar establecer una conexión con la base de datos.");
 		}
 		return connection;
 	}

@@ -12,6 +12,8 @@ import java.sql.SQLException;
 
 import db.dao.BusStopDao;
 import db.dao.impl.BusStopDaoPG;
+import exceptions.AddFailException;
+import exceptions.DBConnectionException;
 import javafx.event.ActionEvent;
 
 public class addBusStopController {
@@ -35,7 +37,7 @@ public class addBusStopController {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 		    alert.setHeaderText(null);
 		    alert.setTitle("Error");
-		    alert.setContentText("Ingrese los datos correctamente");
+		    alert.setContentText("Ingrese números para el número de parada y el número de calle de la misma.");
 		    alert.showAndWait();
 			return;
 		}
@@ -49,11 +51,12 @@ public class addBusStopController {
 		    alert.setTitle("Exito");
 		    alert.setContentText("Se añadió a la persona correctamente");
 		    alert.showAndWait();
-		}catch(SQLException e) {
+		} catch(AddFailException|DBConnectionException e) {
+			//Quiza habria que separarlas
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 		    alert.setHeaderText(null);
 		    alert.setTitle("Error");
-		    alert.setContentText("Ocurrió un error al guardar los datos en la db");
+		    alert.setContentText(e.getMessage());
 		    alert.showAndWait();
 		}
 	}

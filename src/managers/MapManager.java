@@ -9,6 +9,7 @@ import db.dao.BusStopDao;
 import db.dao.RouteDao;
 import db.dao.impl.BusStopDaoPG;
 import db.dao.impl.RouteDaoPG;
+import exceptions.DBConnectionException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,13 +35,25 @@ public class MapManager {
 	public static final String disabledStopStyle = "-fx-fill: #C3D3DB;-fx-stroke: #A8C5D9;";
 	public static final String enabledRouteStyle = "-fx-stroke: #FF6D66;";
 	public static final String disabledRouteStyle = "-fx-stroke: #FFA19D;";
-	
+
 	private MapManager() {
 		map = new DigraphEdgeList<>();
 		BusStopDao busStopDao = new BusStopDaoPG();
 		RouteDao routeDao = new RouteDaoPG();
-		List<BusStop> busStops = busStopDao.getStopMap();
-		List<Route> routes = routeDao.getRouteMap();
+		List<BusStop> busStops;
+		try {
+			busStops = busStopDao.getStopMap();
+		} catch (DBConnectionException e) {
+			e.printStackTrace();
+			return;
+		}
+		List<Route> routes;
+		try {
+			routes = routeDao.getRouteMap();
+		} catch (DBConnectionException e) {
+			e.printStackTrace();
+			return;
+		}
 		busStops.forEach(b -> map.insertVertex(b));
 		routes.forEach(r -> map.insertEdge(r.getSourceStop(), r.getDestinationStop(), r));
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());

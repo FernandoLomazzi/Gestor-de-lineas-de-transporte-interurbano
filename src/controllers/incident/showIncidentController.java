@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import application.Main;
 import db.dao.IncidentDao;
 import db.dao.impl.IncidentDaoPG;
+import exceptions.DBConnectionException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,6 +46,7 @@ public class showIncidentController implements Initializable {
 	private Button goBackButton;
 	
 	private ObservableList<Incident> incidentRow;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		incidentTable.setRowFactory( tv -> {
@@ -58,10 +60,16 @@ public class showIncidentController implements Initializable {
 		    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/incident/modIncident.fxml"));
 		    			Parent root = loader.load();
 		    			modIncidentController controller = loader.getController();
-		    			controller.setIncident(row.getItem());
+		    			Incident incident = row.getItem();
+		    			controller.setIncident(incident);
 		    			Scene scene =  new Scene(root);
 		    	        stage.setScene(scene);
 		    	        stage.showAndWait();
+		    	        if(incident.getConcluded())
+		    	        	this.incidentRow.remove(incident);
+		    	        else
+		    	        	this.incidentRow.sort(Incident::compareTo);
+		    	        this.incidentTable.refresh();
 		    		} catch (IOException e) {
 		    			e.printStackTrace();
 		    		}
@@ -75,11 +83,18 @@ public class showIncidentController implements Initializable {
 		beginDateColumn.setCellValueFactory(new PropertyValueFactory<>("beginDate"));
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-		
 		IncidentDao incidentDao = new IncidentDaoPG();
 		MyHeap<Incident> heap = new MyHeap<>();
-		for(Incident incident: incidentDao.getAllInconcludedIncident()) {
-			heap.push(incident);
+		try {
+			for(Incident incident: incidentDao.getAllInconcludedIncident()) {
+				heap.push(incident);
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		while(!heap.empty()) {
 			incidentRow.add(heap.top());

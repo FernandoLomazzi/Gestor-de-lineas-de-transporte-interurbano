@@ -23,6 +23,8 @@ import db.dao.BusStopDao;
 import db.dao.RouteDao;
 import db.dao.impl.BusStopDaoPG;
 import db.dao.impl.RouteDaoPG;
+import exceptions.DBConnectionException;
+import exceptions.DeleteFailException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -121,7 +123,15 @@ public class mainScreenController implements Initializable{
 			    Optional<ButtonType> action = alert.showAndWait();
 			    if (action.get() == ButtonType.OK) {
 			    	BusStopDao busStopDao = new BusStopDaoPG();
-			    	busStopDao.deleteBusStop(v.getUnderlyingVertex().element().getStopNumber());
+			    	try {
+						busStopDao.deleteData(v.getUnderlyingVertex().element());
+					} catch (DeleteFailException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DBConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			    	mapManager.deleteStopMap(v.getUnderlyingVertex());
 			    }
 			});
@@ -200,7 +210,15 @@ public class mainScreenController implements Initializable{
 			    Optional<ButtonType> action = alert.showAndWait();
 			    if (action.get() == ButtonType.OK) {
 			    	RouteDao routeDao = new RouteDaoPG();
-			    	routeDao.deleteData(ed.getUnderlyingEdge().element());
+			    	try {
+						routeDao.deleteData(ed.getUnderlyingEdge().element());
+					} catch (DeleteFailException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DBConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			    	mapManager.deleteRouteMap(ed.getUnderlyingEdge());
 			    }
 			});

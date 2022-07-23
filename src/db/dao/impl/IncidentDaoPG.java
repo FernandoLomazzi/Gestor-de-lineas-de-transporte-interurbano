@@ -12,6 +12,10 @@ import java.util.List;
 import db.dao.BusStopDao;
 import db.dao.DBConnection;
 import db.dao.IncidentDao;
+import exceptions.AddFailException;
+import exceptions.DBConnectionException;
+import exceptions.DeleteFailException;
+import exceptions.ModifyFailException;
 import models.BusStop;
 import models.Incident;
 
@@ -22,8 +26,7 @@ public class IncidentDaoPG implements IncidentDao{
 	private static final String SELECT_ALL_INCONCLUDED_SQL = "SELECT bus_stop_disabled_number,begin_date,end_date,description FROM Incident WHERE concluded=false;";
 	
 	@Override
-	public Boolean addData(Incident incident) throws SQLException {
-		Integer rowsChanged;
+	public void addData(Incident incident) throws AddFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setInt(1, incident.getBusStopDisabledNumber());
@@ -31,17 +34,14 @@ public class IncidentDaoPG implements IncidentDao{
 				ps.setObject(3, incident.getEndDate());
 				ps.setString(4, incident.getDescription());
 				ps.setBoolean(5, incident.getConcluded());
-				rowsChanged = ps.executeUpdate();
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new SQLException("Error: Base de datos no disponible");
 		}
-		return rowsChanged>0;
 	}
 	@Override
-	public Boolean modifyData(Incident incident) {
-		Integer rowsChanged;
+	public void modifyData(Incident incident) throws ModifyFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setObject(1,incident.getEndDate());
@@ -49,33 +49,28 @@ public class IncidentDaoPG implements IncidentDao{
 				ps.setBoolean(3, incident.getConcluded());
 				ps.setInt(4, incident.getBusStopDisabledNumber());
 				ps.setObject(5, incident.getBeginDate());
-				rowsChanged = ps.executeUpdate();
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		return rowsChanged>0;
 	}
 
 	@Override
-	public Boolean deleteData(Incident incident) {
-		Integer rowsChanged;
+	public void deleteData(Incident incident) throws DeleteFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)){
 				ps.setInt(1, incident.getBusStopDisabledNumber());
 				ps.setObject(2, incident.getBeginDate());
-				rowsChanged = ps.executeUpdate();
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		return rowsChanged>0;
 	}
 	//Quizá deberia ser todos los no concluidos
 	@Override
-	public List<Incident> getAllInconcludedIncident() {
+	public List<Incident> getAllInconcludedIncident() throws DBConnectionException {
 		List<Incident> ret = new ArrayList<>();
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_ALL_INCONCLUDED_SQL)){

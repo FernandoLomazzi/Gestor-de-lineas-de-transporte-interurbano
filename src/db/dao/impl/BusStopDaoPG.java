@@ -9,8 +9,11 @@ import java.util.List;
 
 import db.dao.BusStopDao;
 import db.dao.DBConnection;
+import exceptions.AddFailException;
+import exceptions.DBConnectionException;
+import exceptions.DeleteFailException;
+import exceptions.ModifyFailException;
 import models.BusStop;
-import models.Route;
 
 public class BusStopDaoPG implements BusStopDao{
 	private static final String INSERT_SQL = "INSERT INTO BusStop (stop_number,stop_street_name,stop_street_number,enabled) VALUES (?,?,?,?);";
@@ -21,61 +24,48 @@ public class BusStopDaoPG implements BusStopDao{
 	private static final String IS_ENABLED_SQL = "SELECT * FROM Incident WHERE Incident.concluded=false AND Incident.bus_stop_disabled_number=?;";
 	
 	@Override
-	public Boolean addData(BusStop busStop) throws SQLException{
-		Integer rowsChanged;
+	public void addData(BusStop busStop) throws AddFailException,DBConnectionException{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setInt(1, busStop.getStopNumber());
 				ps.setString(2, busStop.getStopStreetName());
 				ps.setInt(3, busStop.getStopStreetNumber());
 				ps.setBoolean(4, busStop.isEnabled());
-				rowsChanged = ps.executeUpdate();
-			}
+				ps.executeUpdate();
+			} 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new SQLException("Error: Base de datos no disponible");
+			throw new AddFailException("La parada "+busStop.getStopNumber()+" ya se encuentra en el sistema.");
 		}
-		return rowsChanged>0;
 	}
 
 	@Override
-	public Boolean modifyData(BusStop busStop) {
-		Integer rowsChanged;
+	public void modifyData(BusStop busStop) throws DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setString(1, busStop.getStopStreetName());
 				ps.setInt(2, busStop.getStopStreetNumber());
 				ps.setBoolean(3, busStop.isEnabled());
 				ps.setInt(4, busStop.getStopNumber());
-				rowsChanged = ps.executeUpdate();
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+			e.printStackTrace(); //No debería ocurrir.
 		}
-		return rowsChanged>0;
 	}
 
 	@Override
-	public Boolean deleteData(BusStop busStop) {
-		return this.deleteBusStop(busStop.getStopNumber());
-	}
-	@Override
-	public Boolean deleteBusStop(Integer busStopNumber)  {
-		Integer rowsChanged;
+	public void deleteData(BusStop busStop) throws DeleteFailException,DBConnectionException{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)){
-				ps.setInt(1, busStopNumber);
-				rowsChanged = ps.executeUpdate();
+				ps.setInt(1, busStop.getStopNumber());
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		return rowsChanged>0;
 	}
 	@Override
-	public BusStop getBusStop(Integer busStopNumber) throws SQLException {
+	public BusStop getBusStop(Integer busStopNumber) throws DBConnectionException {
 		BusStop ret = new BusStop();
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_SQL)){
@@ -94,13 +84,13 @@ public class BusStopDaoPG implements BusStopDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new SQLException("Excepcion");
+			//throw new SQLException("Excepcion");
 		}
 		return ret;
 	}
 
 	@Override
-	public List<BusStop> getStopMap() {
+	public List<BusStop> getStopMap() throws DBConnectionException {
 		List<BusStop> ret = new ArrayList<>();
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SQL)){
@@ -122,7 +112,7 @@ public class BusStopDaoPG implements BusStopDao{
 	}
 
 	@Override
-	public Boolean isEnabled(BusStop busStop) {
+	public Boolean isEnabled(BusStop busStop) throws DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(IS_ENABLED_SQL)){
 				ps.setInt(1, busStop.getStopNumber());

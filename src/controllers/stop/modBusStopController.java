@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 
 import db.dao.BusStopDao;
 import db.dao.impl.BusStopDaoPG;
+import exceptions.DBConnectionException;
+import exceptions.ModifyFailException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.CheckBox;
@@ -50,7 +52,15 @@ public class modBusStopController{
 		busStop.setStopNumber(Integer.parseInt(stopNumberField.getText()));
 		busStop.setStopStreetName(stopStreetField.getText());
 		busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText()));
-		busStopDao.modifyData(busStop);
+		try {
+			busStopDao.modifyData(busStop);
+		} catch (ModifyFailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		MapManager mapManager = MapManager.getInstance();
 		mapManager.updateMap();
 		Stage stage = (Stage) modStopButton.getScene().getWindow();

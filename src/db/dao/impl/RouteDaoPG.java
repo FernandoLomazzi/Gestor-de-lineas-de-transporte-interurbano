@@ -10,6 +10,10 @@ import java.util.List;
 import db.dao.BusStopDao;
 import db.dao.DBConnection;
 import db.dao.RouteDao;
+import exceptions.AddFailException;
+import exceptions.DBConnectionException;
+import exceptions.DeleteFailException;
+import exceptions.ModifyFailException;
 import models.BusStop;
 import models.Route;
 
@@ -21,85 +25,50 @@ public class RouteDaoPG implements RouteDao{
 	private static final String SELECT_ALL_SQL = "SELECT source_stop_number,destination_stop_number,distance_in_km FROM Route;";
 	
 	@Override
-	public Boolean addData(Route route) throws SQLException {
-		Integer rowsChanged;
+	public void addData(Route route) throws AddFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setInt(1, route.getSourceStopNumber());
 				ps.setInt(2, route.getDestinationStopNumber());
 				ps.setDouble(3, route.getDistanceInKM());
-				rowsChanged = ps.executeUpdate();
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new SQLException("Error: Base de datos no disponible");
+			//throw new SQLException("Error: Base de datos no disponible");
 		}
-		return rowsChanged>0;
 	}
 
 	@Override
-	public Boolean modifyData(Route route) {
-		Integer rowsChanged;
+	public void modifyData(Route route) throws ModifyFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setDouble(1, route.getDistanceInKM());
 				ps.setInt(2, route.getSourceStopNumber());
 				ps.setInt(3, route.getDestinationStopNumber());
-				rowsChanged = ps.executeUpdate();
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		return rowsChanged>0;
 	}
 
 	@Override
-	public Boolean deleteData(Route route) {
-		return deleteRoute(route.getSourceStop(),route.getDestinationStop());
-	}
-
-	@Override
-	public Boolean deleteRoute(BusStop sourceStop, BusStop destinationStop) {
-		Integer rowsChanged;
+	public void deleteData(Route route) throws DeleteFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)){
-				ps.setInt(1, sourceStop.getStopNumber());
-				ps.setInt(2, destinationStop.getStopNumber());
-				rowsChanged = ps.executeUpdate();
+				ps.setInt(1, route.getSourceStop().getStopNumber());
+				ps.setInt(2, route.getDestinationStop().getStopNumber());
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		return rowsChanged>0;
 	}
-	//Posible borrado
-	@Override
-	public Integer getRouteID(BusStop sourceStop, BusStop destinationStop) {
-		Integer ret;
-		try(Connection connection = DBConnection.getConnection()){
-			try(PreparedStatement ps = connection.prepareStatement(SELECT_ID_SQL)){
-				ps.setInt(1, sourceStop.getStopNumber());
-				ps.setInt(2, destinationStop.getStopNumber());
-				ResultSet rs = ps.executeQuery();
-				if(rs.next()) {
-					ret = rs.getInt(0);
-				}
-				else {
-					//No hubo
-					return null;
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-		return ret;
-	}
+
 	//Habría que hacer transacciones pero bueno xd
 	@Override
-	public List<Route> getRouteMap() {
+	public List<Route> getRouteMap() throws DBConnectionException {
 		List<Route> ret = new ArrayList<>();
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SQL)){
