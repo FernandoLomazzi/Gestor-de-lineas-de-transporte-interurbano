@@ -45,7 +45,7 @@ import javafx.stage.Stage;
 import managers.MapManager;
 import models.BusStop;
 import models.Route;
-import models.utility.SelectTwoStop;
+import models.utils.SelectTwoStop;
 
 public class mainScreenController implements Initializable{
 	@FXML private BorderPane borderPane;
@@ -119,20 +119,20 @@ public class mainScreenController implements Initializable{
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			    alert.setHeaderText(null);
 			    alert.setTitle("Eliminación de Parada de Colectivo");
-			    alert.setContentText("Desea eliminar la parada de colectivo de calle "+v.getUnderlyingVertex()+"?");
+			    alert.setContentText("Desea eliminar la parada de colectivo "+v.getUnderlyingVertex().element()+"?");
 			    Optional<ButtonType> action = alert.showAndWait();
 			    if (action.get() == ButtonType.OK) {
 			    	BusStopDao busStopDao = new BusStopDaoPG();
 			    	try {
 						busStopDao.deleteData(v.getUnderlyingVertex().element());
-					} catch (DeleteFailException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DBConnectionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				    	mapManager.deleteStopMap(v.getUnderlyingVertex());
+					} catch (DeleteFailException|DBConnectionException e) {
+						Alert alert2 = new Alert(Alert.AlertType.ERROR);
+					    alert2.setHeaderText(null);
+					    alert2.setTitle("Error");
+					    alert2.setContentText(e.getMessage());
+					    alert2.showAndWait();
 					}
-			    	mapManager.deleteStopMap(v.getUnderlyingVertex());
 			    }
 			});
 		}
@@ -206,20 +206,20 @@ public class mainScreenController implements Initializable{
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			    alert.setHeaderText(null);
 			    alert.setTitle("Eliminación de Calle");
-			    alert.setContentText("Desea eliminar la calle "+ed.getUnderlyingEdge()+"?");
+			    alert.setContentText("Desea eliminar la calle que conecta "+ed.getUnderlyingEdge().element()+"?");
 			    Optional<ButtonType> action = alert.showAndWait();
 			    if (action.get() == ButtonType.OK) {
 			    	RouteDao routeDao = new RouteDaoPG();
 			    	try {
 						routeDao.deleteData(ed.getUnderlyingEdge().element());
-					} catch (DeleteFailException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DBConnectionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						mapManager.deleteRouteMap(ed.getUnderlyingEdge());
+					} catch (DeleteFailException|DBConnectionException e) {
+						Alert alert2 = new Alert(Alert.AlertType.ERROR);
+					    alert2.setHeaderText(null);
+					    alert2.setTitle("Error");
+					    alert2.setContentText(e.getMessage());
+					    alert2.showAndWait();
 					}
-			    	mapManager.deleteRouteMap(ed.getUnderlyingEdge());
 			    }
 			});
 		}

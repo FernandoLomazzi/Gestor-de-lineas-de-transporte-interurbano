@@ -2,9 +2,13 @@ package controllers.route;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+import managers.AlertManager;
 import managers.MapManager;
 import models.BusStop;
 import models.Route;
@@ -54,9 +58,9 @@ public class modRouteController implements Initializable{
 	public void modRoute(ActionEvent event) {
 		Double distance;
 		try {
-			distance = Double.parseDouble(distanceField.getText());
+			distance = Double.parseDouble(distanceField.getText().trim());
 		}catch(NumberFormatException|NullPointerException e) {
-			e.printStackTrace();
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.");
 			return;
 		}
 		switch(distanceUnitBox.getSelectionModel().getSelectedItem()) {
@@ -73,14 +77,13 @@ public class modRouteController implements Initializable{
 		route.setDistanceInKM(distance);
 		try {
 			routeDao.modifyData(route);
-		} catch (ModifyFailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MapManager mapManager = MapManager.getInstance();
+			mapManager.updateMap();
+		} catch (ModifyFailException|DBConnectionException e) {
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+		    return;
 		}
-		MapManager mapManager = MapManager.getInstance();
-		mapManager.updateMap();
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la calle correctamente.");
+	    ((Stage) (modRouteButton.getScene().getWindow())).close();
 	}
 }

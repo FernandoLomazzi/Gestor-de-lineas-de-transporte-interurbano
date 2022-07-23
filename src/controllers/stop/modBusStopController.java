@@ -2,9 +2,11 @@ package controllers.stop;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,6 +22,7 @@ import javafx.scene.control.CheckBox;
 
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import managers.AlertManager;
 import managers.MapManager;
 import models.BusStop;
 
@@ -38,7 +41,6 @@ public class modBusStopController{
 	private BusStop busStop;
 	
 	public void setBusStop(BusStop busStop) {
-		System.out.println("NUEVO: "+busStop);
 		this.busStop = busStop;
 		stopNumberField.setText(busStop.getStopNumber().toString());
 		stopStreetField.setText(busStop.getStopStreetName());
@@ -49,28 +51,22 @@ public class modBusStopController{
 	@FXML
 	public void modifyStop(ActionEvent event) {	
 		BusStopDao busStopDao = new BusStopDaoPG();
-		busStop.setStopNumber(Integer.parseInt(stopNumberField.getText()));
-		busStop.setStopStreetName(stopStreetField.getText());
-		busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText()));
+		busStop.setStopNumber(Integer.parseInt(stopNumberField.getText().trim()));
+		busStop.setStopStreetName(stopStreetField.getText().trim());
+		busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText().trim()));
 		try {
 			busStopDao.modifyData(busStop);
-		} catch (ModifyFailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MapManager mapManager = MapManager.getInstance();
+			mapManager.updateMap();
+		} catch (ModifyFailException|DBConnectionException e) {
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+		    return;
 		}
-		MapManager mapManager = MapManager.getInstance();
-		mapManager.updateMap();
-		Stage stage = (Stage) modStopButton.getScene().getWindow();
-	    stage.close();
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la parada correctamente");
+		((Stage) modStopButton.getScene().getWindow()).close();
 	}
 	@FXML
 	public void cancel(ActionEvent event) {
-		Stage stage = (Stage) cancelButton.getScene().getWindow();
-	    stage.close();
+		((Stage) cancelButton.getScene().getWindow()).close();
 	}
-
-
 }

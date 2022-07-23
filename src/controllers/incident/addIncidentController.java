@@ -2,6 +2,8 @@ package controllers.incident;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 import java.net.URL;
@@ -16,12 +18,16 @@ import db.dao.BusStopDao;
 import db.dao.IncidentDao;
 import db.dao.impl.BusStopDaoPG;
 import db.dao.impl.IncidentDaoPG;
+import exceptions.AddFailException;
 import exceptions.DBConnectionException;
+import exceptions.ModifyFailException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
+import managers.AlertManager;
 import managers.MapManager;
 import models.BusStop;
 import models.Incident;
@@ -50,7 +56,6 @@ public class addIncidentController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		StringConverter<LocalDate> formatter = new StringConverter<LocalDate>() {
 			private DateTimeFormatter defaultFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			//Error si escribis 12 y  te salis
 			@Override
 		    public String toString(LocalDate object){
 		        return object==null ? null : object.format(defaultFormatter);
@@ -64,42 +69,28 @@ public class addIncidentController implements Initializable{
 		endDatePicker.setConverter(formatter);
 		beginDatePicker.setValue(LocalDate.now());
 	}
-	// Event Listener on Button[#addIncident].onAction
 	@FXML
 	public void addIncident(ActionEvent event) {
 		LocalDate beginDate = beginDatePicker.getValue();
 		LocalDate endDate = endDatePicker.getValue();
-		String description = descriptionField.getText();
-		Boolean concluded = concludedBox.isSelected();
-		if(concluded && endDate==null) {
-			//Tirar error;
-		}
-		else {
-			IncidentDao incidentDao = new IncidentDaoPG();
-			Incident incident = new Incident(busStop,beginDate,endDate,description,concluded);
-			try {
-				try {
-					incidentDao.addData(incident);
-				} catch (DBConnectionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if(busStop.isEnabled()) {
-					busStop.setEnabled(false);
-					BusStopDao busStopDao = new BusStopDaoPG();
-					try {
-						busStopDao.modifyData(busStop);
-					} catch (DBConnectionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					MapManager mapManager = MapManager.getInstance();
-					mapManager.disableStyleStop(busStop);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		String description = descriptionField.getText().trim();
+		Boolean concluded = concludedBox.isSelected();		
+		IncidentDao incidentDao = new IncidentDaoPG();
+		Incident incident = new Incident(busStop,beginDate,endDate,description,concluded);
+		try {
+			incidentDao.addData(incident);
+			if(busStop.isEnabled()) {
+				busStop.setEnabled(false);
+				BusStopDao busStopDao = new BusStopDaoPG();
+				busStopDao.modifyData(busStop);
+				MapManager mapManager = MapManager.getInstance();
+				mapManager.disableStyleStop(busStop);
 			}
+		} catch (AddFailException|ModifyFailException|DBConnectionException e) {
+			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage());
+		    return;
 		}
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha registrado la incidencia correctamente.");
+		((Stage) (addIncident.getScene().getWindow())).close();
 	}
 }

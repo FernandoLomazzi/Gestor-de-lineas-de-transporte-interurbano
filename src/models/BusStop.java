@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Objects;
+import src.com.brunomnsilva.smartgraph.graphview.SmartLabelSource;
 
 public class BusStop {
 	private Integer stopNumber;
@@ -61,10 +62,14 @@ public class BusStop {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-
+	
+	@SmartLabelSource
+	public String busStopLabel() {
+		return stopStreetName+" "+stopStreetNumber;
+	}
 	@Override
 	public String toString() {
-		return stopStreetName+" "+stopStreetNumber;
+		return stopNumber+" ("+stopStreetName+" "+stopStreetNumber+")";
 	}
 	
 }

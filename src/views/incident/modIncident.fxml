@@ -10,7 +10,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.incident.modIncidentController">
    <children>
       <DatePicker fx:id="beginDatePicker" disable="true" editable="false" layoutX="80.0" layoutY="59.0" />
-      <DatePicker fx:id="endDatePicker" layoutX="348.0" layoutY="59.0" promptText="23/08/2001 (Opcional)" />
+      <DatePicker fx:id="endDatePicker" editable="false" layoutX="348.0" layoutY="59.0" promptText="23/08/2001 (Opcional)" />
       <TextArea fx:id="descriptionField" layoutX="80.0" layoutY="128.0" prefHeight="127.0" prefWidth="444.0" promptText="Añada una descripción (Opcional)" />
       <CheckBox fx:id="concludedBox" layoutX="83.0" layoutY="270.0" mnemonicParsing="false" text="Concluída" />
       <Label layoutX="80.0" layoutY="42.0" text="Fecha de inicio" />

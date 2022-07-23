@@ -13,6 +13,7 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import exceptions.busStop.BusStopNotFoundException;
 import models.BusStop;
 
 public class BusStopDaoPG implements BusStopDao{
@@ -34,12 +35,20 @@ public class BusStopDaoPG implements BusStopDao{
 				ps.executeUpdate();
 			} 
 		} catch (SQLException e) {
-			throw new AddFailException("La parada "+busStop.getStopNumber()+" ya se encuentra en el sistema.");
+			switch(e.getSQLState()) {
+				case "23514": //	check_violation
+				case "23502": //	restrict_violation
+					throw new AddFailException("ERROR: No puede dejar campos vacíos.");
+				case "23505": //    unique_violation
+					throw new AddFailException("ERROR: La parada "+busStop.getStopNumber()+" ya se encuentra en el sistema.");
+				default:
+					throw new AddFailException("ERROR: Ocurrió un error al intentar agregar la parada al sistema");
+			}
 		}
 	}
 
 	@Override
-	public void modifyData(BusStop busStop) throws DBConnectionException {
+	public void modifyData(BusStop busStop) throws ModifyFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setString(1, busStop.getStopStreetName());
@@ -49,7 +58,13 @@ public class BusStopDaoPG implements BusStopDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); //No debería ocurrir.
+			switch(e.getSQLState()) {
+				case "23514": //	check_violation
+				case "23502": //	restrict_violation
+					throw new ModifyFailException("ERROR: No puede dejar campos vacíos.");
+				default:
+					throw new ModifyFailException("ERROR: Ocurrió un error al intentar agregar la parada al sistema");
+			}
 		}
 	}
 
@@ -61,11 +76,11 @@ public class BusStopDaoPG implements BusStopDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DeleteFailException("La parada "+busStop.getStopNumber()+" no se encuentra en el sistema.");
 		}
 	}
 	@Override
-	public BusStop getBusStop(Integer busStopNumber) throws DBConnectionException {
+	public BusStop getBusStop(Integer busStopNumber) throws BusStopNotFoundException,DBConnectionException {
 		BusStop ret = new BusStop();
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_SQL)){
@@ -78,13 +93,12 @@ public class BusStopDaoPG implements BusStopDao{
 					ret.setEnabled(rs.getBoolean("enabled"));
 				}
 				else {
-					//No hubo
-					return null;
+					throw new BusStopNotFoundException("La parada "+busStopNumber+" no se encuentra en el sistema");
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//throw new SQLException("Excepcion");
+			e.printStackTrace(); //No deberia ocurrir;
+			return null;
 		}
 		return ret;
 	}
@@ -105,8 +119,8 @@ public class BusStopDaoPG implements BusStopDao{
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//throw new SQLException("Excepcion");
+			e.printStackTrace(); //no deberia ocurrir
+			return null;
 		}
 		return ret;
 	}
@@ -120,8 +134,8 @@ public class BusStopDaoPG implements BusStopDao{
 				return !rs.next();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+			e.printStackTrace(); //no deberia ocurrir
+			return null;
 		}
 	}
 }

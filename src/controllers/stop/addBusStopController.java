@@ -5,6 +5,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+import managers.AlertManager;
 import managers.MapManager;
 import models.BusStop;
 
@@ -30,15 +33,11 @@ public class addBusStopController {
 	public void addNewStop(ActionEvent event) {
 		BusStop busStop = new BusStop();
 		try {
-			busStop.setStopNumber(Integer.parseInt(stopNumberField.getText()));
-			busStop.setStopStreetName(stopStreetNameField.getText());
-			busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText()));
+			busStop.setStopNumber(Integer.parseInt(stopNumberField.getText().trim()));
+			busStop.setStopStreetName(stopStreetNameField.getText().trim());
+			busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText().trim()));
 		}catch(NumberFormatException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-		    alert.setHeaderText(null);
-		    alert.setTitle("Error");
-		    alert.setContentText("Ingrese números para el número de parada y el número de calle de la misma.");
-		    alert.showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para el número de parada y el número de calle de la misma.");
 			return;
 		}
 		BusStopDao stopDao = new BusStopDaoPG();
@@ -46,18 +45,11 @@ public class addBusStopController {
 			stopDao.addData(busStop);
 			MapManager mapManager = MapManager.getInstance();
 			mapManager.addStopMap(busStop);
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		    alert.setHeaderText(null);
-		    alert.setTitle("Exito");
-		    alert.setContentText("Se añadió a la persona correctamente");
-		    alert.showAndWait();
 		} catch(AddFailException|DBConnectionException e) {
-			//Quiza habria que separarlas
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-		    alert.setHeaderText(null);
-		    alert.setTitle("Error");
-		    alert.setContentText(e.getMessage());
-		    alert.showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+		    return;
 		}
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se añadió a la persona correctamente");
+	    ((Stage) (addStop.getScene().getWindow())).close();
 	}
 }

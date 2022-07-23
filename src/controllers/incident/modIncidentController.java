@@ -2,6 +2,7 @@ package controllers.incident;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import java.net.URL;
@@ -19,7 +20,10 @@ import exceptions.ModifyFailException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import managers.AlertManager;
 import managers.MapManager;
 import models.BusStop;
 import models.Incident;
@@ -53,7 +57,6 @@ public class modIncidentController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		StringConverter<LocalDate> formatter = new StringConverter<LocalDate>() {
 			private DateTimeFormatter defaultFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			//Error si escribis 12 y  te salis
 			@Override
 		    public String toString(LocalDate object){
 		        return object==null ? null : object.format(defaultFormatter);
@@ -70,47 +73,27 @@ public class modIncidentController implements Initializable {
 	@FXML
 	public void modIncident(ActionEvent event) {
 		LocalDate endDate = endDatePicker.getValue();
-		String description = descriptionField.getText();
+		String description = descriptionField.getText().trim();
 		Boolean concluded = concludedBox.isSelected();
-		if(concluded && endDate==null) {
-			//Tirar error;
-		}
-		else {
-			IncidentDao incidentDao = new IncidentDaoPG();
-			//esto capaz crashea
-			incident.setEndDate(endDate);
-			incident.setDescription(description);
-			incident.setConcluded(concluded);
-			try {
-				incidentDao.modifyData(incident);
-			} catch (ModifyFailException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DBConnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		IncidentDao incidentDao = new IncidentDaoPG();
+		incident.setEndDate(endDate);
+		incident.setDescription(description);
+		incident.setConcluded(concluded);
+		try {
+			incidentDao.modifyData(incident);
 			BusStopDao busStopDao = new BusStopDaoPG();
 			BusStop busStop = incident.getBusStopDisabled();
-			try {
-				if(!busStop.isEnabled() && concluded && busStopDao.isEnabled(busStop)) {
-					busStop.setEnabled(true);
-					try {
-						busStopDao.modifyData(busStop);
-					} catch (ModifyFailException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DBConnectionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					MapManager mapManager = MapManager.getInstance();
-					mapManager.enableStyleStop(busStop);
-				}
-			} catch (DBConnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(!busStop.isEnabled() && concluded && busStopDao.isEnabled(busStop)) {
+				busStop.setEnabled(true);
+				busStopDao.modifyData(busStop);
+				MapManager mapManager = MapManager.getInstance();
+				mapManager.enableStyleStop(busStop);
 			}
+		}catch (ModifyFailException|DBConnectionException e) {
+			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage());
+		    return;
 		}
+		AlertManager.createAlert(AlertType.INFORMATION,"Exito","Se ha modificado la incidencia correctamente.");
+		((Stage) (modIncident.getScene().getWindow())).close();
 	}
 }
