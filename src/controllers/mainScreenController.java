@@ -20,7 +20,9 @@ import controllers.route.addRouteController;
 import controllers.route.modRouteController;
 import controllers.stop.modBusStopController;
 import db.dao.BusStopDao;
+import db.dao.RouteDao;
 import db.dao.impl.BusStopDaoPG;
+import db.dao.impl.RouteDaoPG;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +40,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import managers.GraphManager;
+import managers.MapManager;
 import models.BusStop;
 import models.Route;
 import models.utility.SelectTwoStop;
@@ -57,11 +59,12 @@ public class mainScreenController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//Reveer
 		modStopButton.setToggleGroup(stopGroup);
 		delStopButton.setToggleGroup(stopGroup);
 		addRouteButton.setToggleGroup(stopGroup);
-		modRouteButton.setToggleGroup(routeGroup);
-		delRouteButton.setToggleGroup(routeGroup);
+		modRouteButton.setToggleGroup(stopGroup);
+		delRouteButton.setToggleGroup(stopGroup);
 		addIncidentButton.setToggleGroup(stopGroup);
 	}
 	// Event Listener on Button[#addStopButton].onAction
@@ -81,10 +84,10 @@ public class mainScreenController implements Initializable{
 	// Event Listener on Button[#modStopButton].onAction
 	@FXML
 	public void modStop(ActionEvent event) {
-		GraphManager graphManager = GraphManager.getInstance();
+		MapManager mapManager = MapManager.getInstance();
 		if(modStopButton.isSelected()) {
 			//borderPane.getScene().setCursor(Cursor.HAND);
-			graphManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				try {
@@ -100,17 +103,17 @@ public class mainScreenController implements Initializable{
 				}
 			});
 		}
-		else if(modStopButton.getToggleGroup().getSelectedToggle()==null){
+		else{
 			//borderPane.getScene().setCursor(Cursor.DEFAULT);
-			graphManager.setVertexDoubleClickAction(null);
+			mapManager.setVertexDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#delStopButton].onAction
 	@FXML
 	public void delStop(ActionEvent event) {
-		GraphManager graphManager = GraphManager.getInstance();
+		MapManager mapManager = MapManager.getInstance();
 		if(delStopButton.isSelected()) {
-			graphManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			    alert.setHeaderText(null);
 			    alert.setTitle("Eliminación de Parada de Colectivo");
@@ -119,21 +122,21 @@ public class mainScreenController implements Initializable{
 			    if (action.get() == ButtonType.OK) {
 			    	BusStopDao busStopDao = new BusStopDaoPG();
 			    	busStopDao.deleteBusStop(v.getUnderlyingVertex().element().getStopNumber());
-			    	GraphManager.getInstance().deleteStopMap(v.getUnderlyingVertex());
+			    	mapManager.deleteStopMap(v.getUnderlyingVertex());
 			    }
 			});
 		}
-		else if(delStopButton.getToggleGroup().getSelectedToggle()==null){
-			graphManager.setVertexDoubleClickAction(null);
+		else{
+			mapManager.setVertexDoubleClickAction(null);
 		}
 	}
 
 	// Event Listener on Button[#addRouteButton].onAction
 	@FXML
 	public void addRoute(ActionEvent event) {
-		GraphManager graphManager = GraphManager.getInstance();
+		MapManager mapManager = MapManager.getInstance();
 		if(addRouteButton.isSelected()) {
-			graphManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				SelectTwoStop.addStop(v.getUnderlyingVertex().element());
 				System.out.println(v.getUnderlyingVertex().element());
 				if(SelectTwoStop.full()) {
@@ -155,16 +158,16 @@ public class mainScreenController implements Initializable{
 				}
 			});
 		}
-		else if(addRouteButton.getToggleGroup().getSelectedToggle()==null){
-			graphManager.setVertexDoubleClickAction(null);
+		else{
+			mapManager.setVertexDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#modRouteButton].onAction
 	@FXML
 	public void modRoute(ActionEvent event) {
-		GraphManager graphManager = GraphManager.getInstance();
+		MapManager mapManager = MapManager.getInstance();
 		if(modRouteButton.isSelected()) {
-			graphManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
+			mapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				try {
@@ -180,21 +183,38 @@ public class mainScreenController implements Initializable{
 				}
 			});
 		}
-		else if(modRouteButton.getToggleGroup().getSelectedToggle()==null){
-			graphManager.setEdgeDoubleClickAction(null);
+		else{
+			mapManager.setEdgeDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#delRouteButton].onAction
 	@FXML
 	public void delRoute(ActionEvent event) {
-		// TODO Autogenerated
+		MapManager mapManager = MapManager.getInstance();
+		if(delRouteButton.isSelected()) {
+			mapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) -> {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			    alert.setHeaderText(null);
+			    alert.setTitle("Eliminación de Calle");
+			    alert.setContentText("Desea eliminar la calle "+ed.getUnderlyingEdge()+"?");
+			    Optional<ButtonType> action = alert.showAndWait();
+			    if (action.get() == ButtonType.OK) {
+			    	RouteDao routeDao = new RouteDaoPG();
+			    	routeDao.deleteData(ed.getUnderlyingEdge().element());
+			    	mapManager.deleteRouteMap(ed.getUnderlyingEdge());
+			    }
+			});
+		}
+		else{
+			mapManager.setEdgeDoubleClickAction(null);
+		}
 	}
 	// Event Listener on Button[#addIncidentButton].onAction
 	@FXML
 	public void addIncident(ActionEvent event) {
-		GraphManager graphManager = GraphManager.getInstance();
+		MapManager mapManager = MapManager.getInstance();
 		if(addIncidentButton.isSelected()) {
-			graphManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				try {
@@ -210,8 +230,8 @@ public class mainScreenController implements Initializable{
 				}
 			});
 		}
-		else if(addIncidentButton.getToggleGroup().getSelectedToggle()==null){
-			graphManager.setVertexDoubleClickAction(null);
+		else{
+			mapManager.setVertexDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#showIncidentButton].onAction

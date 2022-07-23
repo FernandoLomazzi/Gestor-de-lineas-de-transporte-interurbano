@@ -6,17 +6,17 @@ public class BusStop {
 	private Integer stopNumber;
 	private String stopStreetName;
 	private Integer stopStreetNumber;
-	private Boolean active;
+	private Boolean enabled;
 	
 	public BusStop() {
-		this.active = true;
+		this.enabled = true;
 	}
 	
-	public BusStop(Integer stopNumber, String stopStreetName, Integer stopStreetNumber, Boolean active) {
+	public BusStop(Integer stopNumber, String stopStreetName, Integer stopStreetNumber, Boolean enabled) {
 		this.stopNumber = stopNumber;
 		this.stopStreetName = stopStreetName;
 		this.stopStreetNumber = stopStreetNumber;
-		this.active = active;
+		this.enabled = enabled;
 	}
 
 	@Override
@@ -55,11 +55,11 @@ public class BusStop {
 	public void setStopStreetNumber(Integer stopStreetNumber) {
 		this.stopStreetNumber = stopStreetNumber;
 	}
-	public Boolean getActive() {
-		return active;
+	public Boolean isEnabled() {
+		return enabled;
 	}
-	public void setActive(Boolean active) {
-		this.active = active;
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override

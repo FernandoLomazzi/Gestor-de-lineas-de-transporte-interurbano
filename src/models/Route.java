@@ -5,17 +5,15 @@ import java.util.Objects;
 public class Route {
 	private BusStop sourceStop,destinationStop;
 	private Double distanceInKM;
-	private Boolean active;
-	
+
 	public enum distanceUnits{
 		Kilómetros,Metros,Millas
 	}
-	public Route(BusStop sourceStop, BusStop destinationStop, Double distanceInKM, Boolean active) {
+	public Route(BusStop sourceStop, BusStop destinationStop, Double distanceInKM) {
 		super();
 		this.sourceStop = sourceStop;
 		this.destinationStop = destinationStop;
 		this.distanceInKM = distanceInKM;
-		this.active = active;
 	}
 	
 	@Override
@@ -64,11 +62,7 @@ public class Route {
 	public void setDistanceInKM(Double distanceInKM) {
 		this.distanceInKM = distanceInKM;
 	}
-	public Boolean getActive() {
-		return active;
+	public Boolean isEnabled() {
+		return this.sourceStop.isEnabled() && this.destinationStop.isEnabled();
 	}
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-	
 }

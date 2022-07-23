@@ -6,10 +6,8 @@ import javafx.scene.control.Button;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import db.dao.BusStopDao;
@@ -20,7 +18,6 @@ import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextArea;
 import javafx.util.StringConverter;
-import javafx.util.converter.LocalDateStringConverter;
 import managers.MapManager;
 import models.BusStop;
 import models.Incident;
@@ -28,7 +25,7 @@ import javafx.scene.control.CheckBox;
 
 import javafx.scene.control.DatePicker;
 
-public class addIncidentController implements Initializable{
+public class modIncidentController implements Initializable {
 	@FXML
 	private DatePicker beginDatePicker;
 	@FXML
@@ -38,12 +35,17 @@ public class addIncidentController implements Initializable{
 	@FXML
 	private CheckBox concludedBox;
 	@FXML
-	private Button addIncident;
+	private Button modIncident;
 
-	private BusStop busStop;
+	private Incident incident;
 	
-	public void setStop(BusStop busStop) {
-		this.busStop = busStop;
+	public void setIncident(Incident incident) {
+		this.incident = incident;
+		beginDatePicker.setValue(incident.getBeginDate());
+		if(incident.getEndDate()!=null) 
+			endDatePicker.setValue(incident.getEndDate());
+		descriptionField.setText(incident.getDescription());
+		concludedBox.setSelected(incident.getConcluded());
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -61,12 +63,10 @@ public class addIncidentController implements Initializable{
 		};
 		beginDatePicker.setConverter(formatter);
 		endDatePicker.setConverter(formatter);
-		beginDatePicker.setValue(LocalDate.now());
 	}
 	// Event Listener on Button[#addIncident].onAction
 	@FXML
-	public void addIncident(ActionEvent event) {
-		LocalDate beginDate = beginDatePicker.getValue();
+	public void modIncident(ActionEvent event) {
 		LocalDate endDate = endDatePicker.getValue();
 		String description = descriptionField.getText();
 		Boolean concluded = concludedBox.isSelected();
@@ -75,19 +75,18 @@ public class addIncidentController implements Initializable{
 		}
 		else {
 			IncidentDao incidentDao = new IncidentDaoPG();
-			Incident incident = new Incident(busStop,beginDate,endDate,description,concluded);
-			try {
-				incidentDao.addData(incident);
-				if(busStop.isEnabled()) {
-					busStop.setEnabled(false);
-					BusStopDao busStopDao = new BusStopDaoPG();
-					busStopDao.modifyData(busStop);
-					MapManager mapManager = MapManager.getInstance();
-					mapManager.disableStyleStop(busStop);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			//esto capaz crashea
+			incident.setEndDate(endDate);
+			incident.setDescription(description);
+			incident.setConcluded(concluded);
+			incidentDao.modifyData(incident);
+			BusStopDao busStopDao = new BusStopDaoPG();
+			BusStop busStop = incident.getBusStopDisabled();
+			if(!busStop.isEnabled() && concluded && busStopDao.isEnabled(busStop)) {
+				busStop.setEnabled(true);
+				busStopDao.modifyData(busStop);
+				MapManager mapManager = MapManager.getInstance();
+				mapManager.enableStyleStop(busStop);
 			}
 		}
 	}

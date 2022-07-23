@@ -9,12 +9,6 @@ public class Incident implements Comparable<Incident>{
 	private String description;
 	private Boolean concluded;
 	
-	public Integer getBusStopDisabledNumber() {
-		return getBusStopDisabled().getStopNumber();
-	}
-	public BusStop getBusStopDisabled() {
-		return busStopDisabled;
-	}
 	public Incident(BusStop busStopDisabled, LocalDate beginDate, LocalDate endDate, String description,
 			Boolean concluded) {
 		this.busStopDisabled = busStopDisabled;
@@ -22,6 +16,12 @@ public class Incident implements Comparable<Incident>{
 		this.endDate = endDate;
 		this.description = description;
 		this.concluded = concluded;
+	}
+	public Integer getBusStopDisabledNumber() {
+		return getBusStopDisabled().getStopNumber();
+	}
+	public BusStop getBusStopDisabled() {
+		return busStopDisabled;
 	}
 	@Override
 	public int compareTo(Incident o) {

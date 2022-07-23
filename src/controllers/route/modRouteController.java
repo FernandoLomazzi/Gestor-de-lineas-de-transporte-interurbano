@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
-import managers.GraphManager;
+import managers.MapManager;
 import models.BusStop;
 import models.Route;
 import models.Route.distanceUnits;
@@ -69,8 +69,8 @@ public class modRouteController implements Initializable{
 		}
 		RouteDao routeDao = new RouteDaoPG();
 		route.setDistanceInKM(distance);
-		routeDao.modRouteDistance(route);
-		GraphManager graphManager = GraphManager.getInstance();
-		graphManager.updateMap();
+		routeDao.modifyData(route);
+		MapManager mapManager = MapManager.getInstance();
+		mapManager.updateMap();
 	}
 }

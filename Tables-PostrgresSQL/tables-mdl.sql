@@ -6,10 +6,10 @@ INSERT INTO BusStop VALUES
 (5,'calle5',555,true);
 
 INSERT INTO Route VALUES
-(1,2,10.0,true),
-(1,3,7.5,true),
-(2,3,5.0,true),
-(4,5,2.75,true);
+(1,2,10.0),
+(1,3,7.5),
+(2,3,5.0),
+(4,5,2.75);
 
 INSERT INTO BusLine VALUES
 ('Linea1','Rojo',10);

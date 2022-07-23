@@ -12,7 +12,6 @@
           <TableColumn fx:id="beginDateColumn" prefWidth="110.0" sortable="false" text="Fecha de Inicio" />
             <TableColumn fx:id="endDateColumn" prefWidth="112.0" sortable="false" text="Fecha de Fin" />
             <TableColumn fx:id="descriptionColumn" prefWidth="168.0" sortable="false" text="Descripción" />
-            <TableColumn fx:id="concludedColumn" prefWidth="91.0" sortable="false" text="Concluída" />
         </columns>
       </TableView>
    </children>

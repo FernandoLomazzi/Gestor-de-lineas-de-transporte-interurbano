@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
-import managers.GraphManager;
+import managers.MapManager;
 import models.BusStop;
 
 import java.sql.SQLException;
@@ -42,8 +42,8 @@ public class addBusStopController {
 		BusStopDao stopDao = new BusStopDaoPG();
 		try {
 			stopDao.addData(busStop);
-			GraphManager graphManager = GraphManager.getInstance();
-			graphManager.addStopMap(busStop);
+			MapManager mapManager = MapManager.getInstance();
+			mapManager.addStopMap(busStop);
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		    alert.setHeaderText(null);
 		    alert.setTitle("Exito");

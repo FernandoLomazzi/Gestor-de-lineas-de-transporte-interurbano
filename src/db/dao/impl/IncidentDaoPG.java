@@ -19,7 +19,7 @@ public class IncidentDaoPG implements IncidentDao{
 	private static final String INSERT_SQL = "INSERT INTO Incident (bus_stop_disabled_number,begin_date,end_date,description,concluded) VALUES (?,?,?,?,?);";
 	private static final String UPDATE_SQL = "UPDATE Incident SET end_date=?, description=?, concluded=? WHERE bus_stop_disabled_number=? AND begin_date=?;";
 	private static final String DELETE_SQL = "DELETE FROM Incident WHERE bus_stop_disabled_number=? AND begin_date=?;";
-	private static final String SELECT_ALL_SQL = "SELECT bus_stop_disabled_number,begin_date,end_date,description,concluded FROM Incident;";
+	private static final String SELECT_ALL_INCONCLUDED_SQL = "SELECT bus_stop_disabled_number,begin_date,end_date,description FROM Incident WHERE concluded=false;";
 	
 	@Override
 	public Boolean addData(Incident incident) throws SQLException {
@@ -75,19 +75,18 @@ public class IncidentDaoPG implements IncidentDao{
 	}
 	//Quizá deberia ser todos los no concluidos
 	@Override
-	public List<Incident> getAllIncident() {
+	public List<Incident> getAllInconcludedIncident() {
 		List<Incident> ret = new ArrayList<>();
 		try(Connection connection = DBConnection.getConnection()){
-			try(PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SQL)){
+			try(PreparedStatement ps = connection.prepareStatement(SELECT_ALL_INCONCLUDED_SQL)){
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					Integer busNumber = rs.getInt(1);
 					LocalDate bDate = rs.getDate(2).toLocalDate(),eDate = rs.getDate(3)==null?null:rs.getDate(3).toLocalDate();
 					String descr = rs.getString(4);
-					Boolean concl = rs.getBoolean(5);
 					BusStopDao bsDao = new BusStopDaoPG();
 					BusStop busStop = bsDao.getBusStop(busNumber);
-					Incident incid = new Incident(busStop,bDate,eDate,descr,concl);
+					Incident incid = new Incident(busStop,bDate,eDate,descr,false);
 					ret.add(incid);					
 				}
 			}

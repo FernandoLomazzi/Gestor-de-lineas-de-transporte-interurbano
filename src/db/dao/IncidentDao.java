@@ -5,5 +5,5 @@ import java.util.List;
 import models.Incident;
 
 public interface IncidentDao extends Dao<Incident>{
-	public List<Incident> getAllIncident();
+	public List<Incident> getAllInconcludedIncident();
 }

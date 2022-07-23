@@ -14,12 +14,11 @@ import models.BusStop;
 import models.Route;
 
 public class RouteDaoPG implements RouteDao{
-	private static final String INSERT_SQL = "INSERT INTO Route (source_stop_number,destination_stop_number,distance_in_km,active) VALUES (?,?,?,?);";
-	private static final String UPDATE_SQL = "UPDATE Route SET distance_in_km=?, active=? WHERE source_stop_number=? AND destination_stop_number=?;";
-	private static final String UPDATE_DISTANCE_SQL = "UPDATE Route SET distance_in_km=? WHERE source_stop_number=? AND destination_stop_number=?;";
+	private static final String INSERT_SQL = "INSERT INTO Route (source_stop_number,destination_stop_number,distance_in_km) VALUES (?,?,?);";
+	private static final String UPDATE_SQL = "UPDATE Route SET distance_in_km=? WHERE source_stop_number=? AND destination_stop_number=?;";
 	private static final String DELETE_SQL = "DELETE FROM Route WHERE source_stop_number=? AND destination_stop_number=?;";
 	private static final String SELECT_ID_SQL = "SELECT id FROM Route WHERE source_stop_number=? AND destination_stop_number=?;";
-	private static final String SELECT_ALL_SQL = "SELECT source_stop_number,destination_stop_number,distance_in_km,active FROM Route;";
+	private static final String SELECT_ALL_SQL = "SELECT source_stop_number,destination_stop_number,distance_in_km FROM Route;";
 	
 	@Override
 	public Boolean addData(Route route) throws SQLException {
@@ -29,7 +28,6 @@ public class RouteDaoPG implements RouteDao{
 				ps.setInt(1, route.getSourceStopNumber());
 				ps.setInt(2, route.getDestinationStopNumber());
 				ps.setDouble(3, route.getDistanceInKM());
-				ps.setBoolean(4, route.getActive());
 				rowsChanged = ps.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -45,9 +43,8 @@ public class RouteDaoPG implements RouteDao{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setDouble(1, route.getDistanceInKM());
-				ps.setBoolean(2, route.getActive());
-				ps.setInt(3, route.getSourceStopNumber());
-				ps.setInt(4, route.getDestinationStopNumber());
+				ps.setInt(2, route.getSourceStopNumber());
+				ps.setInt(3, route.getDestinationStopNumber());
 				rowsChanged = ps.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -111,11 +108,10 @@ public class RouteDaoPG implements RouteDao{
 					Integer sourceStopNumber = rs.getInt(1);
 					Integer destinationStopNumber = rs.getInt(2);
 					Double distanceInKM = rs.getDouble(3);
-					Boolean active = rs.getBoolean(4);
 					BusStopDao busStopDao = new BusStopDaoPG();
 					BusStop sourceStop = busStopDao.getBusStop(sourceStopNumber);
 					BusStop destinationStop = busStopDao.getBusStop(destinationStopNumber);
-					Route route = new Route(sourceStop,destinationStop,distanceInKM,active);
+					Route route = new Route(sourceStop,destinationStop,distanceInKM);
 					ret.add(route);					
 				}
 			}
@@ -124,20 +120,5 @@ public class RouteDaoPG implements RouteDao{
 			//throw new SQLException("Excepcion");
 		}
 		return ret;
-	}
-	public Boolean modRouteDistance(Route route) {
-		Integer rowsChanged;
-		try(Connection connection = DBConnection.getConnection()){
-			try(PreparedStatement ps = connection.prepareStatement(UPDATE_DISTANCE_SQL)){
-				ps.setDouble(1, route.getDistanceInKM());
-				ps.setInt(2, route.getSourceStopNumber());
-				ps.setInt(3, route.getDestinationStopNumber());
-				rowsChanged = ps.executeUpdate();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return rowsChanged>0;
 	}
 }

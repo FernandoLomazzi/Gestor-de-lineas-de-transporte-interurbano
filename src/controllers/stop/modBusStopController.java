@@ -18,7 +18,7 @@ import javafx.scene.control.CheckBox;
 
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import managers.GraphManager;
+import managers.MapManager;
 import models.BusStop;
 
 public class modBusStopController{
@@ -28,8 +28,6 @@ public class modBusStopController{
 	private TextField stopStreetField;
 	@FXML
 	private TextField stopStreetNumberField;
-	@FXML
-	private CheckBox stopActiveBox;
 	@FXML
 	private Button modStopButton;
 	@FXML
@@ -43,7 +41,6 @@ public class modBusStopController{
 		stopNumberField.setText(busStop.getStopNumber().toString());
 		stopStreetField.setText(busStop.getStopStreetName());
 		stopStreetNumberField.setText(busStop.getStopStreetNumber().toString());
-		stopActiveBox.setSelected(busStop.getActive());
 	}
 
 	// Event Listener on Button[#modStop].onAction
@@ -53,10 +50,9 @@ public class modBusStopController{
 		busStop.setStopNumber(Integer.parseInt(stopNumberField.getText()));
 		busStop.setStopStreetName(stopStreetField.getText());
 		busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText()));
-		busStop.setActive(stopActiveBox.isSelected());
 		busStopDao.modifyData(busStop);
-		GraphManager graphManager = GraphManager.getInstance();
-		graphManager.updateMap();
+		MapManager mapManager = MapManager.getInstance();
+		mapManager.updateMap();
 		Stage stage = (Stage) modStopButton.getScene().getWindow();
 	    stage.close();
 	}

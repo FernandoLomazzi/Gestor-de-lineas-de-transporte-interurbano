@@ -4,6 +4,7 @@ import src.com.brunomnsilva.smartgraph.graph.Digraph;
 import src.com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import src.com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
+import src.com.brunomnsilva.smartgraph.graph.Vertex;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import managers.GraphManager;
+import managers.MapManager;
 import models.BusStop;
 import models.Incident;
 import models.Route;
@@ -63,14 +64,14 @@ public class Main extends Application {
 			*/
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainScreen.fxml"));
 			BorderPane root = loader.load();
-			GraphManager graphManager = GraphManager.getInstance();
-			root.setCenter(graphManager.getMapView());
+			MapManager mapManager = MapManager.getInstance();
+			root.setCenter(mapManager.getMapView());
             Scene scene = new Scene(root);
             primaryStage.setTitle("MainScreen");
             primaryStage.setScene(scene);
             primaryStage.show();
-            graphManager.getMapView().init();   
-            
+            mapManager.getMapView().init();
+            mapManager.initStyleMap();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
-import managers.GraphManager;
+import managers.MapManager;
 import models.BusStop;
 import models.Route;
 import models.Route.distanceUnits;
@@ -72,15 +72,15 @@ public class addRouteController implements Initializable{
 				distance *= 1.609344;
 				break;
 		}
-		Route route = new Route(sourceStop,destinationStop,distance,true);
+		Route route = new Route(sourceStop,destinationStop,distance);
 		RouteDao routeDao = new RouteDaoPG();
 		try {
 			routeDao.addData(route);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		GraphManager graphManager = GraphManager.getInstance();
-		graphManager.addRouteMap(route);
+		MapManager mapManager = MapManager.getInstance();
+		mapManager.addRouteMap(route);
 	}
 
 }
