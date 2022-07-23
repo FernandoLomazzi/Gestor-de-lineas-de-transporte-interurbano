@@ -23,6 +23,12 @@ public class Incident implements Comparable<Incident>{
 	public BusStop getBusStopDisabled() {
 		return busStopDisabled;
 	}
+	public Boolean areDatesCorrect() {
+		return endDate==null || !endDate.isBefore(beginDate);
+	}
+	public Boolean isConcludedCorrect() {
+		return !(concluded==true && endDate==null);
+	}
 	@Override
 	public int compareTo(Incident o) {
 		LocalDate b1 = this.getBeginDate(),b2 = o.getBeginDate();
@@ -49,11 +55,6 @@ public class Incident implements Comparable<Incident>{
 			else
 				return 1;
 		}
-	}
-	@Override
-	public String toString() {
-		return "Incident [busStopDisabled=" + busStopDisabled + ", beginDate=" + beginDate + ", endDate=" + endDate
-				+ ", description=" + description + ", concluded=" + concluded + "]";
 	}
 	
 	public void setBusStopDisabled(BusStop busStopDisabled) {

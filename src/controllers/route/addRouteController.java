@@ -2,14 +2,18 @@ package controllers.route;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+import managers.AlertManager;
 import managers.MapManager;
 import models.BusStop;
 import models.Route;
 import models.Route.distanceUnits;
-import models.utility.SelectTwoStop;
+import models.utils.SelectTwoStop;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -17,6 +21,7 @@ import java.util.ResourceBundle;
 
 import db.dao.RouteDao;
 import db.dao.impl.RouteDaoPG;
+import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import javafx.event.ActionEvent;
 
@@ -58,9 +63,9 @@ public class addRouteController implements Initializable{
 	public void addRoute(ActionEvent event) {
 		Double distance;
 		try {
-			distance = Double.parseDouble(distanceField.getText());
+			distance = Double.parseDouble(distanceField.getText().trim());
 		}catch(NumberFormatException|NullPointerException e) {
-			e.printStackTrace();
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.");
 			return;
 		}
 		switch(distanceUnitBox.getSelectionModel().getSelectedItem()) {
@@ -76,17 +81,15 @@ public class addRouteController implements Initializable{
 		Route route = new Route(sourceStop,destinationStop,distance);
 		RouteDao routeDao = new RouteDaoPG();
 		try {
-			try {
-				routeDao.addData(route);
-			} catch (DBConnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			routeDao.addData(route);
+			MapManager mapManager = MapManager.getInstance();
+			mapManager.addRouteMap(route);
+		} catch (AddFailException|DBConnectionException e) {
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+		    return;
 		}
-		MapManager mapManager = MapManager.getInstance();
-		mapManager.addRouteMap(route);
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha agregado la calle correctamente.");
+	    ((Stage) (addRouteButton.getScene().getWindow())).close();
 	}
 
 }

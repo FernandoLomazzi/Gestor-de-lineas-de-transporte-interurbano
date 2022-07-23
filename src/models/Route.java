@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Objects;
+import src.com.brunomnsilva.smartgraph.graphview.SmartLabelSource;
 
 public class Route {
 	private BusStop sourceStop,destinationStop;
@@ -15,10 +16,14 @@ public class Route {
 		this.destinationStop = destinationStop;
 		this.distanceInKM = distanceInKM;
 	}
-	
+	@SmartLabelSource
+	public String routeLabel() {
+		return distanceInKM+" [km]";
+	}
+
 	@Override
 	public String toString() {
-		return distanceInKM+" [km]";
+		return sourceStop+" a "+destinationStop;
 	}
 
 	@Override

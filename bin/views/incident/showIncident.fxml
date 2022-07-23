@@ -11,8 +11,8 @@
         <columns>
           <TableColumn fx:id="stopNumberColumn" prefWidth="118.0" sortable="false" text="Número de Parada" />
           <TableColumn fx:id="beginDateColumn" prefWidth="110.0" sortable="false" text="Fecha de Inicio" />
-            <TableColumn fx:id="endDateColumn" prefWidth="136.0" sortable="false" text="Fecha de Fin" />
-            <TableColumn fx:id="descriptionColumn" prefWidth="235.0" sortable="false" text="Descripción" />
+            <TableColumn fx:id="endDateColumn" prefWidth="152.0" sortable="false" text="Fecha de Fin estimada" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="219.0" sortable="false" text="Descripción" />
         </columns>
       </TableView>
       <Button fx:id="goBackButton" layoutY="374.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="95.0" text="Volver" />

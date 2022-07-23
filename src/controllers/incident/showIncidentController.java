@@ -18,14 +18,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import managers.AlertManager;
 import models.BusStop;
 import models.Incident;
-import models.utility.MyHeap;
+import models.utils.MyHeap;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -83,22 +86,19 @@ public class showIncidentController implements Initializable {
 		beginDateColumn.setCellValueFactory(new PropertyValueFactory<>("beginDate"));
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-		IncidentDao incidentDao = new IncidentDaoPG();
-		MyHeap<Incident> heap = new MyHeap<>();
+
 		try {
+			IncidentDao incidentDao = new IncidentDaoPG();
+			MyHeap<Incident> heap = new MyHeap<>();
 			for(Incident incident: incidentDao.getAllInconcludedIncident()) {
 				heap.push(incident);
 			}
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while(!heap.empty()) {
+				incidentRow.add(heap.top());
+				heap.pop();
+			}
 		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		while(!heap.empty()) {
-			incidentRow.add(heap.top());
-			heap.pop();
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		}
 	}
 	@FXML
