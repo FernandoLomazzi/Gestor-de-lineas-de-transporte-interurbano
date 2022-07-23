@@ -7,10 +7,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import application.Main;
 import db.dao.IncidentDao;
 import db.dao.impl.IncidentDaoPG;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +25,7 @@ import models.Incident;
 import models.utility.MyHeap;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -38,7 +41,9 @@ public class showIncidentController implements Initializable {
 	private TableColumn<Incident,LocalDate> endDateColumn;
 	@FXML
 	private TableColumn<Incident,String> descriptionColumn;
-
+	@FXML
+	private Button goBackButton;
+	
 	private ObservableList<Incident> incidentRow;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -80,6 +85,11 @@ public class showIncidentController implements Initializable {
 			incidentRow.add(heap.top());
 			heap.pop();
 		}
+	}
+	@FXML
+	public void goBack(ActionEvent event) {
+		Stage stage = (Stage) incidentTable.getScene().getWindow();
+		stage.setScene(Main.scene);
 	}
 	
 }

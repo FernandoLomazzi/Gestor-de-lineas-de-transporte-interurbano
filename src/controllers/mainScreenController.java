@@ -237,13 +237,11 @@ public class mainScreenController implements Initializable{
 	// Event Listener on Button[#showIncidentButton].onAction
 	@FXML
 	public void showIncident(ActionEvent event) {
-		Stage stage = new Stage();
-		stage.initModality(Modality.APPLICATION_MODAL);
+		Stage stage = (Stage) borderPane.getScene().getWindow();
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/views/incident/showIncident.fxml"));
 			Scene scene =  new Scene(root);
 	        stage.setScene(scene);
-	        stage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

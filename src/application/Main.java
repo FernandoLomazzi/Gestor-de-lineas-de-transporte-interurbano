@@ -38,6 +38,7 @@ import javafx.scene.layout.Region;
 
 
 public class Main extends Application {
+	public static Scene scene;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -66,7 +67,7 @@ public class Main extends Application {
 			BorderPane root = loader.load();
 			MapManager mapManager = MapManager.getInstance();
 			root.setCenter(mapManager.getMapView());
-            Scene scene = new Scene(root);
+            scene = new Scene(root);
             primaryStage.setTitle("MainScreen");
             primaryStage.setScene(scene);
             primaryStage.show();
