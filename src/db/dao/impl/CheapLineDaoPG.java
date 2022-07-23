@@ -27,6 +27,8 @@ public class CheapLineDaoPG implements CheapLineDao{
 	
 	@Override
 	public void addData(CheapLine cheapLine) throws AddFailException, DBConnectionException {
+		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
+		busLineDaoPG.addData(cheapLine);
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setString(1, cheapLine.getName());
@@ -42,6 +44,8 @@ public class CheapLineDaoPG implements CheapLineDao{
 	
 	@Override
 	public void modifyData(CheapLine cheapLine) throws ModifyFailException, DBConnectionException{
+		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
+		busLineDaoPG.modifyData(cheapLine);
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setString(1, cheapLine.getName());
@@ -57,6 +61,8 @@ public class CheapLineDaoPG implements CheapLineDao{
 	
 	@Override
 	public void deleteData(CheapLine cheapLine) throws DeleteFailException, DBConnectionException {
+		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
+		busLineDaoPG.deleteData(cheapLine);
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)){
 				ps.setString(1, cheapLine.getName());
