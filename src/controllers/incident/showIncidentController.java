@@ -89,7 +89,7 @@ public class showIncidentController implements Initializable {
 
 		try {
 			IncidentDao incidentDao = new IncidentDaoPG();
-			MyHeap<Incident> heap = new MyHeap<>();
+			MyHeap<Incident> heap = new MyHeap<>(Incident::compareTo);
 			for(Incident incident: incidentDao.getAllInconcludedIncident()) {
 				heap.push(incident);
 			}

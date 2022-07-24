@@ -5,13 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MyHeap<E extends Comparable<? super E>>{
+public class MyHeap<E>{
 	List<E> heap;
 	Comparator<E> comp;
-	public MyHeap(){
-		this.heap = new ArrayList<E>();
-		this.comp = ((E a,E b) -> a.compareTo(b));
-	}
 	public MyHeap(Comparator<E> comp){
 		this.heap = new ArrayList<E>();
 		this.comp = comp;
