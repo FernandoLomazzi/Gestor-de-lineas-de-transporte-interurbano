@@ -14,5 +14,23 @@ public abstract class BusLine {
 	protected List<BusLineStop> busStops;
 	
 	protected static final Double ticketCostPerKM = 5.5;
-	
+	public String getName() {
+		return name;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public Integer getSeatingCapacity() {
+		return seatingCapacity;
+	}
+
+	public List<BusLineRoute> getRoutes() {
+		return routes;
+	}
+
+	public List<BusLineStop> getBusStops() {
+		return busStops;
+	}
 }

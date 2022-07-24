@@ -42,27 +42,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			/*			
-			BusStop bus1 = new BusStop(1,"calle1",111,true);
-			BusStop bus2 = new BusStop(2,"calle2",222,true);
-			BusStop bus3 = new BusStop(3,"calle3",333,true);
-			Route route1 = new Route(bus1,bus2,23.0,true);
-			Route route2 = new Route(bus2,bus3,5.0,true);
-			g = new DigraphEdgeList<>();
-			g.insertVertex(bus1);
-			g.insertVertex(bus2);
-			g.insertVertex(bus3);
-			g.insertEdge(bus1, bus2, route1);
-			g.insertEdge(bus2, bus3, route2);
-			graphView = new SmartGraphPanel<>(g,new SmartCircularSortedPlacementStrategy());
-			graphView.setVertexDoubleClickAction((v)->{
-				System.out.println(v.getUnderlyingVertex());
-			});
-			Scene scene = new Scene(graphView,500,500);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-			graphView.init();
-			*/
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainScreen.fxml"));
 			BorderPane root = loader.load();
 			MapManager mapManager = MapManager.getInstance();
