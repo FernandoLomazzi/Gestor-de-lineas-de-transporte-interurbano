@@ -110,7 +110,7 @@ public class MapManager {
 	}
 	public void initStyleMap() {
         map.vertices().forEach((Vertex<BusStop> b) -> {
-        	if(b.element().isEnabled().equals(false)) {
+        	if(!b.element().isEnabled()) {
         		this.setStyleStopMap(b.element(),disabledStopStyle,disabledRouteStyle);
         	}
         });

@@ -48,6 +48,7 @@ public class showIncidentController implements Initializable {
 	@FXML
 	private Button goBackButton;
 	
+	private Scene previousScene;
 	private ObservableList<Incident> incidentRow;
 	
 	@Override
@@ -101,10 +102,13 @@ public class showIncidentController implements Initializable {
 			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		}
 	}
+	public void setPreviousScene(Scene previousScene) {
+		this.previousScene = previousScene;
+	}
 	@FXML
 	public void goBack(ActionEvent event) {
 		Stage stage = (Stage) incidentTable.getScene().getWindow();
-		stage.setScene(Main.scene);
+		stage.setScene(previousScene);
 	}
 	
 }

@@ -16,6 +16,7 @@ import src.com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import application.Main;
 import controllers.incident.addIncidentController;
+import controllers.incident.showIncidentController;
 import controllers.route.addRouteController;
 import controllers.route.modRouteController;
 import controllers.stop.modBusStopController;
@@ -61,6 +62,7 @@ public class mainScreenController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		MapManager.getInstance();
 		//Reveer
 		modStopButton.setToggleGroup(stopGroup);
 		delStopButton.setToggleGroup(stopGroup);
@@ -257,7 +259,10 @@ public class mainScreenController implements Initializable{
 	public void showIncident(ActionEvent event) {
 		Stage stage = (Stage) borderPane.getScene().getWindow();
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/views/incident/showIncident.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/incident/showIncident.fxml"));
+			Parent root = loader.load();
+			showIncidentController controller = loader.getController();
+			controller.setPreviousScene(showIncidentButton.getScene());
 			Scene scene =  new Scene(root);
 	        stage.setScene(scene);
 		} catch (IOException e) {

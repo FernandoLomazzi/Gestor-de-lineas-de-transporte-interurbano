@@ -1,9 +1,12 @@
 package models.busline;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import models.BusLineRoute;
 import models.BusLineStop;
+import models.BusStop;
 
 public abstract class BusLine {
 	protected String name;
@@ -14,6 +17,51 @@ public abstract class BusLine {
 	protected List<BusLineStop> busStops;
 	
 	protected static final Double ticketCostPerKM = 5.5;
+	protected BusLine(String name,String color) {
+		routes = new ArrayList<>();
+		busStops = new ArrayList<>();
+		this.name=name;
+		this.color=color;
+	}
+	public List<BusLineRoute> outboundEdges(BusLineStop busStop){
+		List<BusLineRoute> ret = new ArrayList<>();
+		for(BusLineRoute route: routes) {
+			if(route.getSourceStop().equals(busStop.getBusStop()))
+				ret.add(route);
+		}
+		return ret;
+	}
+	public BusLineStop getBusLineStop(BusStop busStop) {
+		for(BusLineStop stop: this.busStops) {
+			if(stop.getBusStop().equals(busStop))
+				return stop;
+		}
+		return null;
+	}
+	public Boolean stops(BusStop busStop) {
+		for(BusLineStop stop: this.busStops) {
+			if(stop.getBusStop().equals(busStop) && stop.stops())
+				return true;
+		}
+		return false;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof BusLine)) {
+			return false;
+		}
+		BusLine other = (BusLine) obj;
+		return Objects.equals(name, other.name);
+	}
+
+
 	public String getName() {
 		return name;
 	}
