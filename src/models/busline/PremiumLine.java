@@ -9,4 +9,7 @@ public class PremiumLine extends BusLine {
 	private Set<PremiumLineService> services;
 	private static final Double ticketPercentagePerUse = 0.1;
 	private static final Double ticketPercentagePerService = 0.05;
+	public Set<PremiumLineService> getServices() {
+		return services;
+	}
 }

@@ -7,7 +7,7 @@ module TPINTEGRADOR {
 	
 	opens application to javafx.graphics, javafx.fxml;
 	opens controllers to javafx.fxml;
-	
+	opens controllers.line to javafx.fxml;
 	
 	opens models to javafx.base;
 	opens controllers.route to  javafx.fxml;
