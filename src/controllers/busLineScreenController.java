@@ -25,7 +25,6 @@ public class busLineScreenController {
 
     @FXML
     void addBusLine(ActionEvent event) {
-    	System.out.println(this.getClass().getResource("/views/line/addLineCheapOrPremium.fxml"));
     	Stage stage = new Stage();
     	stage.initModality(Modality.APPLICATION_MODAL);
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLineCheapOrPremium.fxml"));
