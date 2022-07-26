@@ -15,6 +15,9 @@ public class PremiumLine extends BusLine {
 		super();
 		services = EnumSet.allOf(PremiumLineService.class);
 	}
+	public String getType() {
+		return "Superior";
+	}
 	protected PremiumLine(String name,String color) {
 		super(name,color);
 	}
