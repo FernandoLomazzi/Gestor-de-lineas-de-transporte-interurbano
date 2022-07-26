@@ -72,23 +72,14 @@ public class addLineCheapController implements Initializable{
 			return;
     	}
     	CheapLineDao cheapLineDao = new CheapLineDaoPG();
-    	/*try {
+    	try {
     		cheapLineDao.addData(cheapLine);
     		//Cosas del mapa
     	}
     	catch(AddFailException | DBConnectionException e) {
     		AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		    return;
-    	}*/
-    	try {
-			cheapLineDao.deleteData(cheapLine);
-		} catch (DeleteFailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	}
     	AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se añadió a la linea correctamente");
 	    ((Stage) (addLineCheap.getScene().getWindow())).close();
     }
