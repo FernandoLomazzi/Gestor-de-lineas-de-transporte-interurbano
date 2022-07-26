@@ -1,5 +1,7 @@
 package models.busline;
 
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 public class PremiumLine extends BusLine {
@@ -11,6 +13,7 @@ public class PremiumLine extends BusLine {
 	private static final Double ticketPercentagePerService = 0.05;
 	public PremiumLine() {
 		super();
+		services = EnumSet.allOf(PremiumLineService.class);
 	}
 	protected PremiumLine(String name,String color) {
 		super(name,color);

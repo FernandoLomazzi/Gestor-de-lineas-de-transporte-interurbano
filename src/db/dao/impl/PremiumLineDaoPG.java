@@ -26,9 +26,6 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 	public void addData(PremiumLine premiumLine) throws DBConnectionException, AddFailException {
 		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
 		busLineDaoPG.addData(premiumLine);
-		PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
-		premiumLineServiceDaoPG.AddData(premiumLine);
-		
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setString(1, premiumLine.getName());
@@ -38,6 +35,8 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 			e.printStackTrace();
 			//Se supone que es él padre quien produce el error.
 		}
+		PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
+		premiumLineServiceDaoPG.AddData(premiumLine);
 	}
 
 	@Override
@@ -52,6 +51,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 		catch (AddFailException e) {
 			throw new ModifyFailException("Cambiar");
 		}
+		
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 		private static final String INSERT_SQL =
 				"INSERT INTO PremiumLineServices " + 
 				"(name_line, name_service) " +
-				"VALUES (?, ?);";
+				"VALUES (?, CAST(? as PremiumLineService));";
 		private static final String UPDATE_SQL_DELETE = 
 				"DELETE FROM PremiumLineServices "+
 				"WHERE name_line=?;";
@@ -94,7 +94,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 				}
 			}
 			catch (SQLException e) {
-				//No entiendo
+				//Esto nunca deberia fallar
 				e.printStackTrace();
 			}
 		}
