@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import managers.AlertManager;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 import models.Route;
 import models.Route.distanceUnits;
@@ -77,8 +77,8 @@ public class modRouteController implements Initializable{
 		route.setDistanceInKM(distance);
 		try {
 			routeDao.modifyData(route);
-			MapManager mapManager = MapManager.getInstance();
-			mapManager.updateMap();
+			CityMapManager cityMapManager = CityMapManager.getInstance();
+			cityMapManager.updateMapView();
 		} catch (ModifyFailException|DBConnectionException e) {
 			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		    return;

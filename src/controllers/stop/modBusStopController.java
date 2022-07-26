@@ -23,7 +23,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import managers.AlertManager;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 
 public class modBusStopController{
@@ -56,8 +56,8 @@ public class modBusStopController{
 		busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText().trim()));
 		try {
 			busStopDao.modifyData(busStop);
-			MapManager mapManager = MapManager.getInstance();
-			mapManager.updateMap();
+			CityMapManager cityMapManager = CityMapManager.getInstance();
+			cityMapManager.updateMapView();
 		} catch (ModifyFailException|DBConnectionException e) {
 			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		    return;

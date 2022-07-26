@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import managers.AlertManager;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 import models.Route;
 import models.Route.distanceUnits;
@@ -82,8 +82,8 @@ public class addRouteController implements Initializable{
 		RouteDao routeDao = new RouteDaoPG();
 		try {
 			routeDao.addData(route);
-			MapManager mapManager = MapManager.getInstance();
-			mapManager.addRouteMap(route);
+			CityMapManager cityMapManager = CityMapManager.getInstance();
+			cityMapManager.addRouteMap(route);
 		} catch (AddFailException|DBConnectionException e) {
 			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		    return;

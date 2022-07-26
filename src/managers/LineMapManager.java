@@ -23,15 +23,16 @@ import src.com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStr
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import src.com.brunomnsilva.smartgraph.graph.Edge;
 
-public class LineMapManager {
+public class LineMapManager extends MapManager{
 	private static LineMapManager instance;
-	private Digraph<BusStop, BusLineRoute> map;
-	private SmartGraphPanel<BusStop, BusLineRoute> mapView;
 	private Set<BusLine> busLines;
 	
 	private LineMapManager() {
 		busLines = new HashSet<>();
-		map = new DigraphEdgeList<>();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
+		cityMapManager.getBusStops().forEach(b -> map.insertVertex(b));
+		cityMapManager.getRoutes().forEach(r -> map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r));
+		
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
 	}
 	public static LineMapManager getInstance() {
@@ -98,7 +99,7 @@ public class LineMapManager {
 				List<BusLineRoute> routes;
 				//Si para puedo cambiar de linea
 				if(actualLineStop.stops())
-					routes = map.outboundEdges(actualLineStop.getBusStop()).stream().map(e -> e.element()).collect(Collectors.toList());
+					routes = map.outboundEdges(actualLineStop.getBusStop()).stream().map(e -> (BusLineRoute) e.element()).toList();
 				//Si no para no puedo cambiar de linea
 				else 
 					routes = actualLineStop.getBusLine().outboundEdges(actualLineStop);

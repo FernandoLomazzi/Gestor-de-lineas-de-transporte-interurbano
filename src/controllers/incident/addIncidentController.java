@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import managers.AlertManager;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 import models.Incident;
 import javafx.scene.control.CheckBox;
@@ -83,8 +83,8 @@ public class addIncidentController implements Initializable{
 				busStop.setEnabled(false);
 				BusStopDao busStopDao = new BusStopDaoPG();
 				busStopDao.modifyData(busStop);
-				MapManager mapManager = MapManager.getInstance();
-				mapManager.disableStyleStop(busStop);
+				CityMapManager cityMapManager = CityMapManager.getInstance();
+				cityMapManager.disableStyleStop(busStop);
 			}
 		} catch (AddFailException|ModifyFailException|DBConnectionException e) {
 			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage());
