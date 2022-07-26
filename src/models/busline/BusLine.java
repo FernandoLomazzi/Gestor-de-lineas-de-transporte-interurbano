@@ -17,6 +17,9 @@ public abstract class BusLine {
 	protected List<BusLineStop> busStops;
 	
 	protected static final Double ticketCostPerKM = 5.5;
+	protected BusLine() {
+		
+	}
 	protected BusLine(String name,String color) {
 		routes = new ArrayList<>();
 		busStops = new ArrayList<>();
