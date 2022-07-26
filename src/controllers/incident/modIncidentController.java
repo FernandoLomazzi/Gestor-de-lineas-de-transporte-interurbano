@@ -24,7 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import managers.AlertManager;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 import models.Incident;
 import javafx.scene.control.CheckBox;
@@ -86,8 +86,8 @@ public class modIncidentController implements Initializable {
 			if(!busStop.isEnabled() && concluded && busStopDao.isEnabled(busStop)) {
 				busStop.setEnabled(true);
 				busStopDao.modifyData(busStop);
-				MapManager mapManager = MapManager.getInstance();
-				mapManager.enableStyleStop(busStop);
+				CityMapManager cityMapManager = CityMapManager.getInstance();
+				cityMapManager.enableStyleStop(busStop);
 			}
 		}catch (ModifyFailException|DBConnectionException e) {
 			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage());

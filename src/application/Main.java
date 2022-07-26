@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import controllers.line.LineRouteSelectorController;
 import db.dao.BusStopDao;
 import db.dao.DBConnection;
 import db.dao.IncidentDao;
@@ -20,10 +21,13 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import managers.MapManager;
+import managers.LineMapSelectorManager;
+import managers.CityMapManager;
 import models.BusStop;
 import models.Incident;
 import models.Route;
+import models.busline.BusLine;
+import models.busline.CheapLine;
 import models.utils.MyHeap;
 import models.utils.SelectTwoStop;
 import javafx.scene.Parent;
@@ -38,7 +42,7 @@ import javafx.scene.layout.Region;
 
 
 public class Main extends Application {
-	@Override
+	/*@Override
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainScreen.fxml"));
@@ -54,8 +58,22 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}*/
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/line/LineRouteSelector.fxml"));
+			BorderPane root = loader.load();
+			LineRouteSelectorController controller = loader.getController();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            controller.init(new CheapLine("LINEA 1","0x16a216"));
+            
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
 	
 	public static void main(String[] args) {
 		launch(args);

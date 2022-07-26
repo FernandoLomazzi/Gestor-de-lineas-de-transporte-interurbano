@@ -10,6 +10,9 @@ public class Route {
 	public enum distanceUnits{
 		Kilómetros,Metros,Millas
 	}
+	public Route() {
+		
+	}
 	public Route(BusStop sourceStop, BusStop destinationStop, Double distanceInKM) {
 		super();
 		this.sourceStop = sourceStop;

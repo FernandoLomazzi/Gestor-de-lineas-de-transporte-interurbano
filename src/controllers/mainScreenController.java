@@ -43,7 +43,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 import models.Route;
 import models.utils.SelectTwoStop;
@@ -62,7 +62,7 @@ public class mainScreenController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		MapManager.getInstance();
+		CityMapManager.getInstance();
 		//Reveer
 		modStopButton.setToggleGroup(stopGroup);
 		delStopButton.setToggleGroup(stopGroup);
@@ -88,10 +88,10 @@ public class mainScreenController implements Initializable{
 	// Event Listener on Button[#modStopButton].onAction
 	@FXML
 	public void modStop(ActionEvent event) {
-		MapManager mapManager = MapManager.getInstance();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(modStopButton.isSelected()) {
 			//borderPane.getScene().setCursor(Cursor.HAND);
-			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			cityMapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				try {
@@ -109,15 +109,15 @@ public class mainScreenController implements Initializable{
 		}
 		else{
 			//borderPane.getScene().setCursor(Cursor.DEFAULT);
-			mapManager.setVertexDoubleClickAction(null);
+			cityMapManager.setVertexDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#delStopButton].onAction
 	@FXML
 	public void delStop(ActionEvent event) {
-		MapManager mapManager = MapManager.getInstance();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(delStopButton.isSelected()) {
-			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			cityMapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			    alert.setHeaderText(null);
 			    alert.setTitle("Eliminación de Parada de Colectivo");
@@ -127,7 +127,7 @@ public class mainScreenController implements Initializable{
 			    	BusStopDao busStopDao = new BusStopDaoPG();
 			    	try {
 						busStopDao.deleteData(v.getUnderlyingVertex().element());
-				    	mapManager.deleteStopMap(v.getUnderlyingVertex());
+				    	cityMapManager.deleteStopMap(v.getUnderlyingVertex());
 					} catch (DeleteFailException|DBConnectionException e) {
 						Alert alert2 = new Alert(Alert.AlertType.ERROR);
 					    alert2.setHeaderText(null);
@@ -139,16 +139,16 @@ public class mainScreenController implements Initializable{
 			});
 		}
 		else{
-			mapManager.setVertexDoubleClickAction(null);
+			cityMapManager.setVertexDoubleClickAction(null);
 		}
 	}
 
 	// Event Listener on Button[#addRouteButton].onAction
 	@FXML
 	public void addRoute(ActionEvent event) {
-		MapManager mapManager = MapManager.getInstance();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(addRouteButton.isSelected()) {
-			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			cityMapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				SelectTwoStop.addStop(v.getUnderlyingVertex().element());
 				System.out.println(v.getUnderlyingVertex().element());
 				if(SelectTwoStop.full()) {
@@ -171,15 +171,15 @@ public class mainScreenController implements Initializable{
 			});
 		}
 		else{
-			mapManager.setVertexDoubleClickAction(null);
+			cityMapManager.setVertexDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#modRouteButton].onAction
 	@FXML
 	public void modRoute(ActionEvent event) {
-		MapManager mapManager = MapManager.getInstance();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(modRouteButton.isSelected()) {
-			mapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
+			cityMapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				try {
@@ -196,15 +196,15 @@ public class mainScreenController implements Initializable{
 			});
 		}
 		else{
-			mapManager.setEdgeDoubleClickAction(null);
+			cityMapManager.setEdgeDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#delRouteButton].onAction
 	@FXML
 	public void delRoute(ActionEvent event) {
-		MapManager mapManager = MapManager.getInstance();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(delRouteButton.isSelected()) {
-			mapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) -> {
+			cityMapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) -> {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			    alert.setHeaderText(null);
 			    alert.setTitle("Eliminación de Calle");
@@ -214,7 +214,7 @@ public class mainScreenController implements Initializable{
 			    	RouteDao routeDao = new RouteDaoPG();
 			    	try {
 						routeDao.deleteData(ed.getUnderlyingEdge().element());
-						mapManager.deleteRouteMap(ed.getUnderlyingEdge());
+						cityMapManager.deleteRouteMap(ed.getUnderlyingEdge());
 					} catch (DeleteFailException|DBConnectionException e) {
 						Alert alert2 = new Alert(Alert.AlertType.ERROR);
 					    alert2.setHeaderText(null);
@@ -226,15 +226,15 @@ public class mainScreenController implements Initializable{
 			});
 		}
 		else{
-			mapManager.setEdgeDoubleClickAction(null);
+			cityMapManager.setEdgeDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#addIncidentButton].onAction
 	@FXML
 	public void addIncident(ActionEvent event) {
-		MapManager mapManager = MapManager.getInstance();
+		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(addIncidentButton.isSelected()) {
-			mapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
+			cityMapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				try {
@@ -251,7 +251,7 @@ public class mainScreenController implements Initializable{
 			});
 		}
 		else{
-			mapManager.setVertexDoubleClickAction(null);
+			cityMapManager.setVertexDoubleClickAction(null);
 		}
 	}
 	// Event Listener on Button[#showIncidentButton].onAction

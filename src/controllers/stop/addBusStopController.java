@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import managers.AlertManager;
-import managers.MapManager;
+import managers.CityMapManager;
 import models.BusStop;
 
 import java.sql.SQLException;
@@ -43,8 +43,8 @@ public class addBusStopController {
 		BusStopDao stopDao = new BusStopDaoPG();
 		try {
 			stopDao.addData(busStop);
-			MapManager mapManager = MapManager.getInstance();
-			mapManager.addStopMap(busStop);
+			CityMapManager cityMapManager = CityMapManager.getInstance();
+			cityMapManager.addStopMap(busStop);
 		} catch(AddFailException|DBConnectionException e) {
 			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		    return;

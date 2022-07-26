@@ -2,11 +2,16 @@ package models;
 
 import models.busline.BusLine;
 
-public class BusLineRoute {
+public class BusLineRoute extends Route{
 	private BusLine busLine;
 	private Route route;
 	private Integer estimatedTime; //seconds
 	
+	public BusLineRoute(BusLine busLine,Route route) {
+		this.busLine=busLine;
+		this.route = route;
+		this.estimatedTime = Integer.MAX_VALUE;
+	}
 	public BusLineRoute(BusLine busLine,Route route,Integer estimatedTime) {
 		this.busLine = busLine;
 		this.route = route;
