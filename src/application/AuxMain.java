@@ -23,7 +23,6 @@ public class AuxMain extends Application{
 			primaryStage.setTitle("Menú Lineas");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			System.out.println("Holaaa");
 		}
 		catch(Exception e) {
 			e.printStackTrace();

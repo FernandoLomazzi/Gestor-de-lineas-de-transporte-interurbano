@@ -25,15 +25,17 @@ public class busLineScreenController {
 
     @FXML
     void addBusLine(ActionEvent event) {
-    	System.out.println(this.getClass().getResource("/views/addLineCheapOrPremium.fxml"));
     	Stage stage = new Stage();
     	stage.initModality(Modality.APPLICATION_MODAL);
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/addLineCheapOrPremium.fxml"));
     	try {
     		BorderPane root = loader.load();
     		Scene scene = new Scene(root);
+    		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Aviso");
     		stage.setScene(scene);
+    		stage.setMaximized(false);
+    		stage.setResizable(false);
     		stage.showAndWait();
     	}
     	catch(IOException e) {

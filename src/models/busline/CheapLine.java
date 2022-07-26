@@ -9,4 +9,8 @@ public class CheapLine extends BusLine {
 	public double getStandingCapacityPercentage() {
 		return standingCapacityPercentage;
 	}
+
+	public void setStandingCapacityPercentage(Double standingCapacityPercentage) {
+		this.standingCapacityPercentage = standingCapacityPercentage;
+	}
 }

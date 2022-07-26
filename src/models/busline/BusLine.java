@@ -18,6 +18,26 @@ public abstract class BusLine {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public void setSeatingCapacity(Integer seatingCapacity) {
+		this.seatingCapacity = seatingCapacity;
+	}
+
+	public void setRoutes(List<BusLineRoute> routes) {
+		this.routes = routes;
+	}
+
+	public void setBusStops(List<BusLineStop> busStops) {
+		this.busStops = busStops;
+	}
+
 	public String getColor() {
 		return color;
 	}
