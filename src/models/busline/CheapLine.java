@@ -7,7 +7,7 @@ public class CheapLine extends BusLine {
 	private static final Double maxStandingCapacityPercentage = 0.4;
 	
 	public CheapLine() {
-		;
+		super();
 	}
 	public CheapLine(String name,String color) {
 		super(name,color);
