@@ -12,4 +12,7 @@ public class PremiumLine extends BusLine {
 	protected PremiumLine(String name,String color) {
 		super(name,color);
 	}
+    public Set<PremiumLineService> getServices() {
+        return services;
+    }
 }
