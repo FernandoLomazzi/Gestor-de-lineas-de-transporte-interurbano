@@ -43,6 +43,20 @@ public class addLineCheapOrPremiumController {
     void addPremium(ActionEvent event) {
     	Stage stage = (Stage)addCheapButton.getScene().getWindow();
     	stage.close();
+    	stage = new Stage();
+    	stage.initModality(Modality.APPLICATION_MODAL);
+    	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLinePremium.fxml"));
+    	try {
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.setResizable(false);
+			stage.setTitle("Agregar linea superior");
+			stage.show();
+    	}
+    	catch (IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
 }
