@@ -11,12 +11,12 @@
    <children>
       <Label layoutX="75.0" layoutY="65.0" text="Nombre de la linea" />
       <TextField fx:id="addLineCheapNameField" layoutX="75.0" layoutY="82.0" />
-      <TextField fx:id="addLineCheapSeatingCapacityField" layoutX="75.0" layoutY="140.0" prefHeight="25.0" prefWidth="165.0" promptText="Rivadavia" />
+      <TextField fx:id="addLineCheapSeatingCapacityField" layoutX="75.0" layoutY="140.0" prefHeight="25.0" prefWidth="165.0" />
       <Label layoutX="75.0" layoutY="123.0" text="Cantidad de personas sentadas" />
       <Label layoutX="301.0" layoutY="65.0" text="Color de la linea" />
       <ColorPicker fx:id="addLineCheapColorField" layoutX="301.0" layoutY="82.0" />
       <Label layoutX="301.0" layoutY="123.0" text="Porcentaje de personas paradas" />
-      <Slider fx:id="addLineCheapStandingCapacity" layoutX="300.0" layoutY="146.0" prefHeight="17.0" prefWidth="169.0" showTickMarks="true" />
+      <Slider fx:id="addLineCheapStandingCapacity" layoutX="300.0" layoutY="146.0" minorTickCount="1" prefHeight="17.0" prefWidth="169.0" showTickMarks="true" />
       <Label fx:id="addLineCheapStandingCapacityLabel" layoutX="301.0" layoutY="165.0" text="Label" />
       <Button fx:id="addLineCheap" layoutX="212.0" layoutY="189.0" mnemonicParsing="false" onAction="#addNewLineCheap" text="Agregar Linea" />
    </children>

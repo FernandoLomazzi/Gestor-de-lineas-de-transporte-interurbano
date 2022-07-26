@@ -27,6 +27,8 @@ public class addLineCheapController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.updateSlider();
+		//Se espera que el valor maximo siempre sea acotado y se encuentre entre [0..1]
+		this.addLineCheapStandingCapacity.setMax(CheapLine.getMaxStandingCapacityPercentage()*100);
 		this.addLineCheapStandingCapacityLabel.textProperty().bind(addLineCheapStandingCapacity.valueProperty().asString("%.1f"));
 	}
     @FXML
