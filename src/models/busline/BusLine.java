@@ -21,6 +21,11 @@ public abstract class BusLine {
 	protected BusLine() {
 		
 	}
+	protected BusLine(String name, String color, Integer seatingCapacity) {
+		this.name = name;
+		this.color = color;
+		this.seatingCapacity = seatingCapacity;
+	}
 	protected BusLine(String name,String color) {
 		routes = new ArrayList<>();
 		busStops = new ArrayList<>();

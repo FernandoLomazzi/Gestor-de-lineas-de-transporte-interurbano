@@ -9,12 +9,12 @@ public class CheapLine extends BusLine {
 	public String getType() {
 		return "Económica";
 	}
-	public CheapLine() {
-		super();
+	public CheapLine(String name, String color, Integer seatingCapacity, Double standingCapacityPercentage) {
+		super(name, color, seatingCapacity);
+		this.standingCapacityPercentage = standingCapacityPercentage;
+		this.standingCapacity = (int) Math.floor(standingCapacityPercentage*this.seatingCapacity);
 	}
-	public CheapLine() {
-		super();
-	}
+
 	public CheapLine(String name,String color) {
 		super(name,color);
 	}
