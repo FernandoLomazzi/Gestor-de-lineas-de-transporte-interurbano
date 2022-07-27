@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import controllers.returnScene;
 import db.dao.CheapLineDao;
 import db.dao.PremiumLineDao;
 import db.dao.impl.CheapLineDaoPG;
@@ -31,11 +32,11 @@ import models.busline.CheapLine;
 import models.busline.PremiumLine;
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 
-public class LineRouteSelectorController implements Initializable{
+public class LineRouteSelectorController implements Initializable,returnScene{
 	@FXML
 	private BorderPane borderPane;
 	@FXML
-	private Button returnButton;
+	private Button goToPrevSceneButton;
 	@FXML
 	private Button saveButton;
 	@FXML 
@@ -43,10 +44,7 @@ public class LineRouteSelectorController implements Initializable{
 	
 	private LineMapSelectorManager selectorManager;
 	private Scene prevScene;
-	
-	public void setScene(Scene prevScene) {
-		this.prevScene=prevScene;
-	}
+
 	public void init(BusLine busLine) {
 		selectorManager.setBusline(busLine);
 		selectorManager.initView();
@@ -108,10 +106,6 @@ public class LineRouteSelectorController implements Initializable{
 		selectorManager.clear();
 	}
 	@FXML
-	public void returnScene(ActionEvent event) {
-		((Stage) returnButton.getScene().getWindow()).setScene(prevScene);
-	}
-	@FXML
 	public void save(ActionEvent event) {
 		BusLine busLine = selectorManager.getBusLine();
 		if(busLine.getRoutes().isEmpty()) {
@@ -138,6 +132,15 @@ public class LineRouteSelectorController implements Initializable{
 		}
 		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se creó la linea exitosamente.");
 		((Stage) saveButton.getScene().getWindow()).close();
+	}
+	@Override
+	public void setPrevScene(Scene scene) {
+		this.prevScene=scene;
+	}
+	@FXML
+	@Override
+	public void goToPrevScene(ActionEvent event) {
+		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
 	}
 
 }

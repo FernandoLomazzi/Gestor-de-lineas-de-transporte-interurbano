@@ -1,35 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainScreenController">
-   <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="addStopButton" mnemonicParsing="false" onAction="#addStop" text="addParada" />
-            <ToggleButton fx:id="modStopButton" mnemonicParsing="false" onAction="#modStop" text="modParada">
-               <toggleGroup>
-                  <ToggleGroup fx:id="stopGroup" />
-               </toggleGroup></ToggleButton>
-               
-            <ToggleButton fx:id="delStopButton" mnemonicParsing="false" onAction="#delStop" text="delParada" toggleGroup="$stopGroup" />
-            <ToggleButton fx:id="addRouteButton" mnemonicParsing="false" onAction="#addRoute" text="addCalle" toggleGroup="$stopGroup" />
-            <ToggleButton fx:id="modRouteButton" mnemonicParsing="false" onAction="#modRoute" text="modCalle">
-               <toggleGroup>
-                  <ToggleGroup fx:id="routeGroup" />
-               </toggleGroup></ToggleButton>
-            <ToggleButton fx:id="delRouteButton" mnemonicParsing="false" onAction="#delRoute" text="delCalle" toggleGroup="$routeGroup" />
-            <ToggleButton fx:id="addIncidentButton" mnemonicParsing="false" onAction="#addIncident" text="addIncidencia" toggleGroup="$stopGroup" />
-            <Button fx:id="showIncidentButton" mnemonicParsing="false" onAction="#showIncident" text="verIncidencia" />
-         </children>
-         <padding>
-            <Insets top="20.0" />
-         </padding>
-      </VBox>
-   </right>
-</BorderPane>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainScreenController">
+   <children>
+      <Button fx:id="cityMapButton" layoutX="14.0" layoutY="50.0" mnemonicParsing="false" onAction="#setCityMap" prefHeight="290.0" prefWidth="171.0" text="MAPA">
+         <font>
+            <Font name="Comic Sans MS" size="39.0" />
+         </font>
+      </Button>
+      <Button fx:id="lineScreenButton" layoutX="215.0" layoutY="50.0" mnemonicParsing="false" onAction="#setLineScreen" prefHeight="290.0" prefWidth="171.0" text="LINEAS">
+         <font>
+            <Font name="Comic Sans MS" size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="travelScreenButton" layoutX="415.0" layoutY="50.0" mnemonicParsing="false" onAction="#setTravelScreen" prefHeight="290.0" prefWidth="171.0" text="VIAJAR">
+         <font>
+            <Font name="Comic Sans MS" size="32.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -15,7 +15,7 @@ public class PremiumLine extends BusLine {
 	private Set<PremiumLineService> services;
 	private static final Double ticketPercentagePerUse = 0.1;
 	private static final Double ticketPercentagePerService = 0.05;
-	
+
 	public PremiumLine() {
 		super();
 		services = EnumSet.allOf(PremiumLineService.class);
@@ -27,6 +27,9 @@ public class PremiumLine extends BusLine {
 	public PremiumLine(List<BusLineStop> busStops,List<BusLineRoute> routes) {
 		super(busStops,routes);
 		services = new HashSet<>();
+	}
+	public String getType() {
+		return "Superior";
 	}
     public Set<PremiumLineService> getServices() {
         return services;

@@ -17,7 +17,7 @@ public abstract class BusLine {
 	protected List<BusLineRoute> routes;
 	protected List<BusLineStop> busStops;
 	
-	abstract protected String getType();
+	public abstract String getType();
 	protected static final Double ticketCostPerKM = 5.5;
 	protected BusLine() {
 		routes = new ArrayList<>();

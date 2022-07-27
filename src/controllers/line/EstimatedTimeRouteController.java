@@ -58,7 +58,6 @@ public class EstimatedTimeRouteController implements Initializable{
 		else {
 			routeLine.setEstimatedTime(estimatedTimeInSeconds);
 			newRoute=true;
-			AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se añadió la calle correctamente");
 			((Stage) addRouteLineButton.getScene().getWindow()).close();
 		}
 			

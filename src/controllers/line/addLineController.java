@@ -98,7 +98,7 @@ public class addLineController implements Initializable{
     	else if(typeLineBox.getValue().equals(lineTypes[0])) { //Economic
     		if(busLine==null)
     			busLine = new CheapLine();
-    		else if(busLine instanceof PremiumLine)
+    		else if(busLine.getType()=="Superior")
     			busLine = new CheapLine(busLine.getBusStops(),busLine.getRoutes());
     		if(setValuesCheapLine(busLine)) {
     			setRouteLine();
@@ -107,7 +107,7 @@ public class addLineController implements Initializable{
     	else if(typeLineBox.getValue().equals(lineTypes[1])) { //Premium
     		if(busLine==null)
     			busLine = new PremiumLine();
-    		else if(busLine instanceof CheapLine)
+    		else if(busLine.getType()=="Económica")
     			busLine = new PremiumLine(busLine.getBusStops(),busLine.getRoutes());
     		if(setValuesPremiumLine(busLine)) {
     			setRouteLine();
@@ -120,7 +120,7 @@ public class addLineController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/line/LineRouteSelector.fxml"));
 			BorderPane root = loader.load();
 			LineRouteSelectorController controller = loader.getController();
-			controller.setScene(nextButton.getScene());
+			controller.setPrevScene(nextButton.getScene());
 	        Scene scene = new Scene(root);
 	        Stage stage = (Stage) nextButton.getScene().getWindow();
 	        stage.setScene(scene);

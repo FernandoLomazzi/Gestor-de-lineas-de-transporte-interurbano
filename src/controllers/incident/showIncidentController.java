@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import application.Main;
+import controllers.returnScene;
 import db.dao.IncidentDao;
 import db.dao.impl.IncidentDaoPG;
 import exceptions.DBConnectionException;
@@ -34,7 +35,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 
-public class showIncidentController implements Initializable {
+public class showIncidentController implements Initializable,returnScene {
 	@FXML
 	private TableView<Incident> incidentTable;
 	@FXML
@@ -46,9 +47,10 @@ public class showIncidentController implements Initializable {
 	@FXML
 	private TableColumn<Incident,String> descriptionColumn;
 	@FXML
-	private Button goBackButton;
+	private Button goToPrevSceneButton;
 	
 	private Scene previousScene;
+	
 	private ObservableList<Incident> incidentRow;
 	
 	@Override
@@ -102,13 +104,14 @@ public class showIncidentController implements Initializable {
 			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 		}
 	}
-	public void setPreviousScene(Scene previousScene) {
-		this.previousScene = previousScene;
+	@Override
+	public void setPrevScene(Scene scene) {
+		this.previousScene = scene;
 	}
 	@FXML
-	public void goBack(ActionEvent event) {
-		Stage stage = (Stage) incidentTable.getScene().getWindow();
-		stage.setScene(previousScene);
+	@Override
+	public void goToPrevScene(ActionEvent event) {
+		((Stage) incidentTable.getScene().getWindow()).setScene(previousScene);
 	}
 	
 }
