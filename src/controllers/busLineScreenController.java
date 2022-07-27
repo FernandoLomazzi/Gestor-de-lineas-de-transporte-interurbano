@@ -26,28 +26,24 @@ public class busLineScreenController {
 
     @FXML
     void addBusLine(ActionEvent event) {
-    	Stage stage = new Stage();
-<<<<<<< HEAD
-    	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLineCheapOrPremium.fxml"));
-=======
-    	stage.initModality(Modality.APPLICATION_MODAL);
-    	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
->>>>>>> origin/fer
-    	try {
-    		AnchorPane root = loader.load();
-    		Scene scene = new Scene(root);
-    		stage.initModality(Modality.APPLICATION_MODAL);
-    		stage.setScene(scene);
-    		stage.showAndWait();
-    	}
-    	catch(IOException e) {
-    		e.printStackTrace();
-    	}
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
+        try {
+            AnchorPane root = loader.load();
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void deleteBusLine(ActionEvent event) {
-    	Stage stage = new Stage();
+      	Stage stage = new Stage();
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
     		AnchorPane root = loader.load();

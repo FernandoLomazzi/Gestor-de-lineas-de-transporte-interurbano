@@ -4,21 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.dao.BusLineDao;
-import db.dao.BusStopDao;
 import db.dao.DBConnection;
 import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
 import exceptions.busStop.BusStopNotFoundException;
-import models.BusStop;
 import models.Incident;
 import models.busline.BusLine;
+import models.busline.CheapLine;
 
 public class BusLineDaoPG implements BusLineDao{
 	private static final String INSERT_SQL =
@@ -86,6 +84,7 @@ public class BusLineDaoPG implements BusLineDao{
 	public List<BusLine> getAllBusLines() {
 		List<BusLine> ret = new ArrayList<>();
 		try(Connection connection = DBConnection.getConnection()){
+			//Para lineas economicas
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_CHEAP_LINES)){
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
@@ -93,23 +92,16 @@ public class BusLineDaoPG implements BusLineDao{
 					String color = rs.getString(2);
 					Integer seating_capacity = rs.getInt(3);
 					Double standing_capacity_porcentage = rs.getDouble(4);
-					
-					
-					Integer busNumber = rs.getInt(1);
-					LocalDate bDate = rs.getDate(2).toLocalDate();
-					LocalDate eDate = rs.getDate(3)==null?null:rs.getDate(3).toLocalDate();
-					String descr = rs.getString(4);
-					BusStopDao bsDao = new BusStopDaoPG();
-					BusStop busStop;
-					try {
-						busStop = bsDao.getBusStop(busNumber);
-					} catch (BusStopNotFoundException e) {
-						return null; // no deberia ocurrir
-					}
-					Incident incid = new Incident(busStop,bDate,eDate,descr,false);
-					ret.add(incid);					
+					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
+					ret.add(cheapLine);
 				}
+			//Para lineas premim
 			}
 		}
+		catch(SQLException e) {
+			//No estoy seguro
+			return null;
+		}
+		return ret;
 	}
 }
