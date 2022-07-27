@@ -12,6 +12,9 @@ public class CheapLine extends BusLine {
 	public CheapLine() {
 		super();
 	}
+	public CheapLine() {
+		super();
+	}
 	public CheapLine(String name,String color) {
 		super(name,color);
 	}
@@ -26,4 +29,5 @@ public class CheapLine extends BusLine {
 	public static Double getMaxStandingCapacityPercentage() {
 		return maxStandingCapacityPercentage;
 	}
+	
 }

@@ -28,6 +28,10 @@ public class showLineController implements Initializable {
 
     private Scene previousScene;
 	private ObservableList<BusLine> lineRow;
+
+    private void updateRows() {
+    	
+    }
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		lineRow = FXCollections.observableArrayList();
@@ -39,7 +43,6 @@ public class showLineController implements Initializable {
     
     @FXML
     public void goBack(ActionEvent event) {
-    	System.out.println("Funciono");
 		Stage stage = (Stage) lineTable.getScene().getWindow();
 		stage.close();
     }

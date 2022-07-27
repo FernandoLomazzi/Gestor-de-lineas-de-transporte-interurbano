@@ -2,15 +2,22 @@ package db.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.dao.BusLineDao;
+import db.dao.BusStopDao;
 import db.dao.DBConnection;
 import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import exceptions.busStop.BusStopNotFoundException;
 import models.BusStop;
+import models.Incident;
 import models.busline.BusLine;
 
 public class BusLineDaoPG implements BusLineDao{
@@ -25,7 +32,16 @@ public class BusLineDaoPG implements BusLineDao{
 	private static final String DELETE_SQL = 
 			"DELETE FROM BusLine " +
 			"WHERE name=?;";
-	
+	private static final String SELECT_SQL_CHEAP_LINES =
+			"SELECT Busline.name, color, seating_capacity, standing_capacity_percentage, standing_capacity" +
+			"FROM BusLine, CheapLine " +
+			"WHERE BusLine.name = CheapLine.name";
+	private static final String SELECT_SQL_PREMIUM_LINES_NO_SERVICES =
+			"SELECT BusLine.name, color, seating_capacity " +
+			"FROM BusLine, PremiumLine " +
+			"WHERE BusLine.name = PremiumLine.name";
+			
+					
 	@Override
 	public void addData(BusLine busLine) throws DBConnectionException, AddFailException{
 		try(Connection connection = DBConnection.getConnection()){
@@ -63,6 +79,37 @@ public class BusLineDaoPG implements BusLineDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public List<BusLine> getAllBusLines() {
+		List<BusLine> ret = new ArrayList<>();
+		try(Connection connection = DBConnection.getConnection()){
+			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_CHEAP_LINES)){
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					String name = rs.getString(1);
+					String color = rs.getString(2);
+					Integer seating_capacity = rs.getInt(3);
+					Double standing_capacity_porcentage = rs.getDouble(4);
+					
+					
+					Integer busNumber = rs.getInt(1);
+					LocalDate bDate = rs.getDate(2).toLocalDate();
+					LocalDate eDate = rs.getDate(3)==null?null:rs.getDate(3).toLocalDate();
+					String descr = rs.getString(4);
+					BusStopDao bsDao = new BusStopDaoPG();
+					BusStop busStop;
+					try {
+						busStop = bsDao.getBusStop(busNumber);
+					} catch (BusStopNotFoundException e) {
+						return null; // no deberia ocurrir
+					}
+					Incident incid = new Incident(busStop,bDate,eDate,descr,false);
+					ret.add(incid);					
+				}
+			}
 		}
 	}
 }
