@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import db.dao.BusLineDao;
+import db.dao.impl.BusLineDaoPG;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,12 +32,10 @@ public class showLineController implements Initializable {
     private Scene previousScene;
 	private ObservableList<BusLine> lineRow;
 
-    private void updateRows() {
-    	
-    }
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		lineRow = FXCollections.observableArrayList();
+    	BusLineDao busLineDao = new BusLineDaoPG();
+		lineRow = FXCollections.observableList(busLineDao.getAllBusLines());
 		lineTable.setItems(lineRow);
 		lineNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
