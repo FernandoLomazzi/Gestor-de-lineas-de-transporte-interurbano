@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import db.dao.BusLineDao;
@@ -13,10 +14,10 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
-import exceptions.busStop.BusStopNotFoundException;
-import models.Incident;
 import models.busline.BusLine;
 import models.busline.CheapLine;
+import models.busline.PremiumLine;
+import models.busline.PremiumLine.PremiumLineService;
 
 public class BusLineDaoPG implements BusLineDao{
 	private static final String INSERT_SQL =
@@ -31,7 +32,7 @@ public class BusLineDaoPG implements BusLineDao{
 			"DELETE FROM BusLine " +
 			"WHERE name=?;";
 	private static final String SELECT_SQL_CHEAP_LINES =
-			"SELECT Busline.name, color, seating_capacity, standing_capacity_percentage, standing_capacity" +
+			"SELECT Busline.name, color, seating_capacity, standing_capacity_percentage, standing_capacity " +
 			"FROM BusLine, CheapLine " +
 			"WHERE BusLine.name = CheapLine.name;";
 	private static final String SELECT_SQL_PREMIUM_LINES_NO_SERVICES =
@@ -99,23 +100,41 @@ public class BusLineDaoPG implements BusLineDao{
 					ret.add(cheapLine);
 				}
 			}
+			System.out.println("Premium");
 			//Para lineas premium
-			/*try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_PREMIUM_LINES_NO_SERVICES)){
+			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_PREMIUM_LINES_NO_SERVICES)){
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
+					//Primero se obtienen las lineas que son premium
 					String name = rs.getString(1);
 					String color = rs.getString(2);
 					Integer seating_capacity = rs.getInt(3);
 					
-					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
-					ret.add(cheapLine);
+					//Segundo se obtienen los servicios para cada linea premium
+					HashSet<PremiumLineService> services = new HashSet<PremiumLineService>();
+					try(PreparedStatement ps2 = connection.prepareStatement(SELECT_SQL_PREMIUM_LINE_SERVICES)) {
+						ps2.setString(1, name);
+						ResultSet rs2 = ps2.executeQuery();
+						while(rs2.next()) {
+							String service = rs2.getString(1);
+							if (service.equals(PremiumLineService.WIFI.toString())) {
+								services.add(PremiumLineService.WIFI);
+							}
+							else {
+								services.add(PremiumLineService.AIR_CONDITIONING);
+							}
+						}
+					}
+					PremiumLine premiumLine = new PremiumLine(name, color, seating_capacity, services);
+					ret.add(premiumLine);
 				}
-			}*/
+			}
 		}
 		catch(SQLException | DBConnectionException  e) {
-			//No estoy seguro
+			e.printStackTrace();
 			return null;
 		}
+		System.out.println(ret.size());
 		return ret;
 	}
 }

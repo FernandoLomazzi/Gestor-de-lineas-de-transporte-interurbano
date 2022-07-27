@@ -20,6 +20,10 @@ public class PremiumLine extends BusLine {
 		super();
 		services = new HashSet<PremiumLineService>();
 	}
+	public PremiumLine(String name, String color, Integer seatingCapacity, Set<PremiumLineService> services) {
+		super(name, color, seatingCapacity);
+		this.services = services;
+	}
 	public String getType() {
 		return "Superior";
 	}
