@@ -66,7 +66,7 @@ public class cityMapScreenController implements Initializable,returnScene{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		CityMapManager.getInstance();
+		borderPane.setCenter(CityMapManager.getInstance().getMapView());
 		//Reveer
 		modStopButton.setToggleGroup(stopGroup);
 		delStopButton.setToggleGroup(stopGroup);

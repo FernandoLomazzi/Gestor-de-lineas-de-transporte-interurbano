@@ -29,11 +29,10 @@ public class mainScreenController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cityMapScreen.fxml"));
 			BorderPane cityMapScreen = loader.load();
 			cityMapScreenController controller = loader.getController();
-			CityMapManager cityMapManager = CityMapManager.getInstance();
-			cityMapScreen.setCenter(cityMapManager.getMapView());
 			Scene scene = new Scene(cityMapScreen);
 			controller.setPrevScene(cityMapButton.getScene());
-            mainStage.setScene(scene);            
+            mainStage.setScene(scene);
+			CityMapManager cityMapManager = CityMapManager.getInstance();
             cityMapManager.initView();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -46,13 +45,11 @@ public class mainScreenController {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/busLineScreen.fxml"));
 			BorderPane busLineScreen = loader.load();
 			busLineScreenController controller = loader.getController();
-			LineMapManager lineMapManager = new LineMapManager();
-			busLineScreen.setCenter(lineMapManager.getMapView());
 			Scene scene = new Scene(busLineScreen);
 			controller.setPrevScene(lineScreenButton.getScene());
 			mainStage.setTitle("Menú Lineas");
 			mainStage.setScene(scene);
-			lineMapManager.initView();
+			controller.getLineMapManager().initView();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

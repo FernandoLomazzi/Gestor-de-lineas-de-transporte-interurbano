@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 
-public class EstimatedTimeRouteController implements Initializable{
+public class EstimatedTimeRouteController{
 	@FXML
 	private Button addRouteLineButton;
 	@FXML
@@ -28,9 +28,8 @@ public class EstimatedTimeRouteController implements Initializable{
 	private BusLineRoute routeLine;
 	private Boolean newRoute;
 	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		newRoute=false;
+	public EstimatedTimeRouteController() {
+		newRoute = false;
 	}
 	public void setBusLineRoute(BusLineRoute routeLine) {
 		this.routeLine=routeLine;

@@ -49,11 +49,12 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 		selectorManager.setBusline(busLine);
 		selectorManager.initView();
 	}
+	public LineRouteSelectorController() {
+		selectorManager = new LineMapSelectorManager();
+	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		System.out.println("HOLAAAA");
-		selectorManager = new LineMapSelectorManager();
 		borderPane.setCenter(selectorManager.getMapView());
 		selectorManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
 			BusLineRoute busLineRoute = new BusLineRoute(selectorManager.getBusLine(),ed.getUnderlyingEdge().element()); 
