@@ -39,7 +39,7 @@ public class Route {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Route)) {
+		if (!(obj instanceof Route) || obj instanceof BusLineRoute) {
 			return false;
 		}
 		Route other = (Route) obj;

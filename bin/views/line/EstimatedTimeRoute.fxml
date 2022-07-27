@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="211.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.line.EstimatedTimeRouteController">
    <children>
       <Button fx:id="addRouteLineButton" layoutX="163.0" layoutY="138.0" mnemonicParsing="false" onAction="#addRouteLine" text="Agregar Calle" />

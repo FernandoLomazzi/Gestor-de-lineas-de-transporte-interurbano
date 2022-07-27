@@ -12,7 +12,7 @@ INSERT INTO Route VALUES
 (4,5,2.75);
 
 INSERT INTO BusLine VALUES
-('Linea1','Rojo',10);
+('Linea1','0x16a216',10);
 
 INSERT INTO BusLineRoute VALUES
 ('Linea1',1,2,10.0);

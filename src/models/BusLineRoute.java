@@ -1,6 +1,9 @@
 package models;
 
+import java.util.Objects;
+
 import models.busline.BusLine;
+import src.com.brunomnsilva.smartgraph.graphview.SmartLabelSource;
 
 public class BusLineRoute extends Route{
 	private BusLine busLine;
@@ -17,6 +20,41 @@ public class BusLineRoute extends Route{
 		this.route = route;
 		this.estimatedTime = estimatedTime;
 	}
+	
+	@SmartLabelSource
+	public String routeLineLabel() { 
+		return String.format("%sh%sm%ss", this.hours(),this.minutes(),this.seconds());
+	}
+	private Integer hours() {
+		return estimatedTime/3600;
+	}
+	private Integer minutes() {
+		return (estimatedTime%3600)/60;
+	}
+	private Integer seconds() {
+		return estimatedTime%60;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(busLine, route);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof BusLineRoute)) {
+			return false;
+		}
+		BusLineRoute other = (BusLineRoute) obj;
+		return Objects.equals(busLine, other.busLine) && Objects.equals(route, other.route);
+	}
+	@Override
+	public String toString() {
+		return route.toString();
+	}
+
 	public Double getDistanceInKM() {
 		return route.getDistanceInKM();
 	}

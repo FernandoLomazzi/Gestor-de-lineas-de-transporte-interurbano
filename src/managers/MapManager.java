@@ -58,4 +58,12 @@ public abstract class MapManager {
 	public void initView() {
 		mapView.init();
 	}
+	protected void setVertexStyle(BusStop busStop,String style) {
+		mapView.getStylableVertex(busStop).setStyle(style);
+	}
+	protected void setEdgeStyle(Route route,String style) {
+		SmartGraphEdge<Route,BusStop> ed = (SmartGraphEdge<Route,BusStop>) mapView.getStylableEdge(route);
+		ed.setStyle(style);
+		ed.getStylableArrow().setStyle(style);
+	}
 }
