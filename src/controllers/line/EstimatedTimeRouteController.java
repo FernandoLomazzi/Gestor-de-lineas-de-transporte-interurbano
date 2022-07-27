@@ -35,9 +35,6 @@ public class EstimatedTimeRouteController implements Initializable{
 	public void setBusLineRoute(BusLineRoute routeLine) {
 		this.routeLine=routeLine;
 	}
-	public BusLineRoute getBusLineRoute() {
-		return routeLine;
-	}
 	public Boolean isNewRoute() {
 		return newRoute;
 	}

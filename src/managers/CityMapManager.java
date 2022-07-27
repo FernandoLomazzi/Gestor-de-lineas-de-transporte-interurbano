@@ -80,13 +80,13 @@ public class CityMapManager extends MapManager{
         	}
         });
 	}
-	private void setStyleStopMap(BusStop busStop,String stopStlye,String routeStyle) {
-		mapView.getStylableVertex(busStop).setStyle(stopStlye);
+	private void setStyleStopMap(BusStop busStop,String stopStyle,String routeStyle) {
+		this.setVertexStyle(busStop, stopStyle);
 		map.incidentEdges(busStop).forEach((Edge<Route, BusStop> ed) -> {
-			mapView.getStylableEdge(ed).setStyle(routeStyle);
+			this.setEdgeStyle(ed.element(), routeStyle);
 		});
 		map.outboundEdges(busStop).forEach((Edge<Route, BusStop> ed) -> {
-			mapView.getStylableEdge(ed).setStyle(routeStyle);
+			this.setEdgeStyle(ed.element(), routeStyle);
 		});
 		this.updateMapView();
 	}

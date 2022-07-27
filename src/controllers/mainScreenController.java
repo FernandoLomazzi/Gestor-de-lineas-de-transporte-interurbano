@@ -34,6 +34,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
@@ -43,6 +44,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import managers.AlertManager;
 import managers.CityMapManager;
 import models.BusStop;
 import models.Route;
@@ -129,11 +131,7 @@ public class mainScreenController implements Initializable{
 						busStopDao.deleteData(v.getUnderlyingVertex().element());
 				    	cityMapManager.deleteStopMap(v.getUnderlyingVertex());
 					} catch (DeleteFailException|DBConnectionException e) {
-						Alert alert2 = new Alert(Alert.AlertType.ERROR);
-					    alert2.setHeaderText(null);
-					    alert2.setTitle("Error");
-					    alert2.setContentText(e.getMessage());
-					    alert2.showAndWait();
+						AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 					}
 			    }
 			});
@@ -205,7 +203,7 @@ public class mainScreenController implements Initializable{
 		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(delRouteButton.isSelected()) {
 			cityMapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) -> {
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				Alert alert = new Alert(AlertType.CONFIRMATION);
 			    alert.setHeaderText(null);
 			    alert.setTitle("Eliminación de Calle");
 			    alert.setContentText("Desea eliminar la calle que conecta "+ed.getUnderlyingEdge().element()+"?");
@@ -216,11 +214,7 @@ public class mainScreenController implements Initializable{
 						routeDao.deleteData(ed.getUnderlyingEdge().element());
 						cityMapManager.deleteRouteMap(ed.getUnderlyingEdge());
 					} catch (DeleteFailException|DBConnectionException e) {
-						Alert alert2 = new Alert(Alert.AlertType.ERROR);
-					    alert2.setHeaderText(null);
-					    alert2.setTitle("Error");
-					    alert2.setContentText(e.getMessage());
-					    alert2.showAndWait();
+						AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
 					}
 			    }
 			});

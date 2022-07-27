@@ -5,7 +5,7 @@ CREATE TYPE PremiumLineService AS ENUM (
 
 CREATE TABLE BusLine (
 	name varchar(50) PRIMARY KEY CHECK (LENGTH(name)>0),
-	color varchar(20) NOT NULL,
+	color varchar(20) NOT NULL UNIQUE,
 	seating_capacity integer NOT NULL
 );
 

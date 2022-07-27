@@ -1,5 +1,10 @@
 package models.busline;
 
+import java.util.List;
+
+import models.BusLineRoute;
+import models.BusLineStop;
+
 public class CheapLine extends BusLine {
 	private Integer standingCapacity; // derived
 	private Double standingCapacityPercentage;
@@ -11,6 +16,9 @@ public class CheapLine extends BusLine {
 	}
 	public CheapLine(String name,String color) {
 		super(name,color);
+	}
+	public CheapLine(List<BusLineStop> busStops,List<BusLineRoute> routes) {
+		super(busStops,routes);
 	}
 	public Double getStandingCapacityPercentage() {
 		return standingCapacityPercentage;
