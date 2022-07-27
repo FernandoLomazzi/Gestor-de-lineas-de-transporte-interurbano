@@ -15,20 +15,21 @@ public class PremiumLine extends BusLine {
 	private Set<PremiumLineService> services;
 	private static final Double ticketPercentagePerUse = 0.1;
 	private static final Double ticketPercentagePerService = 0.05;
+
 	public PremiumLine() {
 		super();
-		services = EnumSet.allOf(PremiumLineService.class);
+		services = new HashSet<PremiumLineService>();
 	}
 	public String getType() {
 		return "Superior";
 	}
 	protected PremiumLine(String name,String color) {
 		super(name,color);
-		services = new HashSet<>();
+		services = new HashSet<PremiumLineService>();
 	}
 	public PremiumLine(List<BusLineStop> busStops,List<BusLineRoute> routes) {
 		super(busStops,routes);
-		services = new HashSet<>();
+		services = new HashSet<PremiumLineService>();
 	}
     public Set<PremiumLineService> getServices() {
         return services;

@@ -33,12 +33,15 @@ public class BusLineDaoPG implements BusLineDao{
 	private static final String SELECT_SQL_CHEAP_LINES =
 			"SELECT Busline.name, color, seating_capacity, standing_capacity_percentage, standing_capacity" +
 			"FROM BusLine, CheapLine " +
-			"WHERE BusLine.name = CheapLine.name";
+			"WHERE BusLine.name = CheapLine.name;";
 	private static final String SELECT_SQL_PREMIUM_LINES_NO_SERVICES =
 			"SELECT BusLine.name, color, seating_capacity " +
 			"FROM BusLine, PremiumLine " +
-			"WHERE BusLine.name = PremiumLine.name";
-			
+			"WHERE BusLine.name = PremiumLine.name;";
+	private static final String SELECT_SQL_PREMIUM_LINE_SERVICES = 
+			"SELECT name_service " +
+			"FROM PremiumLineServices " +
+			"WHERE name_line = ?;";
 					
 	@Override
 	public void addData(BusLine busLine) throws DBConnectionException, AddFailException{
@@ -95,8 +98,19 @@ public class BusLineDaoPG implements BusLineDao{
 					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
 					ret.add(cheapLine);
 				}
-			//Para lineas premim
 			}
+			//Para lineas premium
+			/*try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_PREMIUM_LINES_NO_SERVICES)){
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					String name = rs.getString(1);
+					String color = rs.getString(2);
+					Integer seating_capacity = rs.getInt(3);
+					
+					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
+					ret.add(cheapLine);
+				}
+			}*/
 		}
 		catch(SQLException | DBConnectionException  e) {
 			//No estoy seguro
