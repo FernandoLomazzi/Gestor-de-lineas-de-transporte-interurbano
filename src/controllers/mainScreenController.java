@@ -263,6 +263,4 @@ public class mainScreenController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-
-
 }

@@ -114,6 +114,10 @@ public class LineRouteSelectorController implements Initializable{
 	@FXML
 	public void save(ActionEvent event) {
 		BusLine busLine = selectorManager.getBusLine();
+		if(busLine.getRoutes().isEmpty()) {
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar al menos una calle para el recorrido.");
+			return;
+		}
 		if(busLine instanceof CheapLine) {
 			CheapLineDao cheapLineDao = new CheapLineDaoPG();
 			try {
