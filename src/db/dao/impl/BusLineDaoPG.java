@@ -98,7 +98,7 @@ public class BusLineDaoPG implements BusLineDao{
 			//Para lineas premim
 			}
 		}
-		catch(SQLException e) {
+		catch(SQLException | DBConnectionException  e) {
 			//No estoy seguro
 			return null;
 		}
