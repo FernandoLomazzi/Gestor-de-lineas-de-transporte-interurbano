@@ -64,6 +64,8 @@ public class addRouteController implements Initializable{
 		Double distance;
 		try {
 			distance = Double.parseDouble(distanceField.getText().trim());
+			if(distance<=0)
+				throw new NumberFormatException("Ingrese una distancia válida");
 		}catch(NumberFormatException|NullPointerException e) {
 			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.");
 			return;

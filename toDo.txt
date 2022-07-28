@@ -27,3 +27,4 @@ Quizá agregar on delete cascade en las tablas (foreign key)
 
 Si seteo los valores y después crashea la base de datos cambié el valor por uno que no deberia ir
 mapManager no tendria que tener getters de mapView y map
+Hacer que no pare en una parada la linea

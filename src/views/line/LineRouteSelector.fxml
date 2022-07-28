@@ -8,7 +8,7 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnScene" text="Volver" />
+            <Button fx:id="goToPrevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" />
             <Button fx:id="cleanRoutesButton" mnemonicParsing="false" onAction="#cleanRoutes" text="Limpiar Trayecto" />
             <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Guardar Línea" />
          </children>

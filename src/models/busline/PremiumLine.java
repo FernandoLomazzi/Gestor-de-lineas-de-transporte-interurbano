@@ -24,9 +24,6 @@ public class PremiumLine extends BusLine {
 		super(name, color, seatingCapacity);
 		this.services = services;
 	}
-	public String getType() {
-		return "Superior";
-	}
 	protected PremiumLine(String name,String color) {
 		super(name,color);
 		services = new HashSet<PremiumLineService>();
@@ -34,6 +31,9 @@ public class PremiumLine extends BusLine {
 	public PremiumLine(List<BusLineStop> busStops,List<BusLineRoute> routes) {
 		super(busStops,routes);
 		services = new HashSet<PremiumLineService>();
+	}
+	public String getType() {
+		return "Superior";
 	}
     public Set<PremiumLineService> getServices() {
         return services;

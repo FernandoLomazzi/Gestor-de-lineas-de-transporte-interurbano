@@ -34,8 +34,11 @@ public class CityMapManager extends MapManager{
 	public static final String disabledStopStyle = "-fx-fill: #C3D3DB;-fx-stroke: #A8C5D9;";
 	public static final String enabledRouteStyle = "-fx-stroke: #FF6D66;";
 	public static final String disabledRouteStyle = "-fx-stroke: #FFA19D;";
-
+	
+	private Boolean initialized;
+	
 	private CityMapManager() {
+		this.initialized = false;
 		map = new DigraphEdgeList<>();
 		BusStopDao busStopDao = new BusStopDaoPG();
 		RouteDao routeDao = new RouteDaoPG();
@@ -51,6 +54,7 @@ public class CityMapManager extends MapManager{
 		busStops.forEach(b -> map.insertVertex(b));
 		routes.forEach(r -> map.insertEdge(r.getSourceStop(), r.getDestinationStop(), r));
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
+		mapView.setAutomaticLayout(true);
 	}
 	
 	public static CityMapManager getInstance() {
@@ -73,7 +77,15 @@ public class CityMapManager extends MapManager{
 	public void disableStyleStop(BusStop busStop) {
 		setStyleStopMap(busStop,disabledStopStyle,disabledRouteStyle);
 	}
-	public void initStyleMap() {
+	@Override
+	public void initView() {
+		if(initialized) 
+			return;
+		mapView.init();
+		initStyleMap();
+		initialized = true;
+	}
+	private void initStyleMap() {
         map.vertices().forEach((Vertex<BusStop> b) -> {
         	if(!b.element().isEnabled()) {
         		this.setStyleStopMap(b.element(),disabledStopStyle,disabledRouteStyle);

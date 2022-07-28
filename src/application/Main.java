@@ -9,6 +9,7 @@ import src.com.brunomnsilva.smartgraph.graph.Vertex;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 import controllers.line.LineRouteSelectorController;
@@ -28,6 +29,7 @@ import models.Incident;
 import models.Route;
 import models.busline.BusLine;
 import models.busline.CheapLine;
+import models.busline.PremiumLine.PremiumLineService;
 import models.utils.MyHeap;
 import models.utils.SelectTwoStop;
 import javafx.scene.Parent;
@@ -42,34 +44,15 @@ import javafx.scene.layout.Region;
 
 
 public class Main extends Application {
-	/*@Override
-	public void start(Stage primaryStage) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainScreen.fxml"));
-			BorderPane root = loader.load();
-			MapManager mapManager = MapManager.getInstance();
-			root.setCenter(mapManager.getMapView());
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("MainScreen");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            mapManager.getMapView().init();
-            mapManager.initStyleMap();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}*/
+	public static Stage mainStage;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/line/LineRouteSelector.fxml"));
-			BorderPane root = loader.load();
-			LineRouteSelectorController controller = loader.getController();
+			mainStage = primaryStage; 
+			AnchorPane root = FXMLLoader.load(getClass().getResource("/views/mainScreen.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.show();
-            controller.init(new CheapLine("LINEA 1","0x16a216"));
-            
+            primaryStage.show();            
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

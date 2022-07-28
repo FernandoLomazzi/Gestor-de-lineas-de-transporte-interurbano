@@ -51,9 +51,9 @@ public class modBusStopController{
 	@FXML
 	public void modifyStop(ActionEvent event) {	
 		BusStopDao busStopDao = new BusStopDaoPG();
-		busStop.setStopNumber(Integer.parseInt(stopNumberField.getText().trim()));
+		busStop.setStopNumber(Integer.parseUnsignedInt(stopNumberField.getText().trim()));
 		busStop.setStopStreetName(stopStreetField.getText().trim());
-		busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText().trim()));
+		busStop.setStopStreetNumber(Integer.parseUnsignedInt(stopStreetNumberField.getText().trim()));
 		try {
 			busStopDao.modifyData(busStop);
 			CityMapManager cityMapManager = CityMapManager.getInstance();
