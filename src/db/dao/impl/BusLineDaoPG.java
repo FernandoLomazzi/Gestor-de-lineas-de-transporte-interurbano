@@ -28,7 +28,7 @@ public class BusLineDaoPG implements BusLineDao{
 	private static final String DELETE_SQL = 
 			"DELETE FROM BusLine " +
 			"WHERE name=?;";
-	private static final String SELECT_SQL_CHEAP_LINES =
+	/*private static final String SELECT_SQL_CHEAP_LINES =
 			"SELECT Busline.name, color, seating_capacity, standing_capacity_percentage, standing_capacity " +
 			"FROM BusLine, CheapLine " +
 			"WHERE BusLine.name = CheapLine.name;";
@@ -40,7 +40,7 @@ public class BusLineDaoPG implements BusLineDao{
 			"SELECT name_service " +
 			"FROM PremiumLineServices " +
 			"WHERE name_line = ?;";
-					
+	*/
 	@Override
 	public void addData(BusLine busLine) throws DBConnectionException, AddFailException{
 		try(Connection connection = DBConnection.getConnection()){
@@ -146,6 +146,10 @@ public class BusLineDaoPG implements BusLineDao{
 		catch (DBConnectionException e) {
 			throw e;
 		}
+		
+		for(BusLine busLine : ret) {
+			
+		}
 		return ret;
 	}
 	
@@ -154,6 +158,10 @@ public class BusLineDaoPG implements BusLineDao{
 				"INSERT INTO BusLineRoute " +
 				"(bus_line_name, source_stop_number, destination_stop_number, estimated_time) " +
 				"VALUES (?, ?, ?, ?)";
+		private static final String SELECT_SQL = 
+				"SELECT bus_line_name, source_stop_number, destination_stop_number, estimated_time " +
+				"FROM BusLineRoute " +
+				"WHERE bus_line_name = 'Linea1';";
 
 		public void addData(BusLine t) throws DBConnectionException {
 			for(BusLineRoute busLineRoute : t.getRoutes()) {
@@ -170,6 +178,10 @@ public class BusLineDaoPG implements BusLineDao{
 					throw new DBConnectionException("Error inesperado");
 				}
 			}
+		}
+		
+		public List<BusLineRoute> getAllBusLineRoutesFor(BusLine t) {
+			
 		}
 	}
 	
