@@ -62,7 +62,21 @@ public class busLineScreenController {
 
     @FXML
     void modifyBusLine(ActionEvent event) {
-
+      	Stage stage = new Stage();
+    	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
+    	try {
+    		AnchorPane root = loader.load();
+    		Scene scene = new Scene(root);
+    		stage.initModality(Modality.APPLICATION_MODAL);
+    		stage.setTitle("Modificar Linea");
+    		stage.setScene(scene);
+    		stage.setMaximized(false);
+    		stage.setResizable(false);
+    		stage.showAndWait();
+    	}
+    	catch(IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
 }
