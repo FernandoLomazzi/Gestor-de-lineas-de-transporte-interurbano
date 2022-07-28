@@ -14,6 +14,8 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import models.BusLineRoute;
+import models.BusLineStop;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
@@ -56,6 +58,10 @@ public class BusLineDaoPG implements BusLineDao{
 		} catch (SQLException e) {
 			throw new AddFailException("La linea " + busLine.getName() + " ya se encuentra en el sistema");
 		}
+		BusLineStopDaoPG busLineStopDaoPG = new BusLineStopDaoPG();
+		busLineStopDaoPG.addData(busLine);
+		BusLineRouteDaoPG busLineRouteDaoPG = new BusLineRouteDaoPG();
+		busLineRouteDaoPG.addData(busLine);
 	}
 	
 	@Override
@@ -136,5 +142,51 @@ public class BusLineDaoPG implements BusLineDao{
 		}
 		System.out.println(ret.size());
 		return ret;
+	}
+	
+	private class BusLineRouteDaoPG {
+		private static final String INSERT_SQL = 
+				"INSERT INTO BusLineRoute " +
+				"(bus_line_name, source_stop_number, destination_stop_number, estimated_time) " +
+				"VALUES (?, ?, ?, ?)";
+
+		public void addData(BusLine t) throws DBConnectionException {
+			for(BusLineRoute busLineRoute : t.getRoutes()) {
+				try(Connection connection = DBConnection.getConnection()){
+					try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
+						ps.setString(1, busLineRoute.getBusLine().getName());
+						ps.setInt(2, busLineRoute.getRoute().getSourceStopNumber());
+						ps.setInt(3, busLineRoute.getRoute().getDestinationStopNumber());
+						ps.setInt(4, busLineRoute.getEstimatedTime());
+						ps.executeUpdate();
+					} 
+				}
+				catch (Exception e) {
+					throw new DBConnectionException("Error inesperado");
+				}
+			}
+		}
+	}
+	
+	private class BusLineStopDaoPG {
+		private static final String INSERT_SQL =
+				"INSERT INTO BusLineStop " + 
+				"(bus_line_name, stop_number, stops) " +
+				"VALUES (?, ?, ?);";
+
+		public void addData(BusLine t) throws DBConnectionException {
+			for (BusLineStop busLineStop : t.getBusStops())
+			try(Connection connection = DBConnection.getConnection()){
+				try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
+					ps.setString(1, busLineStop.getBusLine().getName());
+					ps.setInt(2, busLineStop.getBusStop().getStopNumber());
+					ps.setBoolean(3, busLineStop.stops());
+					ps.executeUpdate();
+				} 
+			}
+			catch (Exception e) {
+				throw new DBConnectionException("Error inesperado");
+			}
+		}
 	}
 }
