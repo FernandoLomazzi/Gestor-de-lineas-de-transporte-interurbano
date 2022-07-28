@@ -2,10 +2,8 @@ package db.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import db.dao.BusLineDao;
@@ -17,9 +15,6 @@ import exceptions.ModifyFailException;
 import models.BusLineRoute;
 import models.BusLineStop;
 import models.busline.BusLine;
-import models.busline.CheapLine;
-import models.busline.PremiumLine;
-import models.busline.PremiumLine.PremiumLineService;
 
 public class BusLineDaoPG implements BusLineDao{
 	private static final String INSERT_SQL =
@@ -91,8 +86,8 @@ public class BusLineDaoPG implements BusLineDao{
 	}
 	
 	@Override
-	public List<BusLine> getAllBusLines() {
-		List<BusLine> ret = new ArrayList<>();
+	public List<BusLine> getAllBusLines() throws DBConnectionException{
+		/*List<BusLine> ret = new ArrayList<>();
 		try(Connection connection = DBConnection.getConnection()){
 			//Para lineas economicas
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_CHEAP_LINES)){
@@ -140,7 +135,17 @@ public class BusLineDaoPG implements BusLineDao{
 			e.printStackTrace();
 			return null;
 		}
-		System.out.println(ret.size());
+		System.out.println(ret.size());*/
+		ArrayList<BusLine> ret = new ArrayList<>();
+		PremiumLineDaoPG premiumLineDaoPG = new PremiumLineDaoPG();
+		CheapLineDaoPG cheapLineDaoPG = new CheapLineDaoPG();
+		try {
+			ret.addAll(premiumLineDaoPG.getAllPremiumLines());
+			ret.addAll(cheapLineDaoPG.getAllCheapLines());
+		}
+		catch (DBConnectionException e) {
+			throw e;
+		}
 		return ret;
 	}
 	

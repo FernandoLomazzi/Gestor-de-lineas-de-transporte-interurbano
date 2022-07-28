@@ -2,7 +2,10 @@ package db.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.dao.CheapLineDao;
 import db.dao.DBConnection;
@@ -24,6 +27,10 @@ public class CheapLineDaoPG implements CheapLineDao{
 	private static final String DELETE_SQL = 
 			"DELETE FROM CheapLine " +
 			"WHERE name=?;";
+	private static final String SELECT_SQL_CHEAP_LINES =
+			"SELECT Busline.name, color, seating_capacity, standing_capacity_percentage, standing_capacity " +
+			"FROM BusLine, CheapLine " +
+			"WHERE BusLine.name = CheapLine.name;";
 	
 	@Override
 	public void addData(CheapLine cheapLine) throws AddFailException, DBConnectionException {
@@ -72,6 +79,27 @@ public class CheapLineDaoPG implements CheapLineDao{
 			e.printStackTrace();
 			//Se supone que es él padre quien produce el error.
 		}
+	}
+	
+	public List<CheapLine> getAllCheapLines() throws DBConnectionException {
+		ArrayList<CheapLine> ret = new ArrayList<>();
+		try(Connection connection = DBConnection.getConnection()) {
+			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_CHEAP_LINES)){
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					String name = rs.getString(1);
+					String color = rs.getString(2);
+					Integer seating_capacity = rs.getInt(3);
+					Double standing_capacity_porcentage = rs.getDouble(4);
+					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
+					ret.add(cheapLine);
+				}
+			}
+		}
+		catch(SQLException | DBConnectionException  e) {
+			throw new DBConnectionException("Error en CheapLineDaoPG.getAllCheapLines()");
+		}
+		return ret;
 	}
 }
 
