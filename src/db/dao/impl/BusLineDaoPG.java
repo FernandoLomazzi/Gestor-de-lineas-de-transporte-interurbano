@@ -14,6 +14,7 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import javafx.scene.paint.Color;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
@@ -49,7 +50,7 @@ public class BusLineDaoPG implements BusLineDao{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setString(1, busLine.getName());
-				ps.setString(2, busLine.getColor());
+				ps.setString(2, busLine.getColor().toString());
 				ps.setInt(3, busLine.getSeatingCapacity());
 				ps.executeUpdate();
 			}
@@ -63,7 +64,7 @@ public class BusLineDaoPG implements BusLineDao{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setString(1, busLine.getName());
-				ps.setString(2, busLine.getColor());
+				ps.setString(2, busLine.getColor().toString());
 				ps.setInt(3, busLine.getSeatingCapacity());
 				ps.executeUpdate();
 			}
@@ -93,7 +94,7 @@ public class BusLineDaoPG implements BusLineDao{
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					String name = rs.getString(1);
-					String color = rs.getString(2);
+					Color color = Color.valueOf(rs.getString(2));
 					Integer seating_capacity = rs.getInt(3);
 					Double standing_capacity_porcentage = rs.getDouble(4);
 					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
@@ -107,7 +108,7 @@ public class BusLineDaoPG implements BusLineDao{
 				while(rs.next()) {
 					//Primero se obtienen las lineas que son premium
 					String name = rs.getString(1);
-					String color = rs.getString(2);
+					Color color = Color.valueOf(rs.getString(2));
 					Integer seating_capacity = rs.getInt(3);
 					
 					//Segundo se obtienen los servicios para cada linea premium

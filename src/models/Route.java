@@ -7,6 +7,9 @@ public class Route {
 	private BusStop sourceStop,destinationStop;
 	private Double distanceInKM;
 
+	private static String defaultStyle = "-fx-stroke: #FF6D66;";
+	private static String disabledStyle = "-fx-stroke: #FFA19D;";
+	
 	public enum distanceUnits{
 		Kilómetros,Metros,Millas
 	}
@@ -18,6 +21,12 @@ public class Route {
 		this.sourceStop = sourceStop;
 		this.destinationStop = destinationStop;
 		this.distanceInKM = distanceInKM;
+	}
+	public static String getDefaultStyle() {
+		return Route.defaultStyle;
+	}
+	public static String getDisabledStyle() {
+		return Route.disabledStyle;
 	}
 	@SmartLabelSource
 	public String routeLabel() {

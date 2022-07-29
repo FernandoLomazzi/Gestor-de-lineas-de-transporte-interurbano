@@ -24,7 +24,9 @@ public class BusLineStop {
 	public BusStop getBusStop() {
 		return busStop;
 	}
-
+	public void toggleStops() {
+		stops ^= true;
+	}
 	public Boolean stops() {
 		return stops;
 	}

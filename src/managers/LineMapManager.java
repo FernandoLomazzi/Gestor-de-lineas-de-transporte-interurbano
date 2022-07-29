@@ -29,7 +29,7 @@ public class LineMapManager extends MapManager{
 		super.initView();
 		mapView.updateAndWait();
 		for(BusLine busLine: busLines) {
-			String styleEdge = "-fx-stroke: #"+busLine.getColor().substring(2)+";";
+			String styleEdge = "-fx-stroke: #"+busLine.getColorStyle()+";";
 			busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, styleEdge));	
 		}
 		this.updateMapView();

@@ -30,6 +30,7 @@ import models.Route;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
+import src.com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 
 public class LineRouteSelectorController implements Initializable,returnScene{
@@ -57,6 +58,8 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		borderPane.setCenter(selectorManager.getMapView());
 		selectorManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
+			if(ed.getUnderlyingEdge().element() instanceof BusLineRoute)
+				return;
 			BusLineRoute busLineRoute = new BusLineRoute(selectorManager.getBusLine(),ed.getUnderlyingEdge().element()); 
 			if(!selectorManager.contains(busLineRoute)) {
 				try {
@@ -78,23 +81,25 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 				}
 			}
 		});
+		selectorManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> b) -> 
+			selectorManager.toggleStop(b.getUnderlyingVertex().element()));
 	}
 	public void checkRoutePath(BusLineRoute newRoute) {
 		BusLine busLine = selectorManager.getBusLine();
 		if(busLine.getRoutes().isEmpty()) {
-			busLine.addNewStopLine(newRoute.getSourceStop());
-			busLine.addNewStopLine(newRoute.getDestinationStop());
+			selectorManager.addStopLine(newRoute.getSourceStop());
+			selectorManager.addStopLine(newRoute.getDestinationStop());
 			selectorManager.addRouteLine(newRoute);
 		}
 		else {
 			BusStop firstStop = busLine.getBeginStop();
 			BusStop endStop = busLine.getEndStop();
-			if(firstStop.equals(newRoute.getDestinationStop())) {
-				busLine.addNewStopLine(newRoute.getSourceStop());
+			if(firstStop.equals(newRoute.getDestinationStop()) && !selectorManager.contains(newRoute.getSourceStop())) {
+				selectorManager.addStopLine(newRoute.getSourceStop());
 				selectorManager.addRouteLine(newRoute);
 			}
-			else if(endStop.equals(newRoute.getSourceStop())) {
-				busLine.addNewStopLine(newRoute.getDestinationStop());
+			else if(endStop.equals(newRoute.getSourceStop()) && !selectorManager.contains(newRoute.getDestinationStop())) {
+				selectorManager.addStopLine(newRoute.getDestinationStop());
 				selectorManager.addRouteLine(newRoute);
 			}
 			else {

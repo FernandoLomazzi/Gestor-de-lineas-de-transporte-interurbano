@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javafx.scene.paint.Color;
 import models.BusLineRoute;
 import models.BusLineStop;
 
@@ -20,11 +21,11 @@ public class PremiumLine extends BusLine {
 		super();
 		services = new HashSet<PremiumLineService>();
 	}
-	public PremiumLine(String name, String color, Integer seatingCapacity, Set<PremiumLineService> services) {
+	public PremiumLine(String name, Color color, Integer seatingCapacity, Set<PremiumLineService> services) {
 		super(name, color, seatingCapacity);
 		this.services = services;
 	}
-	protected PremiumLine(String name,String color) {
+	protected PremiumLine(String name,Color color) {
 		super(name,color);
 		services = new HashSet<PremiumLineService>();
 	}

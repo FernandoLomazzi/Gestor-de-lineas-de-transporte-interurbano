@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javafx.scene.paint.Color;
 import models.BusLineRoute;
 import models.BusLineStop;
 import models.BusStop;
@@ -151,7 +152,7 @@ public class auxiliar extends MapManager{
 		Route r6 = new Route(b2,b4,0.0);
 		Route r7 = new Route(b4,b6,0.0);
 		Route r8 = new Route(b5,b6,0.0);
-		BusLine bl1 = new CheapLine("l1","rojo");
+		BusLine bl1 = new CheapLine("l1",Color.RED);
 		BusLineRoute blrRojo = new BusLineRoute(bl1,r2,2);
 		BusLineRoute blrRojo2 = new BusLineRoute(bl1,r3,1);
 		BusLineStop blsRojo = new BusLineStop(bl1,b1,true);
@@ -163,7 +164,7 @@ public class auxiliar extends MapManager{
 		bl1.getRoutes().add(blrRojo);
 		bl1.getRoutes().add(blrRojo2);
 		
-		BusLine bl2 = new CheapLine("l2","naranja");
+		BusLine bl2 = new CheapLine("l2",Color.ORANGE);
 		BusLineRoute blrNar = new BusLineRoute(bl2,r1,4);
 		BusLineRoute blrNar2 = new BusLineRoute(bl2,r6,2);
 		BusLineRoute blrNar3 = new BusLineRoute(bl2,r7,4);
@@ -179,7 +180,7 @@ public class auxiliar extends MapManager{
 		bl2.getRoutes().add(blrNar2);
 		bl2.getRoutes().add(blrNar3);		
 		
-		BusLine bl3 = new CheapLine("l3","azul");
+		BusLine bl3 = new CheapLine("l3",Color.BLUE);
 		BusLineRoute blrAzul = new BusLineRoute(bl3,r2,4);
 		BusLineRoute blrAzul2 = new BusLineRoute(bl3,r4,10);
 		BusLineRoute blrAzul3 = new BusLineRoute(bl3,r8,3);
@@ -195,7 +196,7 @@ public class auxiliar extends MapManager{
 		bl3.getRoutes().add(blrAzul2);
 		bl3.getRoutes().add(blrAzul3);
 		
-		BusLine bl4 = new CheapLine("l4","verde");
+		BusLine bl4 = new CheapLine("l4",Color.GREEN);
 		BusLineRoute blrVerde = new BusLineRoute(bl4,r1,10);
 		BusLineRoute blrVerde2 = new BusLineRoute(bl4,r5,1);
 		BusLineStop blsVerde = new BusLineStop(bl4,b1,true);

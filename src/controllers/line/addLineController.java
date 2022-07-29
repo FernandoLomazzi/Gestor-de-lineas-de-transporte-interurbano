@@ -113,7 +113,7 @@ public class addLineController implements Initializable{
     			setRouteLine();
     		}
     	}
-    }  
+    }
     
     public void setRouteLine() {		
 		try {
@@ -137,7 +137,7 @@ public class addLineController implements Initializable{
 				throw new EmptyFieldException("Nombre vacio");
 			}
 	    	busLine.setName(lineNameField.getText().trim());
-	    	busLine.setColor(lineColorField.getValue().toString());
+	    	busLine.setColor(lineColorField.getValue());
 	    	busLine.setSeatingCapacity(Integer.parseUnsignedInt(lineSeatingCapacityField.getText().trim()));
 			if (!linePremiumWifiBox.isSelected() && !linePremiumAirBox.isSelected()) {
 				throw new IncompleteFieldException("Debe seleccionar al menos un servicio");
@@ -166,7 +166,7 @@ public class addLineController implements Initializable{
     			throw new EmptyFieldException("Nombre vacio");
     		}
     		busLine.setName(lineNameField.getText().trim());
-    		busLine.setColor(lineColorField.getValue().toString());
+    		busLine.setColor(lineColorField.getValue());
     		busLine.setSeatingCapacity(Integer.parseUnsignedInt(lineSeatingCapacityField.getText().trim()));
 			((CheapLine) busLine).setStandingCapacityPercentage(Double.parseDouble(lineCheapStandingCapacityLabel.getText().replaceAll(",",".")));
 			//Este no deberia tener errores nunca

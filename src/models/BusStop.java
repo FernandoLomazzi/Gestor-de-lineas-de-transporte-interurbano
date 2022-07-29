@@ -9,10 +9,12 @@ public class BusStop {
 	private Integer stopStreetNumber;
 	private Boolean enabled;
 	
+	private static String defaultStyle = "-fx-stroke: #61B5F1;-fx-fill: #B1DFF7;";
+	private static String disabledStyle = "-fx-fill: #C3D3DB;-fx-stroke: #A8C5D9;";  
+	
 	public BusStop() {
 		this.enabled = true;
 	}
-	
 	public BusStop(Integer stopNumber, String stopStreetName, Integer stopStreetNumber, Boolean enabled) {
 		this.stopNumber = stopNumber;
 		this.stopStreetName = stopStreetName;
@@ -37,7 +39,12 @@ public class BusStop {
 		return Objects.equals(stopNumber, other.stopNumber) && Objects.equals(stopStreetName, other.stopStreetName)
 				&& Objects.equals(stopStreetNumber, other.stopStreetNumber);
 	}
-
+	public static String getDefaultStyle() {
+		return BusStop.defaultStyle;
+	}
+	public static String getDisabledStyle() {
+		return BusStop.disabledStyle;
+	}
 	public Integer getStopNumber() {
 		return stopNumber;
 	}

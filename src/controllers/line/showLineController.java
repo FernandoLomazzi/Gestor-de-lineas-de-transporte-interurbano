@@ -31,7 +31,7 @@ public class showLineController implements Initializable {
 
     private Scene previousScene;
 	private ObservableList<BusLine> lineRow;
-
+	
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	BusLineDao busLineDao = new BusLineDaoPG();
