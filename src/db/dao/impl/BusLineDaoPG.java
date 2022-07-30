@@ -34,8 +34,8 @@ public class BusLineDaoPG implements BusLineDao{
 	private static final String DELETE_SQL = 
 			"DELETE FROM BusLine " +
 			"WHERE name=?;";
-	private static final String SELECT_SQL = "SELECT bus_line_name, source_stop_number, destination_stop_number, estimated_time FROM BusLineRoute WHERE bus_line_name = ?;";
-	private static final String SELECT_SQL_STOP = "SELECT stops FROM BusLineStop WHERE bus_line_name = ? AND stop_number = ?;";
+	private static final String SELECT_SQL_ROUTES = "SELECT bus_line_name, source_stop_number, destination_stop_number, estimated_time FROM BusLineRoute WHERE bus_line_name = ?;";
+	private static final String SELECT_SQL_STOPS = "SELECT bus_line_name, stop_number, stops FROM BusLineStop WHERE bus_line_name = ?;";
 
 	@Override
 	public void addData(BusLine busLine) throws DBConnectionException, AddFailException{
@@ -100,11 +100,8 @@ public class BusLineDaoPG implements BusLineDao{
 
 				ArrayList<BusLineRoute> routes = new ArrayList<>();
 				RouteDao routeDao = new RouteDaoPG();
-
-				ArrayList<BusLineStop> busStops = new ArrayList<>();
-				BusStopDao busStopDao = new BusStopDaoPG(); 
-
-				try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL)){
+				try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_ROUTES)){
+					System.out.println(busLine.getName());
 					ps.setString(1, busLine.getName());
 					ResultSet rs = ps.executeQuery();
 					
@@ -112,35 +109,22 @@ public class BusLineDaoPG implements BusLineDao{
 						Route route = routeDao.getRoute(rs.getInt(2), rs.getInt(3));
 						BusLineRoute busLineRoute = new BusLineRoute(busLine, route, rs.getInt(4));
 						routes.add(busLineRoute);
-						
-						BusStop busStopSource;
-						busStopSource = busStopDao.getBusStop(rs.getInt(2));
-						try (PreparedStatement ps2 = connection.prepareStatement(SELECT_SQL_STOP)) {
-							ps2.setString(1, busLine.getName());
-							ps2.setInt(2, rs.getInt(2));
-							ResultSet rs2 = ps2.executeQuery();
-							while(rs2.next()) {
-								BusLineStop busLineStop = new BusLineStop(busLine, busStopSource, rs2.getBoolean(1));
-								busStops.add(busLineStop);
-							}
-						}
-						
-						BusStop busStopDestination;
-						busStopDestination = busStopDao.getBusStop(rs.getInt(3));
-						try (PreparedStatement ps2 = connection.prepareStatement(SELECT_SQL_STOP)) {
-							ps2.setString(1, busLine.getName());
-							ps2.setInt(2, rs.getInt(3));
-							ResultSet rs2 = ps2.executeQuery();
-							while(rs2.next()) {
-								BusLineStop busLineStop = new BusLineStop(busLine, busStopDestination , rs2.getBoolean(1));
-								busStops.add(busLineStop);
-							}
-						}
 					}
 				}
-				
-				busLine.setBusStops(busStops);
 				busLine.setRoutes(routes);
+				
+				ArrayList<BusLineStop> busStops = new ArrayList<>();
+				BusStopDao busStopDao = new BusStopDaoPG(); 
+				try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_STOPS)){
+					ps.setString(1, busLine.getName());
+					ResultSet rs = ps.executeQuery();
+					while(rs.next()) {
+						BusStop busStop = busStopDao.getBusStop(rs.getInt(2));
+						BusLineStop busLineStop = new BusLineStop(busLine, busStop, rs.getBoolean(3));
+						busStops.add(busLineStop);
+					}
+				}
+				busLine.setBusStops(busStops);
 			}
 			catch(SQLException | DBConnectionException | BusStopNotFoundException e) {
 				throw new DBConnectionException("Error inesperado");
