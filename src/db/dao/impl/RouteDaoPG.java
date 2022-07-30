@@ -23,7 +23,7 @@ public class RouteDaoPG implements RouteDao{
 	private static final String UPDATE_SQL = "UPDATE Route SET distance_in_km=? WHERE source_stop_number=? AND destination_stop_number=?;";
 	private static final String DELETE_SQL = "DELETE FROM Route WHERE source_stop_number=? AND destination_stop_number=?;";
 	private static final String SELECT_ALL_SQL = "SELECT source_stop_number,destination_stop_number,distance_in_km FROM Route;";
-	
+	private static final String SELECT_SQL_ROUTE = "SELECT distance_in_km FROM Route WHERE source_stop_number = ? AND destination_stop_number = ?;";
 	@Override
 	public void addData(Route route) throws AddFailException,DBConnectionException {
 		try(Connection connection = DBConnection.getConnection()){
@@ -113,4 +113,50 @@ public class RouteDaoPG implements RouteDao{
 		}
 		return ret;
 	}
+	@Override
+	public Route getRoute(Integer source_stop_number,  Integer destination_stop_number) throws DBConnectionException {
+		Route ret = null;
+		BusStop source = null;
+		BusStop destination = null;
+		Double distance = null;
+		BusStopDaoPG busStopDaoPG = new BusStopDaoPG();
+		try {
+			source = busStopDaoPG.getBusStop(source_stop_number);
+			destination = busStopDaoPG.getBusStop(destination_stop_number);
+		}
+		catch(BusStopNotFoundException | DBConnectionException e) {
+			e.printStackTrace();
+			throw new DBConnectionException("Error inesperado");
+		}
+		try(Connection connection = DBConnection.getConnection()){
+			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_ROUTE)){
+				ps.setInt(1, source_stop_number);
+				ps.setInt(2, destination_stop_number);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					distance = rs.getDouble(1);
+				}
+			}
+		}
+		catch (SQLException e) {
+			throw new DBConnectionException("Error inesperado");
+		}
+		ret = new Route(source, destination, distance);
+		return ret;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
