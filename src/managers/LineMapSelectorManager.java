@@ -10,9 +10,6 @@ import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 
 public class LineMapSelectorManager extends MapManager{
 	private BusLine busLine;
-	private String routeLineStyle = "";
-	private String stopLineStyle = "";
-	private String stopLineDisabledStyle = "";
 	
 	public LineMapSelectorManager() {
 		map = new DigraphEdgeList<>();
@@ -25,7 +22,7 @@ public class LineMapSelectorManager extends MapManager{
 		super.initView();
 		mapView.updateAndWait();
 		busLine.getBusStops().forEach(s -> this.setStopLineStyle(s));
-		busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, routeLineStyle));
+		busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));
 		this.updateMapView();
 	}
 	public void addStopLine(BusStop busStop) {
@@ -35,17 +32,17 @@ public class LineMapSelectorManager extends MapManager{
 	}
 	public void setStopLineStyle(BusLineStop stopLine) {
 		if(stopLine.stops()) {
-			this.setVertexStyle(stopLine.getBusStop(), stopLineStyle);
+			this.setVertexStyle(stopLine.getBusStop(), getStopStyle(busLine.getColorStyle()));
 		}
 		else {
-			this.setVertexStyle(stopLine.getBusStop(), stopLineDisabledStyle);
+			this.setVertexStyle(stopLine.getBusStop(), getStopStyle(busLine.getColorDisabledStyle()));
 		}
 	}
 	public void addRouteLine(BusLineRoute route) {
 		map.insertEdge(route.getSourceStop(),route.getDestinationStop(),route);
 		busLine.addRouteLine(route);
 		mapView.updateAndWait();
-		this.setEdgeStyle(route, routeLineStyle);
+		this.setEdgeStyle(route, getRouteStyle(busLine.getColorStyle()));
 		mapView.updateAndWait();
 		//this.updateMapView();
 	}
@@ -59,14 +56,11 @@ public class LineMapSelectorManager extends MapManager{
 	}
 	public void setBusline(BusLine busLine) {
 		this.busLine=busLine;
-		String busLineColor = busLine.getColorStyle();
-		routeLineStyle = "-fx-stroke: #"+busLineColor+";";
-		stopLineStyle = "-fx-stroke: #"+busLineColor+";-fx-fill: #"+busLineColor+";";
-		stopLineDisabledStyle = "-fx-stroke: #"+busLine.getColorDisabledStyle()+";-fx-fill: #"+busLine.getColorDisabledStyle()+";";
 		busLine.getRoutes().forEach(r -> {
 			map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r);
 		});
 	}
+	
 	public Boolean contains(BusLineRoute busLineRoute) {
 		return busLine.getRoutes().contains(busLineRoute);
 	}

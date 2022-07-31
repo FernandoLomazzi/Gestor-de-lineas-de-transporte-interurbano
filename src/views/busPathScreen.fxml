@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busPathScreenController">
+   <left>
+      <VBox prefHeight="400.0" prefWidth="187.0" spacing="12.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Origen" />
+            <TextField fx:id="sourceStopField" promptText="Calle y número" />
+            <Label text="Destino" />
+            <TextField fx:id="destinationStopField" prefHeight="25.0" prefWidth="165.0" promptText="Calle y número" />
+            <RadioButton fx:id="fastestButton" mnemonicParsing="false" selected="true" text="Más rápido">
+               <toggleGroup>
+                  <ToggleGroup fx:id="typeOfPathGroup" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="shortestButton" mnemonicParsing="false" text="Más corto" toggleGroup="$typeOfPathGroup" />
+            <RadioButton fx:id="cheapestButton" mnemonicParsing="false" text="Más barato" toggleGroup="$typeOfPathGroup" />
+            <Button fx:id="searchPathButton" mnemonicParsing="false" onAction="#searchPath" text="Buscar" />
+            <Label fx:id="label1" text="Tiempo:" />
+            <Label fx:id="label2" text="Distancia:" />
+            <Label fx:id="label3" text="Costo: $" />
+            <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" text="Comprar Boleto" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <right>
+      <Button fx:id="prevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

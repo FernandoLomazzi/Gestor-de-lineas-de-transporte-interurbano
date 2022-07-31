@@ -40,5 +40,8 @@ public class CheapLine extends BusLine {
 	public static Double getMaxStandingCapacityPercentage() {
 		return maxStandingCapacityPercentage;
 	}
-	
+	@Override
+	public Double calculateCost(BusLineRoute route) {
+		return route.getDistanceInKM()*super.ticketCostPerKM*(1+ticketPercentagePerUse);
+	}
 }

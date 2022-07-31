@@ -41,6 +41,7 @@ public abstract class BusLine {
 		this.routes=routes;
 	}
 	public abstract String getType();
+	public abstract Double calculateCost(BusLineRoute route);
 	public List<BusLineRoute> outboundEdges(BusLineStop busStop){
 		List<BusLineRoute> ret = new ArrayList<>();
 		for(BusLineRoute route: routes) {
@@ -102,7 +103,6 @@ public abstract class BusLine {
 	public void setBusStops(List<BusLineStop> busStops) {
 		this.busStops = busStops;
 	}
-
 	public Color getColor() {
 		return color;
 	}
@@ -144,6 +144,13 @@ public abstract class BusLine {
 		return busStops.stream()
 				.map(b -> b.getBusStop())
 				.filter(b -> this.outDegree(b)==0).findAny().get();
+	}
+	public BusLineRoute getLineRoute(BusStop sourceStop,BusStop destinationStop) {
+		for(BusLineRoute route : routes) {
+			if(route.getSourceStop().equals(sourceStop) && route.getDestinationStop().equals(destinationStop))
+				return route;
+		}
+		return null;
 	}
 	public static void main(String[] arg) {
 		BusLine bl = new CheapLine("Hola",Color.RED);

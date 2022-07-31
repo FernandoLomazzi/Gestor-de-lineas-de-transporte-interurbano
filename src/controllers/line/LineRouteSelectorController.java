@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import controllers.returnScene;
 import db.dao.CheapLineDao;
 import db.dao.PremiumLineDao;
@@ -23,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import managers.AlertManager;
+import managers.LineMapManager;
 import managers.LineMapSelectorManager;
 import models.BusLineRoute;
 import models.BusStop;
@@ -43,6 +45,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	@FXML 
 	private Button cleanRoutesButton;
 	
+	private LineMapManager lineManager;
 	private LineMapSelectorManager selectorManager;
 	private Scene prevScene;
 
@@ -82,7 +85,8 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 			}
 		});
 		selectorManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> b) -> 
-			selectorManager.toggleStop(b.getUnderlyingVertex().element()));
+			selectorManager.toggleStop(b.getUnderlyingVertex().element())
+		);
 	}
 	public void checkRoutePath(BusLineRoute newRoute) {
 		BusLine busLine = selectorManager.getBusLine();
@@ -107,6 +111,9 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 			}
 		}
 	}
+    public void setManager(LineMapManager lineManager) {
+    	this.lineManager=lineManager;
+    }
 	@FXML
 	public void cleanRoutes(ActionEvent event) {
 		selectorManager.clear();
@@ -118,7 +125,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar al menos una calle para el recorrido.");
 			return;
 		}
-		if(busLine instanceof CheapLine) {
+		if(busLine.getType()=="Económica") {
 			CheapLineDao cheapLineDao = new CheapLineDaoPG();
 			try {
 				cheapLineDao.addData((CheapLine) busLine);
@@ -127,7 +134,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 				return;
 			}
 		}
-		else if(busLine instanceof PremiumLine) {
+		else if(busLine.getType()=="Superior") {
 			PremiumLineDao premiumLineDao = new PremiumLineDaoPG();
 			try {
 				premiumLineDao.addData((PremiumLine) busLine);
@@ -136,6 +143,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 				return;
 			}
 		}
+		lineManager.addLine(busLine);
 		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se creó la linea exitosamente.");
 		((Stage) saveButton.getScene().getWindow()).close();
 	}

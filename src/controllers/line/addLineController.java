@@ -4,21 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import db.dao.CheapLineDao;
-import db.dao.PremiumLineDao;
-import db.dao.impl.CheapLineDaoPG;
-import db.dao.impl.PremiumLineDaoPG;
-import exceptions.AddFailException;
-import exceptions.DBConnectionException;
-import exceptions.DeleteFailException;
 import exceptions.EmptyFieldException;
 import exceptions.IncompleteFieldException;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -26,12 +19,11 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import managers.AlertManager;
+import managers.LineMapManager;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
@@ -65,6 +57,8 @@ public class addLineController implements Initializable{
     private Button nextButton;
     
     private BusLine busLine;
+    LineMapManager manager;
+   
     private static String[] lineTypes = {"Económica","Superior"}; 
    
 	@Override
@@ -85,7 +79,9 @@ public class addLineController implements Initializable{
 			}
 		});
 	}
-    
+    public void setManager(LineMapManager manager) {
+    	this.manager=manager;
+    }
     @FXML
     public void cancel(ActionEvent event) {
     	((Stage) cancelButton.getScene().getWindow()).close();
@@ -121,6 +117,7 @@ public class addLineController implements Initializable{
 			BorderPane root = loader.load();
 			LineRouteSelectorController controller = loader.getController();
 			controller.setPrevScene(nextButton.getScene());
+			controller.setManager(this.manager);
 	        Scene scene = new Scene(root);
 	        Stage stage = (Stage) nextButton.getScene().getWindow();
 	        stage.setScene(scene);

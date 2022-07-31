@@ -16,7 +16,9 @@ public class BusLineStop {
 		this.busStop = busStop;
 		this.stops = stops;
 	}
-	
+	public String toString() {
+		return busLine.getName()+" "+busStop;
+	}
 	public BusLine getBusLine() {
 		return busLine;
 	}

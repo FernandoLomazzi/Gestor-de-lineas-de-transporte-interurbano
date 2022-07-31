@@ -5,6 +5,7 @@ module TPINTEGRADOR {
 	requires javafx.graphics;
 	requires javafx.base;
 	requires java.desktop;
+	requires org.controlsfx.controls;
 	
 	opens application to javafx.graphics, javafx.fxml;
 	opens controllers to javafx.fxml;
@@ -15,3 +16,5 @@ module TPINTEGRADOR {
 	opens controllers.stop to javafx.fxml;
 	opens controllers.incident to javafx.fxml;
 }
+
+

@@ -70,13 +70,9 @@ public class BusStop {
 		this.enabled = enabled;
 	}
 	
-	@SmartLabelSource
-	public String busStopLabel() {
-		return stopStreetName+" "+stopStreetNumber;
-	}
 	@Override
 	public String toString() {
-		return stopNumber+" ("+stopStreetName+" "+stopStreetNumber+")";
+		return stopStreetName+" "+stopStreetNumber;
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import db.dao.BusLineDao;
 import db.dao.impl.BusLineDaoPG;
+import exceptions.DBConnectionException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -29,13 +30,17 @@ public class showLineController implements Initializable {
     @FXML
     private TableColumn<BusLine, String> lineTypeColumn;
 
-    private Scene previousScene;
 	private ObservableList<BusLine> lineRow;
 	
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	BusLineDao busLineDao = new BusLineDaoPG();
-		lineRow = FXCollections.observableList(busLineDao.getAllBusLines());
+		try {
+			lineRow = FXCollections.observableList(busLineDao.getAllBusLines());
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		lineTable.setItems(lineRow);
 		lineNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));

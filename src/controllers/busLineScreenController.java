@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import controllers.line.addLineController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,11 +45,13 @@ public class busLineScreenController implements Initializable,returnScene{
 
     @FXML
     void addBusLine(ActionEvent event) {
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
-        try {
+    	try {
+    		Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
             AnchorPane root = loader.load();
+            addLineController controller = loader.getController();
+            controller.setManager(this.lineMapManager);
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);

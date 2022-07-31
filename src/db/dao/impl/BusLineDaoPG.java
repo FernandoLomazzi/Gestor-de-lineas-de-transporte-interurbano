@@ -22,6 +22,7 @@ import models.BusLineStop;
 import models.BusStop;
 import models.Route;
 import models.busline.BusLine;
+import models.busline.CheapLine;
 
 public class BusLineDaoPG implements BusLineDao{
 	private static final String INSERT_SQL =
@@ -83,30 +84,28 @@ public class BusLineDaoPG implements BusLineDao{
 	}
 	
 	@Override
-	public List<BusLine> getAllBusLines() {
-		List<BusLine> ret = new ArrayList<>();
-		try(Connection connection = DBConnection.getConnection()){
-			//Para lineas economicas
-			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_CHEAP_LINES)){
-				ResultSet rs = ps.executeQuery();
-				while(rs.next()) {
-					String name = rs.getString(1);
-					Color color = Color.valueOf(rs.getString(2));
-					Integer seating_capacity = rs.getInt(3);
-					Double standing_capacity_porcentage = rs.getDouble(4);
-					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);
-					ret.add(cheapLine);
-				}
-			}
-			System.out.println("Premium");
-			//Para lineas premium
-			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_PREMIUM_LINES_NO_SERVICES)){
-				ResultSet rs = ps.executeQuery();
-				while(rs.next()) {
-					//Primero se obtienen las lineas que son premium
-					String name = rs.getString(1);
-					Color color = Color.valueOf(rs.getString(2));
-					Integer seating_capacity = rs.getInt(3);
+	public List<BusLine> getAllBusLines() throws DBConnectionException{
+		ArrayList<BusLine> ret = new ArrayList<>();
+
+		PremiumLineDaoPG premiumLineDaoPG = new PremiumLineDaoPG();
+		CheapLineDaoPG cheapLineDaoPG = new CheapLineDaoPG();
+		try {
+			ret.addAll(premiumLineDaoPG.getAllPremiumLines());
+			ret.addAll(cheapLineDaoPG.getAllCheapLines());
+		}
+		catch (DBConnectionException e) {
+			throw e;
+		}
+
+		for(BusLine busLine : ret) {
+			try(Connection connection = DBConnection.getConnection()){
+
+				ArrayList<BusLineRoute> routes = new ArrayList<>();
+				RouteDao routeDao = new RouteDaoPG();
+				try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_ROUTES)){
+					System.out.println(busLine.getName());
+					ps.setString(1, busLine.getName());
+					ResultSet rs = ps.executeQuery();
 					
 					while(rs.next()) {
 						Route route = routeDao.getRoute(rs.getInt(2), rs.getInt(3));

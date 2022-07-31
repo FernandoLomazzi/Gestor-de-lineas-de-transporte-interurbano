@@ -39,4 +39,9 @@ public class PremiumLine extends BusLine {
     public Set<PremiumLineService> getServices() {
         return services;
     }
+	@Override
+	public Double calculateCost(BusLineRoute route) {
+		Double extraPercentage = ticketPercentagePerUse + services.size() * ticketPercentagePerService;
+		return route.getDistanceInKM()*super.ticketCostPerKM*(1+extraPercentage);		
+	}
 }
