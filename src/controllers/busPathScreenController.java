@@ -43,11 +43,11 @@ public class busPathScreenController implements Initializable,returnScene{
 	@FXML
 	private Button searchPathButton;
 	@FXML
-	private Label label1;
+	private Label timeLabel;
 	@FXML
-	private Label label2;
+	private Label distanceLabel;
 	@FXML
-	private Label label3;
+	private Label costLabel;
 	@FXML
 	private Button buyButton;
 	@FXML
@@ -109,9 +109,9 @@ public class busPathScreenController implements Initializable,returnScene{
 				AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
 				return;
 			}
-			label1.setText("Tiempo estimado: "+minPathProperty.estimatedTimeToString());
-			label2.setText("Distancia: "+minPathProperty.distanceToString());
-			label3.setText("Costo: "+minPathProperty.costToString());
+			timeLabel.setText("Tiempo: "+minPathProperty.estimatedTimeToString());
+			distanceLabel.setText("Distancia: "+minPathProperty.distanceToString());
+			costLabel.setText("Costo: "+minPathProperty.costToString());
 		}
 		
 	}

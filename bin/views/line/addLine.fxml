@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -9,32 +10,75 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="513.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.line.addLineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="332.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.line.addLineController">
    <children>
-      <Label layoutX="75.0" layoutY="65.0" text="Nombre de la linea" />
-      <TextField fx:id="lineNameField" layoutX="75.0" layoutY="82.0" />
-      <TextField fx:id="lineSeatingCapacityField" layoutX="295.0" layoutY="82.0" prefHeight="25.0" prefWidth="165.0" />
-      <Label layoutX="295.0" layoutY="65.0" text="Cantidad de personas sentadas" />
-      <Label layoutX="75.0" layoutY="122.0" text="Color de la linea" />
-      <ColorPicker fx:id="lineColorField" layoutX="75.0" layoutY="139.0" prefHeight="25.0" prefWidth="149.0" />
-      <Button fx:id="nextButton" layoutX="295.0" layoutY="289.0" mnemonicParsing="false" onAction="#next" prefHeight="25.0" prefWidth="165.0" text="Siguiente" />
-      <ChoiceBox fx:id="typeLineBox" layoutX="295.0" layoutY="139.0" prefHeight="25.0" prefWidth="165.0" />
-      <VBox fx:id="premiumBox" layoutX="77.0" layoutY="203.0" prefHeight="75.0" prefWidth="169.0" visible="false">
+      <Label layoutX="50.0" layoutY="49.0" text="Nombre de la línea" AnchorPane.topAnchor="49.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <TextField fx:id="lineNameField" layoutX="50.0" layoutY="68.0" prefHeight="26.0" prefWidth="193.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="lineSeatingCapacityField" layoutX="316.0" layoutY="68.0" prefHeight="26.0" prefWidth="237.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
+      <Label layoutX="317.0" layoutY="49.0" text="Cantidad de personas sentadas">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <Label layoutX="50.0" layoutY="106.0" text="Color de la linea">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <ColorPicker fx:id="lineColorField" layoutX="50.0" layoutY="127.0" prefHeight="25.0" prefWidth="193.0" />
+      <Button fx:id="nextButton" layoutX="450.0" layoutY="281.0" mnemonicParsing="false" onAction="#next" prefHeight="29.0" prefWidth="104.0" text="Siguiente">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Button>
+      <ChoiceBox fx:id="typeLineBox" layoutX="316.0" layoutY="127.0" prefHeight="25.0" prefWidth="237.0" />
+      <VBox fx:id="premiumBox" layoutX="50.0" layoutY="177.0" prefHeight="75.0" prefWidth="169.0" spacing="5.0" visible="false">
          <children>
-            <Label text="Servicios incluidos" />
-            <CheckBox fx:id="linePremiumWifiBox" mnemonicParsing="false" text="Wi-Fi" />
-            <CheckBox fx:id="linePremiumAirBox" mnemonicParsing="false" text="Aire acondicionado" />
+            <Label text="Servicios incluidos">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font></Label>
+            <CheckBox fx:id="linePremiumWifiBox" mnemonicParsing="false" text="Wi-Fi">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font></CheckBox>
+            <CheckBox fx:id="linePremiumAirBox" mnemonicParsing="false" text="Aire acondicionado">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font></CheckBox>
          </children>
       </VBox>
-      <VBox fx:id="cheapBox" layoutX="77.0" layoutY="208.0" prefHeight="65.0" prefWidth="169.0" visible="false">
+      <VBox fx:id="cheapBox" layoutX="50.0" layoutY="177.0" prefHeight="65.0" prefWidth="258.0" visible="false">
          <children>
-            <Label text="Porcentaje de personas paradas" />
+            <Label text="Porcentaje de personas paradas">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font></Label>
             <Slider fx:id="lineCheapStandingCapacity" minorTickCount="1" prefHeight="17.0" prefWidth="169.0" showTickMarks="true" />
-            <Label fx:id="lineCheapStandingCapacityLabel" text="Label" />
+            <Label fx:id="lineCheapStandingCapacityLabel" text="Label">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font></Label>
          </children>
       </VBox>
-      <Label layoutX="295.0" layoutY="122.0" text="Tipo de linea:" />
-      <Button fx:id="cancelButton" layoutX="75.0" layoutY="289.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="149.0" text="Cancelar" />
+      <Label layoutX="316.0" layoutY="106.0" text="Tipo de linea:">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <Button fx:id="cancelButton" layoutX="50.0" layoutY="281.0" mnemonicParsing="false" onAction="#cancel" prefHeight="29.0" prefWidth="104.0" text="Cancelar">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Button>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>

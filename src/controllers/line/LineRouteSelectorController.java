@@ -156,7 +156,6 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	@Override
 	public void goToPrevScene(ActionEvent event) {
 		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
-		StageManager.updateMainStage();
 	}
 
 }

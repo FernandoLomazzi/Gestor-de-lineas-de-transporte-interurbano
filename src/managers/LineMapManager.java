@@ -40,10 +40,18 @@ public class LineMapManager extends MapManager{
 		busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));	
 		this.updateMapView();
 	}
+	public void chargeLine(BusLine busLine) {
+		busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));	
+		this.updateMapView();
+	}
+	public void removeLine(BusLine busLine) {
+		map.edges().forEach(edge -> {
+			if(busLine.getRoutes().contains(edge.element()))
+				map.removeEdge(edge);
+		});
+		this.updateMapView();
+	}
 	public void initView() {
-		System.out.println(
-				mapView.getHeight()+" - "+
-				mapView.getWidth());
 		super.initView();
 		mapView.updateAndWait();
 		for(BusLine busLine: busLines) {

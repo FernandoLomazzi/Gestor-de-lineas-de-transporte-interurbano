@@ -5,7 +5,9 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <GridPane fx:id="gridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busLineScreenController">
    <columnConstraints>
@@ -17,16 +19,44 @@
       <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" valignment="BOTTOM" vgrow="NEVER" />
    </rowConstraints>
    <children>
-      <Button fx:id="goToPrevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" GridPane.rowIndex="2" />
+      <Button fx:id="goToPrevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" GridPane.rowIndex="2">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" />
+         </GridPane.margin></Button>
       <ToolBar GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
          <items>
-            <Button fx:id="addBusLineButton" mnemonicParsing="false" onAction="#addBusLine" prefHeight="25.0" text="Agregar Parada de Colectivos" />
-            <Button fx:id="modifyBusLineButton" mnemonicParsing="false" onAction="#modifyBusLine" prefHeight="25.0" text="Modificar Parada de Colectivos" />
-            <Button fx:id="deleteBusLineButton" mnemonicParsing="false" onAction="#deleteBusLine" prefHeight="25.0" text="Eliminar Parada de Colectivos" />
+            <HBox spacing="30.0">
+               <children>
+                  <Button fx:id="addBusLineButton" mnemonicParsing="false" onAction="#addBusLine" text="Agregar Línea de Colectivos">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <Button fx:id="modifyBusLineButton" mnemonicParsing="false" onAction="#modifyBusLine" text="Modificar Línea de Colectivos">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="deleteBusLineButton" mnemonicParsing="false" onAction="#deleteBusLine" text="Eliminar Línea de Colectivos">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </items>
          <GridPane.margin>
-            <Insets />
+            <Insets top="5.0" />
          </GridPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </ToolBar>
    </children>
    <padding>

@@ -7,37 +7,139 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busPathScreenController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busPathScreenController">
    <left>
-      <VBox prefHeight="400.0" prefWidth="187.0" spacing="12.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="661.0" prefWidth="236.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Origen" />
-            <TextField fx:id="sourceStopField" promptText="Calle y número" />
-            <Label text="Destino" />
-            <TextField fx:id="destinationStopField" prefHeight="25.0" prefWidth="165.0" promptText="Calle y número" />
-            <RadioButton fx:id="fastestButton" mnemonicParsing="false" selected="true" text="Más rápido">
-               <toggleGroup>
-                  <ToggleGroup fx:id="typeOfPathGroup" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="shortestButton" mnemonicParsing="false" text="Más corto" toggleGroup="$typeOfPathGroup" />
-            <RadioButton fx:id="cheapestButton" mnemonicParsing="false" text="Más barato" toggleGroup="$typeOfPathGroup" />
-            <Button fx:id="searchPathButton" mnemonicParsing="false" onAction="#searchPath" text="Buscar" />
-            <Label fx:id="label1" text="Tiempo:" />
-            <Label fx:id="label2" text="Distancia:" />
-            <Label fx:id="label3" text="Costo: $" />
-            <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" text="Comprar Boleto" />
+            <VBox>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="BOTTOM" text="Origen">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sourceStopField" promptText="Calle y número">
+                     <font>
+                        <Font name="Verdana" size="13.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Destino">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="destinationStopField" prefHeight="25.0" prefWidth="165.0" promptText="Calle y número">
+                     <font>
+                        <Font name="Verdana" size="13.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox spacing="10.0">
+               <children>
+                  <RadioButton fx:id="fastestButton" mnemonicParsing="false" selected="true" text="Más rápido">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="typeOfPathGroup" />
+                     </toggleGroup>
+                     <font>
+                        <Font name="Verdana" size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="shortestButton" mnemonicParsing="false" text="Más corto" toggleGroup="$typeOfPathGroup">
+                     <font>
+                        <Font name="Verdana" size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="cheapestButton" mnemonicParsing="false" text="Más barato" toggleGroup="$typeOfPathGroup">
+                     <font>
+                        <Font name="Verdana" size="13.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </VBox>
+            <Button fx:id="searchPathButton" mnemonicParsing="false" onAction="#searchPath" text="Buscar">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin></Button>
+            <VBox prefHeight="106.0" prefWidth="191.0" spacing="10.0">
+               <children>
+                  <Label text="VIAJE">
+                     <font>
+                        <Font name="Verdana Bold" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="timeLabel" text="Tiempo:">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="distanceLabel" text="Distancia:">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="costLabel" text="Costo: $">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="60.0" />
+               </VBox.margin>
+            </VBox>
+            <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" text="Comprar Boleto">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+            <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
          </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </VBox>
    </left>
-   <right>
-      <Button fx:id="prevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" BorderPane.alignment="CENTER" />
-   </right>
+   <bottom>
+      <HBox prefHeight="31.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="prevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="30.0" left="20.0" right="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

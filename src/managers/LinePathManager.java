@@ -126,13 +126,20 @@ public class LinePathManager extends MapManager{
 			if(!visited.contains(actualLineStop)) {
 				visited.add(actualLineStop);
 				Double minToActualStop = minCostToStop.get(actualLineStop);
+				BusLine actualLine = actualLineStop.getBusLine();
 				List<BusLineRoute> routes;
 				//Si para puedo cambiar de linea
-				if(actualLineStop.stops())
-					routes = map.outboundEdges(actualLineStop.getBusStop()).stream().filter(e -> e.element() instanceof BusLineRoute).map(e -> (BusLineRoute) e.element()).toList();
+				if(actualLineStop.stops()) {
+					routes = map.outboundEdges(actualLineStop.getBusStop())
+							.stream()
+							.filter(e -> e.element() instanceof BusLineRoute)
+							.map(e -> (BusLineRoute) e.element())
+							.filter(route -> actualLine.equals(route.getBusLine()) || route.getSourceLineStop().stops())
+							.toList();
+				}
 				//Si no para no puedo cambiar de linea
 				else
-					routes = actualLineStop.getBusLine().outboundEdges(actualLineStop);
+					routes = actualLine.outboundEdges(actualLineStop);
 				for(BusLineRoute route: routes) {
 					BusLineStop destinationLineStop = route.getDestinationLineStop();
 					if(destinationLineStop.getBusStop().equals(destinationStop) && !destinationLineStop.stops())

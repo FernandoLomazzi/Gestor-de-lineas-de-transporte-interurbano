@@ -51,8 +51,8 @@ public class LineMapSelectorManager extends MapManager{
 	}
 	public void toggleStop(BusStop busStop) {
 		BusLineStop lineStop = busLine.getBusLineStop(busStop);
-		this.setStopLineStyle(lineStop);
 		lineStop.toggleStops();
+		this.setStopLineStyle(lineStop);
 	}
 	public void setBusline(BusLine busLine) {
 		this.busLine=busLine;
