@@ -71,7 +71,8 @@ public class showLineController implements Initializable {
 								loader = new FXMLLoader(getClass().getResource("/views/line/modLinePremium.fxml"));
 								root = loader.load();
 								modLinePremiumController controller = loader.getController();
-								controller.setBusLine((PremiumLine)busLine);
+								controller.setLineMapManager(lineMapManager);
+								controller.setPremiumLine((PremiumLine)busLine);
 							}
 							Scene scene = new Scene(root);
 							stage.setTitle("Modificar " + busLine.getName());

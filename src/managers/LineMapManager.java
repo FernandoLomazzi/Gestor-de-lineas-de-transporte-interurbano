@@ -35,6 +35,7 @@ public class LineMapManager extends MapManager{
 		busLine.getRoutes().forEach(r -> map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r));
 		mapView.updateAndWait();
 		busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));	
+		busLines.add(busLine);
 		this.updateMapView();
 	}
 	public void chargeLine(BusLine busLine) {
@@ -46,6 +47,7 @@ public class LineMapManager extends MapManager{
             if(busLine.getRoutes().contains(edge.element()))
                 map.removeEdge(edge);
         });
+        busLines.remove(busLine);
         this.updateMapView();
     }
 	public void initView() {

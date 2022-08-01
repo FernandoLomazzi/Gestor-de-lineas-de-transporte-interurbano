@@ -37,6 +37,8 @@ public abstract class modLineController implements Initializable{
 	protected LineMapManager lineMapManager;
 	private BusLine busLineToModify;
 	private BusLine modifiedBusLine;
+	public static final Integer MIN_SPINNER = 1;
+	public static final Integer MAX_SPINNER = 200;
 
 	@FXML
     protected void goBack(ActionEvent event) {
@@ -50,7 +52,7 @@ public abstract class modLineController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100);
+		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(MIN_SPINNER, MAX_SPINNER);
 		seatingCapacity.setValueFactory(valueFactory);
 		
 		colorProperty = new SimpleObjectProperty<Color>();

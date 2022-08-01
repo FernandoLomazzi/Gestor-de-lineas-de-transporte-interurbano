@@ -3,15 +3,21 @@ package controllers.line;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import db.dao.CheapLineDao;
+import db.dao.impl.CheapLineDaoPG;
+import exceptions.DBConnectionException;
+import exceptions.ModifyFailException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
+import managers.AlertManager;
 import models.busline.CheapLine;
 
 public class modLineCheapController extends modLineController {
@@ -54,6 +60,16 @@ public class modLineCheapController extends modLineController {
 		super.confirmChanges();
 		cheapLineToModify.setStandingCapacityPercentage(modifiedCheapLine.getStandingCapacityPercentage());
 		lineMapManager.chargeLine(cheapLineToModify);
+
+    	CheapLineDao cheapLineDao = new CheapLineDaoPG();
+    	try {
+    		cheapLineDao.modifyData(cheapLineToModify);
+    	}
+    	catch(DBConnectionException | ModifyFailException e) {
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
+			return;
+    	}
+
     	((Stage)standingLabel.getScene().getWindow()).close();
 	}
 	
