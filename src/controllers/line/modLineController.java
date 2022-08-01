@@ -18,6 +18,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import managers.LineMapManager;
 import models.busline.BusLine;
 
 public abstract class modLineController implements Initializable{
@@ -33,10 +34,20 @@ public abstract class modLineController implements Initializable{
     protected Spinner<Integer> seatingCapacity;
 	protected ObjectProperty<Color> colorProperty;
 	protected IntegerProperty seatingCapacityProperty;
+	protected LineMapManager lineMapManager;
 	private BusLine busLineToModify;
 	private BusLine modifiedBusLine;
-	abstract protected void confirmChanges(ActionEvent event);
-	abstract protected void restoreChanges(ActionEvent event);
+
+	@FXML
+    protected void goBack(ActionEvent event) {
+    	((Stage)confirmChangesButton.getScene().getWindow()).close();
+    };
+
+	protected void confirmChanges() {
+		busLineToModify.setColor(modifiedBusLine.getColor());
+		busLineToModify.setSeatingCapacity(modifiedBusLine.getSeatingCapacity());
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100);
@@ -49,7 +60,6 @@ public abstract class modLineController implements Initializable{
 		seatingCapacityProperty.bind(seatingCapacity.valueProperty());
 		seatingCapacityProperty.addListener(new BusLineListener());
 		colorProperty.addListener(new BusLineListener());
-		seatingCapacityProperty.addListener(new BusLineListener());
 		
 		confirmChangesButton.setDisable(true);
 	}
@@ -66,12 +76,14 @@ public abstract class modLineController implements Initializable{
 	protected void setBusLine(BusLine busLineToModify, BusLine modifiedBusLine) {
 		this.busLineToModify = busLineToModify;
 		this.modifiedBusLine = modifiedBusLine;
-		//Setear color cuando venga fer
-		seatingCapacity.getValueFactory().setValue(busLineToModify.getSeatingCapacity());
 	}
 
-	@FXML
-    protected void goBack(ActionEvent event) {
-    	((Stage)confirmChangesButton.getScene().getWindow()).close();
-    };
+	protected void restoreChanges() {
+		color.setValue(busLineToModify.getColor());
+		seatingCapacity.getValueFactory().setValue(busLineToModify.getSeatingCapacity());
+	}
+	public void setLineMapManager(LineMapManager lineMapManager) {
+		this.lineMapManager = lineMapManager;
+	}
+
 }

@@ -61,6 +61,7 @@ public class busLineScreenController implements Initializable,returnScene{
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
             AnchorPane root = loader.load();
+            System.out.println(lineMapManager);
             addLineController controller = loader.getController();
             controller.setManager(this.lineMapManager);
             Scene scene = new Scene(root);
@@ -79,6 +80,9 @@ public class busLineScreenController implements Initializable,returnScene{
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
     		AnchorPane root = loader.load();
+    		showLineController controller = loader.getController();
+    		controller.setManager(lineMapManager);
+    		controller.setOperation(showLineController.avalibleOperations.DELETE);
     		Scene scene = new Scene(root);
     		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Eliminar Linea");
@@ -97,6 +101,7 @@ public class busLineScreenController implements Initializable,returnScene{
     	try {
     		AnchorPane root = loader.load();
     		showLineController controller = loader.getController();
+    		controller.setManager(lineMapManager);
     		controller.setOperation(showLineController.avalibleOperations.MODIFY);
     		Scene scene = new Scene(root);
     		stage.initModality(Modality.APPLICATION_MODAL);

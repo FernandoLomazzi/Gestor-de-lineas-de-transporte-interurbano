@@ -5,13 +5,10 @@ import java.util.List;
 import db.dao.BusLineDao;
 import db.dao.impl.BusLineDaoPG;
 import exceptions.DBConnectionException;
-import models.BusStop;
-import models.Route;
 import models.busline.BusLine;
 import src.com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import src.com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
-import src.com.brunomnsilva.smartgraph.containers.*;
 
 public class LineMapManager extends MapManager{
 	private List<BusLine> busLines;
@@ -40,6 +37,17 @@ public class LineMapManager extends MapManager{
 		busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));	
 		this.updateMapView();
 	}
+	public void chargeLine(BusLine busLine) {
+        busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));    
+        this.updateMapView();
+    }
+	public void removeLine(BusLine busLine) {
+        map.edges().forEach(edge -> {
+            if(busLine.getRoutes().contains(edge.element()))
+                map.removeEdge(edge);
+        });
+        this.updateMapView();
+    }
 	public void initView() {
 		System.out.println(
 				mapView.getHeight()+" - "+
@@ -50,5 +58,8 @@ public class LineMapManager extends MapManager{
 			busLine.getRoutes().forEach(r -> this.setEdgeStyle(r, getRouteStyle(busLine.getColorStyle())));	
 		}
 		this.updateMapView();
+	}
+	public List<BusLine> getAllBusLines() {
+		return busLines;
 	}
 }

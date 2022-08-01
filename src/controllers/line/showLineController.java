@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import managers.StageManager;
+import managers.LineMapManager;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
@@ -41,6 +41,7 @@ public class showLineController implements Initializable {
     @FXML
     private TableColumn<BusLine, String> lineTypeColumn;
 
+	private LineMapManager lineMapManager;
 	private ObservableList<BusLine> lineRow;
 	private avalibleOperations operation;
 	
@@ -63,7 +64,7 @@ public class showLineController implements Initializable {
 								root = loader.load();
 								System.out.println(loader);
 								modLineCheapController controller = loader.getController();
-								System.out.println(controller);
+								controller.setLineMapManager(lineMapManager);
 								controller.setCheapLine((CheapLine)busLine);
 							}
 							if (busLine.getType() == "Superior") {
@@ -88,24 +89,23 @@ public class showLineController implements Initializable {
     		});
     		return row;
     	});
-    	BusLineDao busLineDao = new BusLineDaoPG();
-		try {
-			lineRow = FXCollections.observableList(busLineDao.getAllBusLines());
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		lineTable.setItems(lineRow);
-		lineNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
-		lineTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 	}
 	@FXML
     public void goBack(ActionEvent event) {
 		Stage stage = (Stage) lineTable.getScene().getWindow();
 		stage.close();
     }
+
     public void setOperation(avalibleOperations operation) {
     	this.operation = operation;
+    }
+    public void setManager(LineMapManager lineMapManager) {
+    	System.out.println(lineMapManager);
+    	this.lineMapManager = lineMapManager;
+		lineRow = FXCollections.observableList(lineMapManager.getAllBusLines());
+		lineTable.setItems(lineRow);
+		lineNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
+		lineTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 }
