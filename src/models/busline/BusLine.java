@@ -142,6 +142,9 @@ public abstract class BusLine {
 				.map(b -> b.getBusStop())
 				.filter(b -> this.outDegree(b)==0).findAny().get();
 	}
+	public Boolean validateChanges(BusLine busLine) {
+		return this.color.equals(busLine.getColor()) && this.seatingCapacity.equals(busLine.getSeatingCapacity());
+	}
 	public static void main(String[] arg) {
 		BusLine bl = new CheapLine("Hola","rojo");
 		BusStop b1 = new BusStop(1,"b1",111,true);

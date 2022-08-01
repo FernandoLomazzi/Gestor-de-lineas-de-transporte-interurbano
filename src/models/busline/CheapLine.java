@@ -40,4 +40,8 @@ public class CheapLine extends BusLine {
 		return maxStandingCapacityPercentage;
 	}
 	
+	public Boolean validateChanges(CheapLine cheapLine) {
+		return super.validateChanges(cheapLine) && this.standingCapacityPercentage.equals(cheapLine.getStandingCapacityPercentage());
+	}
+	
 }

@@ -139,7 +139,6 @@ public class BusLineDaoPG implements BusLineDao{
 				"(bus_line_name, source_stop_number, destination_stop_number, estimated_time) " +
 				"VALUES (?, ?, ?, ?)";
 		
-
 		public void addData(BusLine t) throws DBConnectionException {
 			for(BusLineRoute busLineRoute : t.getRoutes()) {
 				try(Connection connection = DBConnection.getConnection()){
