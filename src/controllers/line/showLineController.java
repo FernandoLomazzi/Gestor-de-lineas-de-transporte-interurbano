@@ -45,28 +45,6 @@ public class showLineController implements Initializable {
 	
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-    	BusLineDao busLineDao = new BusLineDaoPG();
-		try {
-			lineRow = FXCollections.observableList(busLineDao.getAllBusLines());
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		lineTable.setItems(lineRow);
-		lineNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
-		lineTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-	}
-    
-	
-	@FXML
-    public void goBack(ActionEvent event) {
-		Stage stage = (Stage) lineTable.getScene().getWindow();
-		stage.close();
-    }
-
-    @Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
     	lineTable.setRowFactory( tv -> {
     		TableRow<BusLine> row = new TableRow<>();
     		row.setOnMouseClicked(event -> {
@@ -121,6 +99,11 @@ public class showLineController implements Initializable {
 		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
 		lineTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 	}
+	@FXML
+    public void goBack(ActionEvent event) {
+		Stage stage = (Stage) lineTable.getScene().getWindow();
+		stage.close();
+    }
     public void setOperation(avalibleOperations operation) {
     	this.operation = operation;
     }

@@ -58,7 +58,7 @@ public abstract class modLineController implements Initializable{
 		@Override
 		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
 			System.out.println("Cambio");
-			modifiedBusLine.setColor(colorProperty.getValue().toString());
+			modifiedBusLine.setColor(colorProperty.getValue());
 			modifiedBusLine.setSeatingCapacity(seatingCapacityProperty.getValue());
 		}
 	}
