@@ -44,4 +44,8 @@ public class CheapLine extends BusLine {
 	public Double calculateCost(BusLineRoute route) {
 		return route.getDistanceInKM()*super.ticketCostPerKM*(1+ticketPercentagePerUse);
 	}
+	
+	public Boolean validateChanges(CheapLine cheapLine) {
+		return super.validateChanges(cheapLine) && this.standingCapacityPercentage.equals(cheapLine.getStandingCapacityPercentage());
+	}
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import controllers.line.addLineController;
+import controllers.line.showLineController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -90,6 +91,8 @@ public class busLineScreenController implements Initializable,returnScene{
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
     		AnchorPane root = loader.load();
+    		showLineController controller = loader.getController();
+    		controller.setOperation(showLineController.avalibleOperations.MODIFY);
     		Scene scene = new Scene(root);
     		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Modificar Linea");

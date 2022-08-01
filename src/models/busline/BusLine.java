@@ -145,12 +145,17 @@ public abstract class BusLine {
 				.map(b -> b.getBusStop())
 				.filter(b -> this.outDegree(b)==0).findAny().get();
 	}
+
 	public BusLineRoute getLineRoute(BusStop sourceStop,BusStop destinationStop) {
 		for(BusLineRoute route : routes) {
 			if(route.getSourceStop().equals(sourceStop) && route.getDestinationStop().equals(destinationStop))
 				return route;
 		}
 		return null;
+	}
+	
+	public Boolean validateChanges(BusLine busLine) {
+		return this.color.equals(busLine.getColor()) && this.seatingCapacity.equals(busLine.getSeatingCapacity());
 	}
 	public static void main(String[] arg) {
 		BusLine bl = new CheapLine("Hola",Color.RED);
