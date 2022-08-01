@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane fx:id="gridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busLineScreenController">
@@ -21,14 +20,13 @@
       <Button fx:id="goToPrevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" GridPane.rowIndex="2" />
       <ToolBar GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
          <items>
-            <HBox spacing="50.0">
-               <children>
-                  <Button fx:id="modifyBusLineButton" mnemonicParsing="false" onAction="#modifyBusLine" prefHeight="25.0" text="Modificar Parada de Colectivos" />
-                  <Button fx:id="deleteBusLineButton" mnemonicParsing="false" onAction="#deleteBusLine" prefHeight="25.0" text="Eliminar Parada de Colectivos" />
-                  <Button fx:id="addBusLineButton" mnemonicParsing="false" onAction="#addBusLine" prefHeight="25.0" text="Agregar Parada de Colectivos" />
-               </children>
-            </HBox>
+            <Button fx:id="addBusLineButton" mnemonicParsing="false" onAction="#addBusLine" prefHeight="25.0" text="Agregar Parada de Colectivos" />
+            <Button fx:id="modifyBusLineButton" mnemonicParsing="false" onAction="#modifyBusLine" prefHeight="25.0" text="Modificar Parada de Colectivos" />
+            <Button fx:id="deleteBusLineButton" mnemonicParsing="false" onAction="#deleteBusLine" prefHeight="25.0" text="Eliminar Parada de Colectivos" />
          </items>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </ToolBar>
    </children>
    <padding>

@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import managers.StageManager;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
@@ -72,8 +73,8 @@ public class showLineController implements Initializable {
 								controller.setBusLine((PremiumLine)busLine);
 							}
 							Scene scene = new Scene(root);
-							stage.setScene(scene);
 							stage.setTitle("Modificar " + busLine.getName());
+							stage.setScene(scene);							
 							stage.showAndWait();
     					}
     					else if (operation == avalibleOperations.DELETE) {

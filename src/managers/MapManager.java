@@ -16,7 +16,7 @@ import src.com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 public abstract class MapManager {
 	protected Digraph<BusStop, Route> map;
 	protected SmartGraphPanel<BusStop, Route> mapView;
-	
+
 	public List<BusStop> getBusStops(){
 		return map.vertices().stream().map(v -> v.element()).toList();
 	}

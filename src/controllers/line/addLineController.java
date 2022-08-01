@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import managers.AlertManager;
 import managers.LineMapManager;
+import managers.StageManager;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
@@ -121,7 +122,7 @@ public class addLineController implements Initializable{
 	        Scene scene = new Scene(root);
 	        Stage stage = (Stage) nextButton.getScene().getWindow();
 	        stage.setScene(scene);
-	        //stage.show();
+	        StageManager.updateMainStage();
 	        controller.init(busLine);
 		} catch (IOException e) {
 			e.printStackTrace();

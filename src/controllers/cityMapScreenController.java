@@ -46,6 +46,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import managers.AlertManager;
 import managers.CityMapManager;
+import managers.StageManager;
 import models.BusStop;
 import models.Route;
 import models.utils.SelectTwoStop;
@@ -261,6 +262,7 @@ public class cityMapScreenController implements Initializable,returnScene{
 			controller.setPrevScene(showIncidentButton.getScene());
 			Scene scene = new Scene(root);
 	        stage.setScene(scene);
+	        StageManager.updateMainStage();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -272,5 +274,6 @@ public class cityMapScreenController implements Initializable,returnScene{
 	@Override
 	public void goToPrevScene(ActionEvent event) {
 		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
+		StageManager.updateMainStage();
 	}
 }

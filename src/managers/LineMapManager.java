@@ -41,6 +41,9 @@ public class LineMapManager extends MapManager{
 		this.updateMapView();
 	}
 	public void initView() {
+		System.out.println(
+				mapView.getHeight()+" - "+
+				mapView.getWidth());
 		super.initView();
 		mapView.updateAndWait();
 		for(BusLine busLine: busLines) {

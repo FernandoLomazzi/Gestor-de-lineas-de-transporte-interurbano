@@ -1,23 +1,23 @@
 package controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import managers.CityMapManager;
-import managers.LineMapManager;
+import managers.StageManager;
 
 public class mainScreenController{
+	@FXML
+	private AnchorPane pane;
 	@FXML
 	private Button cityMapButton;
 	@FXML
@@ -36,7 +36,8 @@ public class mainScreenController{
 			controller.setPrevScene(cityMapButton.getScene());
 			Scene scene = new Scene(cityMapScreen);
 			mainStage.setScene(scene);
-        	CityMapManager cityMapManager = CityMapManager.getInstance();
+			StageManager.updateMainStage();
+			CityMapManager cityMapManager = CityMapManager.getInstance();
         	cityMapManager.initView();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -53,6 +54,7 @@ public class mainScreenController{
 			Scene scene = new Scene(busLineScreen);
 			mainStage.setTitle("Menú Lineas");
 			mainStage.setScene(scene);
+			StageManager.updateMainStage();
 			controller.getLineMapManager().initView();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -68,6 +70,7 @@ public class mainScreenController{
 			Scene scene = new Scene(busPathScreen);
 			controller.setPrevScene(travelScreenButton.getScene());
 			mainStage.setScene(scene);
+			StageManager.updateMainStage();
 			controller.getPathManager().initView();
 		} catch (IOException e) {
 			e.printStackTrace();

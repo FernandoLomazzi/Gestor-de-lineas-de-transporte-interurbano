@@ -10,14 +10,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import managers.LineMapManager;
+import managers.StageManager;
 import src.com.brunomnsilva.smartgraph.containers.*;
 
 public class busLineScreenController implements Initializable,returnScene{
@@ -35,13 +40,16 @@ public class busLineScreenController implements Initializable,returnScene{
     private Scene prevScene;
     private LineMapManager lineMapManager;
     
+
     public busLineScreenController() {
     	lineMapManager = new LineMapManager();
     }
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		gridPane.add(lineMapManager.getMapView(), 0, 1);
 	}
+	
     public LineMapManager getLineMapManager() {
     	return this.lineMapManager;
     }
@@ -59,7 +67,6 @@ public class busLineScreenController implements Initializable,returnScene{
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.showAndWait();
-            
         }
         catch(IOException e) {
             e.printStackTrace();
@@ -76,8 +83,6 @@ public class busLineScreenController implements Initializable,returnScene{
     		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Eliminar Linea");
     		stage.setScene(scene);
-    		stage.setMaximized(false);
-    		stage.setResizable(false);
     		stage.showAndWait();
     	}
     	catch(IOException e) {
@@ -97,23 +102,20 @@ public class busLineScreenController implements Initializable,returnScene{
     		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Modificar Linea");
     		stage.setScene(scene);
-    		stage.setMaximized(false);
-    		stage.setResizable(false);
     		stage.showAndWait();
     	}
     	catch(IOException e) {
     		e.printStackTrace();
     	}
     }
-
 	@Override
 	public void setPrevScene(Scene scene) {
 		this.prevScene=scene;
 	}
-	
 	@FXML
 	@Override
 	public void goToPrevScene(ActionEvent event) {
 		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
+		StageManager.updateMainStage();
 	}
 }

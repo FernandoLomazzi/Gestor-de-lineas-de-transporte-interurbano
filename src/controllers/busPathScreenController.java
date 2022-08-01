@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import managers.AlertManager;
 import managers.CityMapManager;
 import managers.LinePathManager;
+import managers.StageManager;
 import models.BusStop;
 import models.utils.PathProperty;
 
@@ -126,6 +127,7 @@ public class busPathScreenController implements Initializable,returnScene{
 	@Override
 	public void goToPrevScene(ActionEvent event) {
 		((Stage) prevSceneButton.getScene().getWindow()).setScene(prevScene);
+		StageManager.updateMainStage();
 	}
 
 }

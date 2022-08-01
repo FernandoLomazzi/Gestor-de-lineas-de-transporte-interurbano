@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import managers.AlertManager;
 import managers.LineMapManager;
 import managers.LineMapSelectorManager;
+import managers.StageManager;
 import models.BusLineRoute;
 import models.BusStop;
 import models.Route;
@@ -155,6 +156,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	@Override
 	public void goToPrevScene(ActionEvent event) {
 		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
+		StageManager.updateMainStage();
 	}
 
 }

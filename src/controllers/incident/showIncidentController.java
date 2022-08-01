@@ -24,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import managers.AlertManager;
+import managers.StageManager;
 import models.BusStop;
 import models.Incident;
 import models.utils.MyHeap;
@@ -112,6 +113,7 @@ public class showIncidentController implements Initializable,returnScene {
 	@Override
 	public void goToPrevScene(ActionEvent event) {
 		((Stage) incidentTable.getScene().getWindow()).setScene(previousScene);
+		StageManager.updateMainStage();
 	}
 	
 }

@@ -3,18 +3,13 @@ package application;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.BusStop;
-import models.Route;
-import src.com.brunomnsilva.smartgraph.containers.*;
-import src.com.brunomnsilva.smartgraph.graph.Digraph;
-import src.com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
-import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
-import src.com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
+import javafx.stage.WindowEvent;
+import managers.StageManager;
 
 
 public class Main extends Application {
@@ -27,8 +22,8 @@ public class Main extends Application {
 			AnchorPane root = FXMLLoader.load(getClass().getResource("/views/mainScreen.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.show();        
             primaryStage.setMaximized(true);
+            primaryStage.show();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
