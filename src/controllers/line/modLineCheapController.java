@@ -3,15 +3,21 @@ package controllers.line;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.property.IntegerProperty;
+import db.dao.CheapLineDao;
+import db.dao.impl.CheapLineDaoPG;
+import exceptions.DBConnectionException;
+import exceptions.ModifyFailException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.stage.Stage;
+import managers.AlertManager;
 import models.busline.CheapLine;
 
 public class modLineCheapController extends modLineController {
@@ -21,22 +27,18 @@ public class modLineCheapController extends modLineController {
 	private Label standingPorcentageLabel;
 	@FXML
 	private Slider standingSlider;
-	private IntegerProperty seatingCapacityProperty;
 	private StringProperty standingCapacityProperty;
 	private CheapLine cheapLineToModify;
 	private CheapLine modifiedCheapLine;
 	private class CheapLineListener implements ChangeListener<Object> {
 		@Override
 		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
-			modifiedCheapLine.setStandingCapacityPercentage(Double.parseDouble(standingCapacityProperty.getValue().trim().replace(',','.')));
-			System.out.println(0);
+			modifiedCheapLine.setStandingCapacityPercentage(Double.parseDouble(standingCapacityProperty.getValue().trim().replace(',','.'))/100);
 			if (modifiedCheapLine.validateChanges(cheapLineToModify)) {
-				System.out.println(1);
 				confirmChangesButton.setDisable(true);
 			}
 			else {
 				confirmChangesButton.setDisable(false);
-				System.out.println(2);
 			}
 		}
 	}
@@ -51,25 +53,42 @@ public class modLineCheapController extends modLineController {
 		
 		standingCapacityProperty = new SimpleStringProperty();
 		standingCapacityProperty.bind(standingPorcentageLabel.textProperty());
-		standingCapacityProperty.addListener(new CheapLineListener());
 	}
 
-	@Override
 	@FXML
 	protected void confirmChanges(ActionEvent event) {
+		super.confirmChanges();
+		cheapLineToModify.setStandingCapacityPercentage(modifiedCheapLine.getStandingCapacityPercentage());
+		lineMapManager.chargeLine(cheapLineToModify);
 
+    	CheapLineDao cheapLineDao = new CheapLineDaoPG();
+    	try {
+    		cheapLineDao.modifyData(cheapLineToModify);
+    	}
+    	catch(DBConnectionException | ModifyFailException e) {
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
+			return;
+    	}
+
+    	((Stage)standingLabel.getScene().getWindow()).close();
 	}
 	
-	@Override
 	@FXML
 	protected void restoreChanges(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
+		super.restoreChanges();
+		standingSlider.setValue(cheapLineToModify.getStandingCapacityPercentage()*100);
 	}
 	
 	public void setCheapLine(CheapLine cheapLineToModify) {
 		this.cheapLineToModify = cheapLineToModify;
 		this.modifiedCheapLine = new CheapLine();
 		setBusLine(cheapLineToModify, modifiedCheapLine);
+		
+		standingSlider.setValue(cheapLineToModify.getStandingCapacityPercentage()*100);
+		super.restoreChanges();
+
+		standingCapacityProperty.addListener(new CheapLineListener());
+		colorProperty.addListener(new CheapLineListener());
+		seatingCapacityProperty.addListener(new CheapLineListener());
 	}
 }

@@ -72,13 +72,13 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 	public void deleteData(PremiumLine premiumLine) throws DBConnectionException, DeleteFailException {
 		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
 		busLineDaoPG.deleteData(premiumLine);
-		PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
+		/*PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
 		try {
 			premiumLineServiceDaoPG.DeleteData(premiumLine);
 		}
 		catch (AddFailException e) {
 			throw new DeleteFailException("Cambiar");
-		}
+		}*/
 	}
 	
 	@Override

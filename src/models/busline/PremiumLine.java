@@ -39,6 +39,15 @@ public class PremiumLine extends BusLine {
     public Set<PremiumLineService> getServices() {
         return services;
     }
+    public void setServices(Set<PremiumLineService> services) {
+    	this.services = services;
+    }
+    public Boolean isService(PremiumLineService service) {
+    	return this.services.contains(service);
+    }
+    public Boolean validateChanges(PremiumLine premiumLine) {
+    	return this.services.equals(premiumLine.getServices()) && super.validateChanges(premiumLine);
+    }
 	@Override
 	public Double calculateCost(BusLineRoute route) {
 		Double extraPercentage = ticketPercentagePerUse + services.size() * ticketPercentagePerService;
