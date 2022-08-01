@@ -121,7 +121,7 @@ public class addLineController implements Initializable{
 	        Scene scene = new Scene(root);
 	        Stage stage = (Stage) nextButton.getScene().getWindow();
 	        stage.setScene(scene);
-	        stage.show();
+	        //stage.show();
 	        controller.init(busLine);
 		} catch (IOException e) {
 			e.printStackTrace();

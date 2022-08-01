@@ -5,10 +5,13 @@ import java.util.List;
 import db.dao.BusLineDao;
 import db.dao.impl.BusLineDaoPG;
 import exceptions.DBConnectionException;
+import models.BusStop;
+import models.Route;
 import models.busline.BusLine;
 import src.com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import src.com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
+import src.com.brunomnsilva.smartgraph.containers.*;
 
 public class LineMapManager extends MapManager{
 	private List<BusLine> busLines;

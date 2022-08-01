@@ -9,8 +9,8 @@ public class BusStop {
 	private Integer stopStreetNumber;
 	private Boolean enabled;
 	
-	private static String defaultStyle = "-fx-stroke: #61B5F1;-fx-fill: #B1DFF7;";
-	private static String disabledStyle = "-fx-fill: #C3D3DB;-fx-stroke: #A8C5D9;";  
+	private static String defaultStyle = "-fx-stroke: #000000;-fx-fill: #FFFFFF;-fx-opacity: 1;";
+	private static String disabledStyle = "-fx-stroke: #000000;-fx-fill: #FFFFFF;-fx-opacity: 0.5;";  
 	
 	public BusStop() {
 		this.enabled = true;

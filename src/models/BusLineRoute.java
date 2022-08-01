@@ -70,7 +70,6 @@ public class BusLineRoute extends Route{
 	public BusStop getDestinationStop() {
 		return route.getDestinationStop();
 	}
-	
 	public BusLine getBusLine() {
 		return busLine;
 	}

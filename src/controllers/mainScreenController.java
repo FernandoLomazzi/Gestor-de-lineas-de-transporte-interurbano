@@ -1,19 +1,23 @@
 package controllers;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import managers.CityMapManager;
 import managers.LineMapManager;
 
-public class mainScreenController {
+public class mainScreenController{
 	@FXML
 	private Button cityMapButton;
 	@FXML
@@ -22,16 +26,16 @@ public class mainScreenController {
 	private Button travelScreenButton;
 
 	private Stage mainStage = Main.mainStage;
-	// Event Listener on Button[#cityMapButton].onAction
+
 	@FXML
 	public void setCityMap(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cityMapScreen.fxml"));
 			BorderPane cityMapScreen = loader.load();
 			cityMapScreenController controller = loader.getController();
-			Scene scene = new Scene(cityMapScreen);
 			controller.setPrevScene(cityMapButton.getScene());
-            mainStage.setScene(scene);
+			Scene scene = new Scene(cityMapScreen);
+			mainStage.setScene(scene);
         	CityMapManager cityMapManager = CityMapManager.getInstance();
         	cityMapManager.initView();
 		} catch(Exception e) {
@@ -43,10 +47,10 @@ public class mainScreenController {
 	public void setLineScreen(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/busLineScreen.fxml"));
-			BorderPane busLineScreen = loader.load();
+			GridPane busLineScreen = loader.load();
 			busLineScreenController controller = loader.getController();
-			Scene scene = new Scene(busLineScreen);
 			controller.setPrevScene(lineScreenButton.getScene());
+			Scene scene = new Scene(busLineScreen);
 			mainStage.setTitle("Menú Lineas");
 			mainStage.setScene(scene);
 			controller.getLineMapManager().initView();
