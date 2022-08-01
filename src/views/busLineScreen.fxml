@@ -2,21 +2,36 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busLineScreenController">
-   <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets top="20.0" />
-         </padding>
-         <children>
-            <Button fx:id="addBusLineButton" mnemonicParsing="false" onAction="#addBusLine" text="addBusLine" />
-            <Button fx:id="modifyBusLineButton" mnemonicParsing="false" onAction="#modifyBusLine" text="modifyBusLine" />
-            <Button fx:id="deleteBusLineButton" mnemonicParsing="false" onAction="#deleteBusLine" text="deleteBusLine" />
-            <Button fx:id="goToPrevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" />
-         </children>
-      </VBox>
-   </right>
-</BorderPane>
+<GridPane fx:id="gridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.busLineScreenController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" valignment="TOP" />
+      <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
+      <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" valignment="BOTTOM" vgrow="NEVER" />
+   </rowConstraints>
+   <children>
+      <Button fx:id="goToPrevSceneButton" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" GridPane.rowIndex="2" />
+      <ToolBar GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
+         <items>
+            <HBox spacing="50.0">
+               <children>
+                  <Button fx:id="modifyBusLineButton" mnemonicParsing="false" onAction="#modifyBusLine" prefHeight="25.0" text="Modificar Parada de Colectivos" />
+                  <Button fx:id="deleteBusLineButton" mnemonicParsing="false" onAction="#deleteBusLine" prefHeight="25.0" text="Eliminar Parada de Colectivos" />
+                  <Button fx:id="addBusLineButton" mnemonicParsing="false" onAction="#addBusLine" prefHeight="25.0" text="Agregar Parada de Colectivos" />
+               </children>
+            </HBox>
+         </items>
+      </ToolBar>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

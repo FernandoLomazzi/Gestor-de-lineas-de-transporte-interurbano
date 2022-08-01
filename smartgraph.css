@@ -7,19 +7,20 @@ STYLESHEET FOR JAVAFXGRAPH VISUALIZATION
 }
 
 .vertex {
-    -fx-stroke-width: 3;
-    -fx-stroke: #61B5F1;
+    -fx-stroke-width: 5;
+    -fx-stroke: #000000;
     -fx-stroke-type: inside; /* you should keep this if using arrows */
-    -fx-fill: #B1DFF7;
+    -fx-fill: #FFFFFF;
+	-fx-opacity: 1;
 }
 
 .vertex-label {
-    -fx-font: bold 15pt "sans-serif";
+    -fx-font: bold 15pt "verdana";
 }
 
 .edge {
-    -fx-stroke-width: 5;
-    -fx-stroke: #FF6D66;  
+    -fx-stroke-width: 10;
+    -fx-stroke: #26b1fc;  
 	/* -fx-stroke-dash-array: 0 5 3 5;*/ /* remove for clean edges */  
 	-fx-fill: transparent; /*important for curved edges */
     -fx-stroke-line-cap: round;
@@ -27,12 +28,12 @@ STYLESHEET FOR JAVAFXGRAPH VISUALIZATION
 }
 
 .edge-label {
-    -fx-font: normal 12pt "sans-serif";
+    -fx-font: normal 12pt "verdana";
 }
 
 .arrow {
     -fx-stroke-width: 3;
-    -fx-stroke: #FF6D66;  
+    -fx-stroke: #26b1fc;  
     -fx-opacity: 0.8;
 }
 

@@ -15,12 +15,14 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import javafx.scene.paint.Color;
 import exceptions.busStop.BusStopNotFoundException;
 import models.BusLineRoute;
 import models.BusLineStop;
 import models.BusStop;
 import models.Route;
 import models.busline.BusLine;
+import models.busline.CheapLine;
 
 public class BusLineDaoPG implements BusLineDao{
 	private static final String INSERT_SQL =
@@ -42,7 +44,7 @@ public class BusLineDaoPG implements BusLineDao{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
 				ps.setString(1, busLine.getName());
-				ps.setString(2, busLine.getColor());
+				ps.setString(2, busLine.getColor().toString());
 				ps.setInt(3, busLine.getSeatingCapacity());
 				ps.executeUpdate();
 			}
@@ -60,7 +62,7 @@ public class BusLineDaoPG implements BusLineDao{
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setString(1, busLine.getName());
-				ps.setString(2, busLine.getColor());
+				ps.setString(2, busLine.getColor().toString());
 				ps.setInt(3, busLine.getSeatingCapacity());
 				ps.executeUpdate();
 			}

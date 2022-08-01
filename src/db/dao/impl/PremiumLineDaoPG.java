@@ -14,6 +14,7 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import javafx.scene.paint.Color;
 import models.busline.BusLine;
 import models.busline.PremiumLine;
 import models.busline.PremiumLine.PremiumLineService;
@@ -88,7 +89,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					String name = rs.getString(1);
-					String color = rs.getString(2);
+					Color color = Color.valueOf(rs.getString(2));
 					Integer seating_capacity = rs.getInt(3);
 					
 					HashSet<PremiumLineService> services = new HashSet<PremiumLineService>();

@@ -9,10 +9,12 @@ public class BusStop {
 	private Integer stopStreetNumber;
 	private Boolean enabled;
 	
+	private static String defaultStyle = "-fx-stroke: #000000;-fx-fill: #FFFFFF;-fx-opacity: 1;";
+	private static String disabledStyle = "-fx-stroke: #000000;-fx-fill: #FFFFFF;-fx-opacity: 0.5;";  
+	
 	public BusStop() {
 		this.enabled = true;
 	}
-	
 	public BusStop(Integer stopNumber, String stopStreetName, Integer stopStreetNumber, Boolean enabled) {
 		this.stopNumber = stopNumber;
 		this.stopStreetName = stopStreetName;
@@ -37,7 +39,12 @@ public class BusStop {
 		return Objects.equals(stopNumber, other.stopNumber) && Objects.equals(stopStreetName, other.stopStreetName)
 				&& Objects.equals(stopStreetNumber, other.stopStreetNumber);
 	}
-
+	public static String getDefaultStyle() {
+		return BusStop.defaultStyle;
+	}
+	public static String getDisabledStyle() {
+		return BusStop.disabledStyle;
+	}
 	public Integer getStopNumber() {
 		return stopNumber;
 	}
@@ -63,13 +70,9 @@ public class BusStop {
 		this.enabled = enabled;
 	}
 	
-	@SmartLabelSource
-	public String busStopLabel() {
-		return stopStreetName+" "+stopStreetNumber;
-	}
 	@Override
 	public String toString() {
-		return stopNumber+" ("+stopStreetName+" "+stopStreetNumber+")";
+		return stopStreetName+" "+stopStreetNumber;
 	}
 	
 }

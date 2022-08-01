@@ -13,6 +13,7 @@ import exceptions.AddFailException;
 import exceptions.DBConnectionException;
 import exceptions.DeleteFailException;
 import exceptions.ModifyFailException;
+import javafx.scene.paint.Color;
 import models.busline.CheapLine;
 
 public class CheapLineDaoPG implements CheapLineDao{
@@ -88,7 +89,7 @@ public class CheapLineDaoPG implements CheapLineDao{
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					String name = rs.getString(1);
-					String color = rs.getString(2);
+					Color color = Color.valueOf(rs.getString(2));
 					Integer seating_capacity = rs.getInt(3);
 					Double standing_capacity_porcentage = rs.getDouble(4);
 					CheapLine cheapLine = new CheapLine(name,color,seating_capacity, standing_capacity_porcentage);

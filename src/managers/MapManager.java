@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import models.BusStop;
 import models.Route;
+import models.busline.BusLine;
 import src.com.brunomnsilva.smartgraph.graph.Digraph;
 import src.com.brunomnsilva.smartgraph.graph.Edge;
 import src.com.brunomnsilva.smartgraph.graph.Vertex;
@@ -65,5 +66,12 @@ public abstract class MapManager {
 		SmartGraphEdge<Route,BusStop> ed = (SmartGraphEdge<Route,BusStop>) mapView.getStylableEdge(route);
 		ed.setStyle(style);
 		ed.getStylableArrow().setStyle(style);
+		ed.getStylableLabel().setStyle(style);
+	}
+	protected String getRouteStyle(String color) {
+		return "-fx-stroke: #"+color+";";
+	}
+	protected String getStopStyle(String color) {
+		return "-fx-stroke: #"+color+";-fx-fill: #"+color+";";
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javafx.scene.paint.Color;
 import models.BusLineRoute;
 import models.BusLineStop;
 import models.BusStop;
@@ -12,25 +13,24 @@ import models.Route;
 public abstract class BusLine {
 	protected String name;
 	//Cambiar color
-	protected String color;
+	protected Color color;
 	protected Integer seatingCapacity;
 	protected List<BusLineRoute> routes;
 	protected List<BusLineStop> busStops;
-	
-	public abstract String getType();
 	protected static final Double ticketCostPerKM = 5.5;
+	
 	protected BusLine() {
 		routes = new ArrayList<>();
 		busStops = new ArrayList<>(); 
 	}
-	protected BusLine(String name, String color, Integer seatingCapacity) {
+	protected BusLine(String name, Color color, Integer seatingCapacity) {
 		this.name = name;
 		this.color = color;
 		this.seatingCapacity = seatingCapacity;
 		this.routes = new ArrayList<>();
 		this.busStops = new ArrayList<>();
 	}
-	protected BusLine(String name,String color) {
+	protected BusLine(String name,Color color) {
 		routes = new ArrayList<>();
 		busStops = new ArrayList<>();
 		this.name=name;
@@ -40,6 +40,8 @@ public abstract class BusLine {
 		this.busStops=busStops;
 		this.routes=routes;
 	}
+	public abstract String getType();
+	public abstract Double calculateCost(BusLineRoute route);
 	public List<BusLineRoute> outboundEdges(BusLineStop busStop){
 		List<BusLineRoute> ret = new ArrayList<>();
 		for(BusLineRoute route: routes) {
@@ -86,7 +88,7 @@ public abstract class BusLine {
 		this.name = name;
 	}
 
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 
@@ -101,11 +103,15 @@ public abstract class BusLine {
 	public void setBusStops(List<BusLineStop> busStops) {
 		this.busStops = busStops;
 	}
-
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
-
+	public String getColorStyle() {
+		return color.toString().substring(2);
+	}
+	public String getColorDisabledStyle() {
+		return color.darker().toString().substring(2);
+	}
 	public Integer getSeatingCapacity() {
 		return seatingCapacity;
 	}
@@ -129,9 +135,6 @@ public abstract class BusLine {
 	public void addStopLine(BusLineStop lineStop) {
 		busStops.add(lineStop);
 	}
-	public void addNewStopLine(BusStop busStop) {
-		busStops.add(new BusLineStop(this,busStop,true));
-	}
 	public BusStop getBeginStop() {
 		return busStops.stream()
 				.map(b -> b.getBusStop())
@@ -142,8 +145,15 @@ public abstract class BusLine {
 				.map(b -> b.getBusStop())
 				.filter(b -> this.outDegree(b)==0).findAny().get();
 	}
+	public BusLineRoute getLineRoute(BusStop sourceStop,BusStop destinationStop) {
+		for(BusLineRoute route : routes) {
+			if(route.getSourceStop().equals(sourceStop) && route.getDestinationStop().equals(destinationStop))
+				return route;
+		}
+		return null;
+	}
 	public static void main(String[] arg) {
-		BusLine bl = new CheapLine("Hola","rojo");
+		BusLine bl = new CheapLine("Hola",Color.RED);
 		BusStop b1 = new BusStop(1,"b1",111,true);
 		BusStop b2 = new BusStop(2,"b2",222,true);
 		//BusStop b3 = new BusStop(3,"b3",333,true);

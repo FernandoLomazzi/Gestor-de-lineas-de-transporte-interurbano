@@ -28,13 +28,7 @@ import src.com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import src.com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 public class CityMapManager extends MapManager{
-	private static CityMapManager instance;
-	
-	public static final String enabledStopStyle = "-fx-stroke: #61B5F1;-fx-fill: #B1DFF7;";
-	public static final String disabledStopStyle = "-fx-fill: #C3D3DB;-fx-stroke: #A8C5D9;";
-	public static final String enabledRouteStyle = "-fx-stroke: #FF6D66;";
-	public static final String disabledRouteStyle = "-fx-stroke: #FFA19D;";
-	
+	private static CityMapManager instance;	
 	private Boolean initialized;
 	
 	private CityMapManager() {
@@ -54,7 +48,6 @@ public class CityMapManager extends MapManager{
 		busStops.forEach(b -> map.insertVertex(b));
 		routes.forEach(r -> map.insertEdge(r.getSourceStop(), r.getDestinationStop(), r));
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
-		mapView.setAutomaticLayout(true);
 	}
 	
 	public static CityMapManager getInstance() {
@@ -67,15 +60,15 @@ public class CityMapManager extends MapManager{
 		map.insertEdge(route.getSourceStop(),route.getDestinationStop(),route);
 		if(!route.isEnabled()) {
 			mapView.updateAndWait();
-			mapView.getStylableEdge(route).setStyle(disabledRouteStyle);
+			mapView.getStylableEdge(route).setStyle(Route.getDisabledStyle());
 		}
 		this.updateMapView();
 	}
 	public void enableStyleStop(BusStop busStop) {
-		setStyleStopMap(busStop,enabledStopStyle,enabledRouteStyle);
+		setStyleStopMap(busStop,BusStop.getDefaultStyle(),Route.getDefaultStyle());
 	}
 	public void disableStyleStop(BusStop busStop) {
-		setStyleStopMap(busStop,disabledStopStyle,disabledRouteStyle);
+		setStyleStopMap(busStop,BusStop.getDisabledStyle(),Route.getDisabledStyle());
 	}
 	@Override
 	public void initView() {
@@ -88,7 +81,7 @@ public class CityMapManager extends MapManager{
 	private void initStyleMap() {
         map.vertices().forEach((Vertex<BusStop> b) -> {
         	if(!b.element().isEnabled()) {
-        		this.setStyleStopMap(b.element(),disabledStopStyle,disabledRouteStyle);
+        		this.setStyleStopMap(b.element(),BusStop.getDisabledStyle(),Route.getDisabledStyle());
         	}
         });
 	}
@@ -101,5 +94,11 @@ public class CityMapManager extends MapManager{
 			this.setEdgeStyle(ed.element(), routeStyle);
 		});
 		this.updateMapView();
+	}
+	@Override
+	protected void setEdgeStyle(Route route,String style) {
+		SmartGraphEdge<Route,BusStop> ed = (SmartGraphEdge<Route,BusStop>) mapView.getStylableEdge(route);
+		ed.setStyle(style);
+		ed.getStylableArrow().setStyle(style);
 	}
 }
