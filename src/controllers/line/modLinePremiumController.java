@@ -74,11 +74,11 @@ public class modLinePremiumController extends modLineController{
     void confirmChanges(ActionEvent event) {
     	super.confirmChanges();
     	premiumLineToModify.setServices(modifiedPremiumLine.getServices());
-    	lineMapManager.chargeLine(premiumLineToModify);
 
     	PremiumLineDao cheapLineDao = new PremiumLineDaoPG();
     	try {
     		cheapLineDao.modifyData(premiumLineToModify);
+    		lineMapManager.chargeLine(premiumLineToModify);
     	}
     	catch(DBConnectionException | ModifyFailException e) {
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();

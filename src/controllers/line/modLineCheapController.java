@@ -62,11 +62,11 @@ public class modLineCheapController extends modLineController {
 	protected void confirmChanges(ActionEvent event) {
 		super.confirmChanges();
 		cheapLineToModify.setStandingCapacityPercentage(modifiedCheapLine.getStandingCapacityPercentage());
-		lineMapManager.chargeLine(cheapLineToModify);
 
     	CheapLineDao cheapLineDao = new CheapLineDaoPG();
     	try {
     		cheapLineDao.modifyData(cheapLineToModify);
+    		lineMapManager.chargeLine(cheapLineToModify);
     	}
     	catch(DBConnectionException | ModifyFailException e) {
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
