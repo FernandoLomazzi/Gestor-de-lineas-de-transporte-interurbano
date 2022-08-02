@@ -17,6 +17,7 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 * JDK 11
 * JavaFX 18.0.1
 * PostgreSql 42.4.0
+* JavaFXSmartGraph 0.9.4
 * ControlsFX 11.1.1
 
 # Autores
