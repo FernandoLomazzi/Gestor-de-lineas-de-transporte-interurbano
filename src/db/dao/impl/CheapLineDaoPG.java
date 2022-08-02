@@ -23,7 +23,7 @@ public class CheapLineDaoPG implements CheapLineDao{
 			"VALUES (?,?,?);";
 	private static final String UPDATE_SQL = 
 			"UPDATE CheapLine SET " + 
-			"name=?,standing_capacity_percentage=?,standing_capacity=? " +
+			"standing_capacity_percentage=?,standing_capacity=? " +
 			"WHERE name=?;";
 	private static final String DELETE_SQL = 
 			"DELETE FROM CheapLine " +
@@ -56,9 +56,9 @@ public class CheapLineDaoPG implements CheapLineDao{
 		busLineDaoPG.modifyData(cheapLine);
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
-				ps.setString(1, cheapLine.getName());
-				ps.setDouble(2, cheapLine.getStandingCapacityPercentage());
-				ps.setInt(3, cheapLine.getSeatingCapacity());
+				ps.setDouble(1, cheapLine.getStandingCapacityPercentage());
+				ps.setInt(2, cheapLine.getSeatingCapacity());
+				ps.setString(3, cheapLine.getName());
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {

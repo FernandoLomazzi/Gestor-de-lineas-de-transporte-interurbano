@@ -39,53 +39,52 @@ public abstract class modLineController implements Initializable{
 	private BusLine modifiedBusLine;
 	public static final Integer MIN_SPINNER = 1;
 	public static final Integer MAX_SPINNER = 200;
-
+	
 	@FXML
     protected void goBack(ActionEvent event) {
     	((Stage)confirmChangesButton.getScene().getWindow()).close();
     };
-
-	protected void confirmChanges() {
-		busLineToModify.setColor(modifiedBusLine.getColor());
-		busLineToModify.setSeatingCapacity(modifiedBusLine.getSeatingCapacity());
-	}
-
-	@Override
+    
+    @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(MIN_SPINNER, MAX_SPINNER);
 		seatingCapacity.setValueFactory(valueFactory);
 		
 		colorProperty = new SimpleObjectProperty<Color>();
 		colorProperty.bind(color.valueProperty());
-		colorProperty.addListener(new BusLineListener());
 		seatingCapacityProperty = new SimpleIntegerProperty();
 		seatingCapacityProperty.bind(seatingCapacity.valueProperty());
-		seatingCapacityProperty.addListener(new BusLineListener());
-		colorProperty.addListener(new BusLineListener());
 		
 		confirmChangesButton.setDisable(true);
 	}
 
-	private class BusLineListener implements ChangeListener<Object> {
-		@Override
-		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
-			System.out.println("Cambio");
-			modifiedBusLine.setColor(colorProperty.getValue());
-			modifiedBusLine.setSeatingCapacity(seatingCapacityProperty.getValue());
-		}
+	protected void confirmChanges() {
+		busLineToModify.setColor(modifiedBusLine.getColor());
+		busLineToModify.setSeatingCapacity(modifiedBusLine.getSeatingCapacity());
 	}
-	
+
 	protected void setBusLine(BusLine busLineToModify, BusLine modifiedBusLine) {
 		this.busLineToModify = busLineToModify;
 		this.modifiedBusLine = modifiedBusLine;
+	}
+
+	protected void setListeners(ChangeListener<Object> listener) {
+		colorProperty.addListener(listener);
+		seatingCapacityProperty.addListener(listener);
+		colorProperty.addListener(listener);
 	}
 
 	protected void restoreChanges() {
 		color.setValue(busLineToModify.getColor());
 		seatingCapacity.getValueFactory().setValue(busLineToModify.getSeatingCapacity());
 	}
+
+	protected void changedBusLine() {
+		modifiedBusLine.setColor(colorProperty.getValue());
+		modifiedBusLine.setSeatingCapacity(seatingCapacityProperty.getValue());
+	}
+
 	public void setLineMapManager(LineMapManager lineMapManager) {
 		this.lineMapManager = lineMapManager;
 	}
-
 }

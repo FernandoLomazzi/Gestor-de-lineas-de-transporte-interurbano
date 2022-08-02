@@ -16,7 +16,7 @@ CREATE TABLE CheapLine (
 );
 
 CREATE TABLE PremiumLine (
-	name varchar(50) PRIMARY KEY REFERENCES BusLine(name)
+	name varchar(50) PRIMARY KEY REFERENCES BusLine(name) ON DELETE CASCADE
 );
 
 CREATE TABLE PremiumLineServices (

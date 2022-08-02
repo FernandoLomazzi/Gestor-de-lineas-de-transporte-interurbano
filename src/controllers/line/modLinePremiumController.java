@@ -3,6 +3,7 @@ package controllers.line;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.dao.PremiumLineDao;
 import db.dao.impl.PremiumLineDaoPG;
@@ -33,10 +34,12 @@ public class modLinePremiumController extends modLineController{
 	private BooleanProperty airServiceProperty;
 	private PremiumLine premiumLineToModify;
 	private PremiumLine modifiedPremiumLine;
+	private Set<PremiumLineService> services;
 	private class PremiumLineListener implements ChangeListener<Object> {
 		@Override
 		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
-			HashSet<PremiumLineService> services = new HashSet<>();
+			changedBusLine();
+			services.clear();
 			if (wifiService.isSelected()) {
 				services.add(PremiumLineService.WIFI);
 			}
@@ -44,8 +47,8 @@ public class modLinePremiumController extends modLineController{
 				services.add(PremiumLineService.AIR_CONDITIONING);
 			}
 			modifiedPremiumLine.setServices(services);
-
-			if (modifiedPremiumLine.validateChanges(premiumLineToModify)) {
+			
+			if (modifiedPremiumLine.validateChanges(premiumLineToModify) || (!modifiedPremiumLine.isService(PremiumLineService.WIFI) && !modifiedPremiumLine.isService(PremiumLineService.AIR_CONDITIONING))) {
 				confirmChangesButton.setDisable(true);
 			}
 			else {
@@ -61,7 +64,9 @@ public class modLinePremiumController extends modLineController{
 		wifiServiceProperty.bind(wifiService.selectedProperty());
 		
 		airServiceProperty = new SimpleBooleanProperty();
-		airServiceProperty.bind(wifiService.selectedProperty());
+		airServiceProperty.bind(airService.selectedProperty());
+		
+		services = new HashSet<PremiumLineService>();
 	}
     @FXML
     void confirmChanges(ActionEvent event) {
@@ -77,7 +82,7 @@ public class modLinePremiumController extends modLineController{
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return;
     	}
-
+    	AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se modificó la linea exitosamente.");
     	((Stage)servicesLabel.getScene().getWindow()).close();
     }
     @FXML
@@ -96,9 +101,13 @@ public class modLinePremiumController extends modLineController{
     	airService.setSelected(premiumLineToModify.isService(PremiumLineService.AIR_CONDITIONING));
     	super.restoreChanges();
     	
-		colorProperty.addListener(new PremiumLineListener());
-		seatingCapacityProperty.addListener(new PremiumLineListener());
-		wifiServiceProperty.addListener(new PremiumLineListener());
-		airServiceProperty.addListener(new PremiumLineListener());
+    	setListeners(new PremiumLineListener());
+    }
+    
+    @Override
+    public void setListeners(ChangeListener<Object> listener) {
+    	super.setListeners(listener);
+		wifiServiceProperty.addListener(listener);
+		airServiceProperty.addListener(listener);
     }
 }

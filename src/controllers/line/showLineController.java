@@ -1,6 +1,5 @@
 package controllers.line;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -23,10 +22,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,6 +36,7 @@ import managers.LineMapManager;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
+import models.utils.ColorFormatter;
 
 public class showLineController implements Initializable {
 	static public enum avalibleOperations {
@@ -44,9 +46,9 @@ public class showLineController implements Initializable {
     @FXML
     private TableView<BusLine> lineTable;
     @FXML
-    private TableColumn<BusLine, Color> lineNameColumn;
+    private TableColumn<BusLine, String> lineNameColumn;
 	@FXML
-    private TableColumn<BusLine, String> lineColorColumn;
+    private TableColumn<BusLine, Color> lineColorColumn;
     @FXML
     private TableColumn<BusLine, String> lineTypeColumn;
 
@@ -121,9 +123,26 @@ public class showLineController implements Initializable {
     				catch(IOException e) {
     					e.printStackTrace();
     				}
+    				lineTable.refresh();
     			}
     		});
     		return row;
+    	});
+    	
+    	lineColorColumn.setCellFactory(tc -> {
+    		return new TableCell<BusLine, Color>() {
+    			protected void updateItem(Color cellValue, boolean empty) {
+    				super.updateItem(cellValue, empty);
+    				if (cellValue == null || empty) {
+    					setText(null);
+    					setStyle("");
+    				}
+    				else {
+    					setText(null);
+    					setStyle("-fx-background-color: " + ColorFormatter.toHexString(cellValue) + ";");
+    				}
+    			}
+    		};
     	});
 	}
 	@FXML
