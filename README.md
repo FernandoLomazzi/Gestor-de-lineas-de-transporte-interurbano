@@ -15,8 +15,8 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 
 # Autores
 
-* Fernando Sebastián Lomazzi
-* Lucio Rivera
+* **Fernando Sebastián Lomazzi** - [(GitHub page)](https://github.com/Lascot29) 
+* **Lucio Rivera** - [(GitHub page)](https://github.com/Afterjack) 
 
 # Licencia
 This project is licensed under the MIT License - see the LICENSE file for details. All derivative work should include this license.
