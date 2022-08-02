@@ -28,16 +28,20 @@ public class BusLineStopDaoPG implements BusLineStopDao{
 			} 
 		}
 		catch (Exception e) {
-			throw new DBConnectionException("Error inesperado");
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 
 	@Override
 	public void modifyData(BusLineStop t) throws DBConnectionException, ModifyFailException {
+		//No está permitido
+		throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 	}
 
 	@Override
 	public void deleteData(BusLineStop t) throws DBConnectionException, DeleteFailException {
+		//No está permitido
+		throw new DeleteFailException("Error inesperado. Contacte con el administrador.");
 	}
 
 }

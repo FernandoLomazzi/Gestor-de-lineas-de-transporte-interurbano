@@ -49,7 +49,7 @@ public class BusLineDaoPG implements BusLineDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			throw new AddFailException("La linea " + busLine.getName() + " ya se encuentra en el sistema");
+			throw new AddFailException("La línea " + busLine.getName() + " ya se encuentra en el sistema.");
 		}
 		BusLineStopDaoPG busLineStopDaoPG = new BusLineStopDaoPG();
 		busLineStopDaoPG.addData(busLine);
@@ -67,7 +67,7 @@ public class BusLineDaoPG implements BusLineDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class BusLineDaoPG implements BusLineDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DeleteFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	
@@ -89,13 +89,8 @@ public class BusLineDaoPG implements BusLineDao{
 
 		PremiumLineDaoPG premiumLineDaoPG = new PremiumLineDaoPG();
 		CheapLineDaoPG cheapLineDaoPG = new CheapLineDaoPG();
-		try {
-			ret.addAll(premiumLineDaoPG.getAllPremiumLines());
-			ret.addAll(cheapLineDaoPG.getAllCheapLines());
-		}
-		catch (DBConnectionException e) {
-			throw e;
-		}
+		ret.addAll(premiumLineDaoPG.getAllPremiumLines());
+		ret.addAll(cheapLineDaoPG.getAllCheapLines());
 
 		for(BusLine busLine : ret) {
 			try(Connection connection = DBConnection.getConnection()){
@@ -103,7 +98,6 @@ public class BusLineDaoPG implements BusLineDao{
 				ArrayList<BusLineRoute> routes = new ArrayList<>();
 				RouteDao routeDao = new RouteDaoPG();
 				try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_ROUTES)){
-					System.out.println(busLine.getName());
 					ps.setString(1, busLine.getName());
 					ResultSet rs = ps.executeQuery();
 					
@@ -129,7 +123,7 @@ public class BusLineDaoPG implements BusLineDao{
 				busLine.setBusStops(busStops);
 			}
 			catch(SQLException | DBConnectionException | BusStopNotFoundException e) {
-				throw new DBConnectionException("Error inesperado");
+				throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 		return ret;
@@ -152,8 +146,8 @@ public class BusLineDaoPG implements BusLineDao{
 						ps.executeUpdate();
 					} 
 				}
-				catch (Exception e) {
-					throw new DBConnectionException("Error inesperado");
+				catch (SQLException e) {
+					throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 				}
 			}
 		}
@@ -175,8 +169,8 @@ public class BusLineDaoPG implements BusLineDao{
 					ps.executeUpdate();
 				} 
 			}
-			catch (Exception e) {
-				throw new DBConnectionException("Error inesperado");
+			catch(SQLException e) {
+				throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 	}

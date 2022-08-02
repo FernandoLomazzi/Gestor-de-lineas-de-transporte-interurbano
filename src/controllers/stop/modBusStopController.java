@@ -47,7 +47,6 @@ public class modBusStopController{
 		stopStreetNumberField.setText(busStop.getStopStreetNumber().toString());
 	}
 
-	// Event Listener on Button[#modStop].onAction
 	@FXML
 	public void modifyStop(ActionEvent event) {	
 		BusStopDao busStopDao = new BusStopDaoPG();
@@ -59,10 +58,10 @@ public class modBusStopController{
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.updateMapView();
 		} catch (ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la parada correctamente").showAndWait();
+		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se ha modificado la parada de colectivos exitosamente.").showAndWait();
 		((Stage) modStopButton.getScene().getWindow()).close();
 	}
 	@FXML

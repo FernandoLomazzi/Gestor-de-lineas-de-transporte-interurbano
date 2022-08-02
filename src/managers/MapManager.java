@@ -23,11 +23,9 @@ public abstract class MapManager {
 	public List<Route> getRoutes(){
 		return map.edges().stream().map(e -> e.element()).toList();
 	}
-	//Sacar
 	public SmartGraphPanel<BusStop, Route> getMapView() {
 		return mapView;
 	}
-	//Sacar
 	public Digraph<BusStop, Route> getMap() {
 		return map;
 	}

@@ -15,7 +15,7 @@ STYLESHEET FOR JAVAFXGRAPH VISUALIZATION
 }
 
 .vertex-label {
-    -fx-font: bold 14pt "verdana";
+    -fx-font: bold 12pt "verdana";
 }
 
 .edge {

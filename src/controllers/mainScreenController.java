@@ -46,7 +46,7 @@ public class mainScreenController implements Initializable{
 			cityMapScreenController controller = loader.getController();
 			controller.setPrevScene(cityMapButton.getScene());
 			Scene scene = new Scene(cityMapScreen);
-			mainStage.setTitle("Menú mapa de la ciudad");
+			mainStage.setTitle("Mapa de la ciudad");
 			mainStage.setScene(scene);
 			StageManager.updateMainStage();
 			CityMapManager cityMapManager = CityMapManager.getInstance();
@@ -81,7 +81,7 @@ public class mainScreenController implements Initializable{
 			busPathScreenController controller = loader.getController();
 			Scene scene = new Scene(busPathScreen);
 			controller.setPrevScene(travelScreenButton.getScene());
-			mainStage.setTitle("Menú viaje");
+			mainStage.setTitle("Realizar viaje");
 			mainStage.setScene(scene);
 			StageManager.updateMainStage();
 			controller.getPathManager().initView();

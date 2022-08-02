@@ -285,7 +285,6 @@ public class SmartGraphVertexNode<T> extends Circle implements SmartGraphVertex<
             }
 
         });
-        /*
         setOnMouseEntered((MouseEvent mouseEvent) -> {
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
@@ -297,7 +296,6 @@ public class SmartGraphVertexNode<T> extends Circle implements SmartGraphVertex<
                 getScene().setCursor(Cursor.DEFAULT);
             }
         });
-        */
     }
 
     private double boundCenterCoordinate(double value, double min, double max) {

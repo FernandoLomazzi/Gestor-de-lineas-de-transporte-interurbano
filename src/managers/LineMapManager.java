@@ -5,6 +5,7 @@ import java.util.List;
 import db.dao.BusLineDao;
 import db.dao.impl.BusLineDaoPG;
 import exceptions.DBConnectionException;
+import javafx.scene.control.Alert.AlertType;
 import models.busline.BusLine;
 import src.com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import src.com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
@@ -22,14 +23,13 @@ public class LineMapManager extends MapManager{
 		try {
 			busLines = busLineDao.getAllBusLines();
 		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
 		}
-		System.out.println(busLines);
 		for(BusLine busLine: busLines) {
 			busLine.getRoutes().forEach(r -> map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r));
 		}
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
+		mapView.setAutomaticLayout(true);
 	}
 	public void addLine(BusLine busLine) {
 		busLine.getRoutes().forEach(r -> map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r));

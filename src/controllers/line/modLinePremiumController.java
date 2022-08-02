@@ -30,11 +30,13 @@ public class modLinePremiumController extends modLineController{
     private CheckBox airService;
 	@FXML
 	private CheckBox wifiService;
+	
 	private BooleanProperty wifiServiceProperty;
 	private BooleanProperty airServiceProperty;
 	private PremiumLine premiumLineToModify;
 	private PremiumLine modifiedPremiumLine;
 	private Set<PremiumLineService> services;
+	
 	private class PremiumLineListener implements ChangeListener<Object> {
 		@Override
 		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
@@ -82,7 +84,7 @@ public class modLinePremiumController extends modLineController{
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return;
     	}
-    	AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se modificó la linea exitosamente.");
+    	AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se modificó la línea exitosamente.");
     	((Stage)servicesLabel.getScene().getWindow()).close();
     }
     @FXML

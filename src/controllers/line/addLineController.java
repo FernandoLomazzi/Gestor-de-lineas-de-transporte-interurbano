@@ -58,14 +58,13 @@ public class addLineController implements Initializable{
     private Button nextButton;
     
     private BusLine busLine;
-    LineMapManager manager;
+    private LineMapManager manager;
    
     private static String[] lineTypes = {"Económica","Superior"}; 
    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		lineCheapStandingCapacityLabel.setText(String.valueOf(lineCheapStandingCapacity.getValue()));
-		//Se espera que el valor maximo siempre sea acotado y se encuentre entre [0..1]
 		lineCheapStandingCapacity.setMax(CheapLine.getMaxStandingCapacityPercentage()*100);
 		lineCheapStandingCapacityLabel.textProperty().bind(lineCheapStandingCapacity.valueProperty().asString("%.1f"));
 		typeLineBox.getItems().addAll(lineTypes);
@@ -90,7 +89,7 @@ public class addLineController implements Initializable{
     @FXML
     public void next(ActionEvent event) {
     	if(typeLineBox.getValue()==null) {
-    		AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Debe seleccionar un tipo de línea.").showAndWait();
+    		AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar un tipo de línea a crear.").showAndWait();
     	}
     	else if(typeLineBox.getValue().equals(lineTypes[0])) { //Economic
     		if(busLine==null)
@@ -131,13 +130,13 @@ public class addLineController implements Initializable{
     private Boolean setValuesPremiumLine(BusLine busLine) {
 	    try {
 	    	if (lineNameField.getText().trim().isEmpty()) {
-				throw new EmptyFieldException("Nombre vacio");
+				throw new EmptyFieldException("Debe completar el nombre.");
 			}
 	    	busLine.setName(lineNameField.getText().trim());
 	    	busLine.setColor(lineColorField.getValue());
 	    	busLine.setSeatingCapacity(Integer.parseUnsignedInt(lineSeatingCapacityField.getText().trim()));
 			if (!linePremiumWifiBox.isSelected() && !linePremiumAirBox.isSelected()) {
-				throw new IncompleteFieldException("Debe seleccionar al menos un servicio");
+				throw new IncompleteFieldException("Debe seleccionar al menos un servicio.");
 			}
 			if (linePremiumWifiBox.isSelected()) {
 				((PremiumLine) busLine).getServices().add(PremiumLineService.WIFI);
@@ -147,11 +146,11 @@ public class addLineController implements Initializable{
 			}
 	    }
 	    catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para la cantidad máxima de pasajeros sentados").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe ingresar el número de la capacidad de asientos de la línea.").showAndWait();
 			return false;
 		}
     	catch(EmptyFieldException|IncompleteFieldException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return false;
     	}
 	    return true;
@@ -160,20 +159,18 @@ public class addLineController implements Initializable{
     private Boolean setValuesCheapLine(BusLine busLine) {
     	try {
     		if (lineNameField.getText().trim().isEmpty()) {
-    			throw new EmptyFieldException("Nombre vacio");
+    			throw new EmptyFieldException("Debe completar el nombre.");
     		}
     		busLine.setName(lineNameField.getText().trim());
     		busLine.setColor(lineColorField.getValue());
     		busLine.setSeatingCapacity(Integer.parseUnsignedInt(lineSeatingCapacityField.getText().trim()));
-			((CheapLine) busLine).setStandingCapacityPercentage(Double.parseDouble(lineCheapStandingCapacityLabel.getText().replaceAll(",","."))/100);
-			//Este no deberia tener errores nunca
-			
+			((CheapLine) busLine).setStandingCapacityPercentage(Double.parseDouble(lineCheapStandingCapacityLabel.getText().replaceAll(",","."))/100);			
 		}catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para la cantidad máxima de pasajeros sentados").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe ingresar el número de la capacidad de asientos de la línea.").showAndWait();
 			return false;
 		}
     	catch(EmptyFieldException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return false;
     	}
     	return true;

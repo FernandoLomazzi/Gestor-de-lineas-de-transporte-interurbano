@@ -53,16 +53,15 @@ public class modRouteController implements Initializable{
 		destinationStopField.setText(route.getDestinationStop().getStopStreetName()+" "+route.getDestinationStop().getStopStreetNumber());
 	}
 
-	// Event Listener on Button[#addRouteButton].onAction
 	@FXML
 	public void modRoute(ActionEvent event) {
 		Double distance;
 		try {
 			distance = Double.parseDouble(distanceField.getText().trim());
 			if(distance<=0)
-				throw new NumberFormatException("Ingrese una distancia válida");
+				throw new NumberFormatException();
 		}catch(NumberFormatException|NullPointerException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe ingresar una distancia válida entre ambas paradas.").showAndWait();
 			return;
 		}
 		switch(distanceUnitBox.getSelectionModel().getSelectedItem()) {
@@ -82,10 +81,10 @@ public class modRouteController implements Initializable{
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.updateMapView();
 		} catch (ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la calle correctamente.").showAndWait();
+		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se ha modificado la calle correctamente.").showAndWait();
 	    ((Stage) (modRouteButton.getScene().getWindow())).close();
 	}
 }

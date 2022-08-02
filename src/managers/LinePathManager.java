@@ -13,6 +13,7 @@ import db.dao.BusLineDao;
 import db.dao.impl.BusLineDaoPG;
 import exceptions.DBConnectionException;
 import exceptions.NoPathException;
+import javafx.scene.control.Alert.AlertType;
 import models.BusLineRoute;
 import models.BusLineStop;
 import models.BusStop;
@@ -39,14 +40,13 @@ public class LinePathManager extends MapManager{
 		try {
 			busLines = busLineDao.getAllBusLines();
 		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
 		}
-		System.out.println(busLines);
 		for(BusLine busLine: busLines) {
 			busLine.getRoutes().forEach(r -> map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r));
 		}
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
+		mapView.setAutomaticLayout(true);
 	}
 	public void initView() {
 		super.initView();
@@ -73,7 +73,6 @@ public class LinePathManager extends MapManager{
 	private PathProperty initNewPath() {
 		Integer minTime = 0;
 		Double minDist = 0.0,minCost = 0.0;
-		System.out.println(minPath);
 		for(BusLineRoute route: minPath) {
 			minTime += route.getEstimatedTime();
 			minDist += route.getDistanceInKM();
@@ -155,7 +154,7 @@ public class LinePathManager extends MapManager{
 			}
 		}
 		if(ret.isEmpty())
-			throw new NoPathException("ERROR: No existe camino entre la parada origen de calle "+sourceStop+" y la parada destino de calle "+destinationStop+".");
+			throw new NoPathException("No existe camino entre la parada origen de calle "+sourceStop+" y la parada destino de calle "+destinationStop+".");
 		return ret;
 	}
 }

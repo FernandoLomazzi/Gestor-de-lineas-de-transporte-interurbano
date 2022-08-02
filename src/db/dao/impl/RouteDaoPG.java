@@ -36,16 +36,15 @@ public class RouteDaoPG implements RouteDao{
 		} catch (SQLException e) {
 			switch(e.getSQLState()) {
 			case "23505": //unique_violation
-				throw new AddFailException("Ya existe una calle entre la parada "+route.getDestinationStop()+" y la parada "+route.getSourceStop());
+				throw new AddFailException("Ya existe una calle que conecta "+route.getDestinationStop()+" con "+route.getSourceStop()+".");
 			default:
-				// no deberia pasar
+				throw new AddFailException("Error inesperado. Contacte con el administrador.");
 			}
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void modifyData(Route route) throws DBConnectionException {
+	public void modifyData(Route route) throws DBConnectionException,ModifyFailException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
 				ps.setDouble(1, route.getDistanceInKM());
@@ -54,7 +53,7 @@ public class RouteDaoPG implements RouteDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 
@@ -67,7 +66,7 @@ public class RouteDaoPG implements RouteDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DeleteFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 
@@ -83,66 +82,44 @@ public class RouteDaoPG implements RouteDao{
 					Integer destinationStopNumber = rs.getInt(2);
 					Double distanceInKM = rs.getDouble(3);
 					BusStopDao busStopDao = new BusStopDaoPG();
-					BusStop sourceStop;
-					try {
-						sourceStop = busStopDao.getBusStop(sourceStopNumber);
-					} catch (BusStopNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace(); return null;
-					} catch (DBConnectionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace(); return null;
-					}
-					BusStop destinationStop;
-					try {
-						destinationStop = busStopDao.getBusStop(destinationStopNumber);
-					} catch (BusStopNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace(); return null;
-					} catch (DBConnectionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace(); return null;
-					}
+					BusStop sourceStop = busStopDao.getBusStop(sourceStopNumber);
+					BusStop destinationStop = busStopDao.getBusStop(destinationStopNumber);
 					Route route = new Route(sourceStop,destinationStop,distanceInKM);
 					ret.add(route);					
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			//throw new SQLException("Excepcion");
+		} catch (SQLException|BusStopNotFoundException|DBConnectionException e) {
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		return ret;
 	}
 	@Override
 	public Route getRoute(Integer source_stop_number,  Integer destination_stop_number) throws DBConnectionException {
-		Route ret = null;
 		BusStop source = null;
 		BusStop destination = null;
 		Double distance = null;
-		BusStopDaoPG busStopDaoPG = new BusStopDaoPG();
 		try {
+			BusStopDaoPG busStopDaoPG = new BusStopDaoPG();
 			source = busStopDaoPG.getBusStop(source_stop_number);
 			destination = busStopDaoPG.getBusStop(destination_stop_number);
 		}
 		catch(BusStopNotFoundException | DBConnectionException e) {
-			e.printStackTrace();
-			throw new DBConnectionException("Error inesperado");
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(SELECT_SQL_ROUTE)){
 				ps.setInt(1, source_stop_number);
 				ps.setInt(2, destination_stop_number);
 				ResultSet rs = ps.executeQuery();
-				while(rs.next()) {
+				if(rs.next()) {
 					distance = rs.getDouble(1);
 				}
 			}
 		}
 		catch (SQLException e) {
-			throw new DBConnectionException("Error inesperado");
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
-		ret = new Route(source, destination, distance);
-		return ret;
+		return new Route(source, destination, distance);
 	}
 }
 

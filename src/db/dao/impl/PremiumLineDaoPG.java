@@ -24,9 +24,6 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 			"INSERT INTO PremiumLine " + 
 			"(name) " +
 			"VALUES (?);";
-	private static final String DELETE_SQL = 
-			"DELETE FROM PremiumLine " +
-			"WHERE name=?;";
 	private static final String SELECT_SQL_PREMIUM_LINES_NO_SERVICES =
 			"SELECT BusLine.name, color, seating_capacity " +
 			"FROM BusLine, PremiumLine " +
@@ -46,8 +43,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//Se supone que es él padre quien produce el error.
+			throw new AddFailException("Error inesperado. Contacte con el administrador.");
 		}
 		PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
 		premiumLineServiceDaoPG.AddData(premiumLine);
@@ -59,26 +55,13 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
 		busLineDaoPG.modifyData(premiumLine);
 		PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
-		try {
-			premiumLineServiceDaoPG.ModifyData(premiumLine);
-		}
-		catch (AddFailException e) {
-			throw new ModifyFailException("Cambiar");
-		}
-		
+		premiumLineServiceDaoPG.ModifyData(premiumLine);
 	}
 
 	@Override
 	public void deleteData(PremiumLine premiumLine) throws DBConnectionException, DeleteFailException {
 		BusLineDaoPG busLineDaoPG = new BusLineDaoPG();
 		busLineDaoPG.deleteData(premiumLine);
-		/*PremiumLineServiceDaoPG premiumLineServiceDaoPG = new PremiumLineServiceDaoPG();
-		try {
-			premiumLineServiceDaoPG.DeleteData(premiumLine);
-		}
-		catch (AddFailException e) {
-			throw new DeleteFailException("Cambiar");
-		}*/
 	}
 	
 	@Override
@@ -112,7 +95,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 			}
 		}
 		catch(SQLException | DBConnectionException  e) {
-			throw new DBConnectionException("Error en PremiumLineDaoPG.getAllPremiumLines()");
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		return ret;
 	}
@@ -122,18 +105,11 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 				"INSERT INTO PremiumLineServices " + 
 				"(name_line, name_service) " +
 				"VALUES (?, CAST(? as PremiumLineService));";
-		private static final String UPDATE_SQL_DELETE = 
-				"DELETE FROM PremiumLineServices "+
-				"WHERE name_line=?;";
-		private static final String UPDATE_SQL = 
-				"UPDATE PremiumLineServices SET" +
-				"name_line=? " + 
-				"WHERE name_line=?";
 		private static final String DELETE_SQL = 
-				"DELETE FROM PremiumLineServies " +
+				"DELETE FROM PremiumLineServices " +
 				"WHERE name_line=?;";
 		
-		public void AddData(PremiumLine premiumLine) throws DBConnectionException, AddFailException{
+		private void AddData(PremiumLine premiumLine) throws DBConnectionException, AddFailException{
 			try(Connection connection = DBConnection.getConnection()) {
 				for(PremiumLine.PremiumLineService premiumLineService : premiumLine.getServices()) {
 					try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
@@ -144,25 +120,20 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 				}
 			}
 			catch (SQLException e) {
-				//Esto nunca deberia fallar
-				e.printStackTrace();
+				throw new AddFailException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 
-		public void ModifyData(PremiumLine premiumLine) throws DBConnectionException, AddFailException {
-			try(Connection connection = DBConnection.getConnection()) {
-				try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL_DELETE)) {
-					ps.setString(1,premiumLine.getName());
-					ps.executeUpdate();
-				}
+		public void ModifyData(PremiumLine premiumLine) throws DBConnectionException, ModifyFailException {
+			try {
+				DeleteData(premiumLine);
+				AddData(premiumLine);
+			}catch(AddFailException|DeleteFailException e) {
+				throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 			}
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
-			AddData(premiumLine);
 		}
 
-		public void DeleteData(PremiumLine premiumLine) throws DBConnectionException, AddFailException{
+		private void DeleteData(PremiumLine premiumLine) throws DBConnectionException, DeleteFailException{
 			try(Connection connection = DBConnection.getConnection()) {
 				try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
 					ps.setString(1, premiumLine.getName());
@@ -170,7 +141,7 @@ public class PremiumLineDaoPG implements PremiumLineDao {
 				}
 			}
 			catch(SQLException e) {
-				e.printStackTrace();
+				throw new DeleteFailException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 	}

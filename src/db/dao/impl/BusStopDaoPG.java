@@ -38,11 +38,11 @@ public class BusStopDaoPG implements BusStopDao{
 			switch(e.getSQLState()) {
 				case "23514": //	check_violation
 				case "23502": //	restrict_violation
-					throw new AddFailException("ERROR: No puede dejar campos vacíos.");
+					throw new AddFailException("Debe completar todos los campos.");
 				case "23505": //    unique_violation
-					throw new AddFailException("ERROR: La parada "+busStop.getStopNumber()+" ya se encuentra en el sistema.");
+					throw new AddFailException("La parada "+busStop.getStopNumber()+" ya se encuentra en el sistema.");
 				default:
-					throw new AddFailException("ERROR: Ocurrió un error al intentar agregar la parada al sistema");
+					throw new AddFailException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 	}
@@ -61,9 +61,9 @@ public class BusStopDaoPG implements BusStopDao{
 			switch(e.getSQLState()) {
 				case "23514": //	check_violation
 				case "23502": //	restrict_violation
-					throw new ModifyFailException("ERROR: No puede dejar campos vacíos.");
+					throw new ModifyFailException("Debe completar todos los campos.");
 				default:
-					throw new ModifyFailException("ERROR: Ocurrió un error al intentar agregar la parada al sistema");
+					throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 	}
@@ -97,8 +97,7 @@ public class BusStopDaoPG implements BusStopDao{
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); //No deberia ocurrir;
-			return null;
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		return ret;
 	}
@@ -119,8 +118,7 @@ public class BusStopDaoPG implements BusStopDao{
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); //no deberia ocurrir
-			return null;
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		return ret;
 	}
@@ -134,8 +132,7 @@ public class BusStopDaoPG implements BusStopDao{
 				return !rs.next();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); //no deberia ocurrir
-			return null;
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 }

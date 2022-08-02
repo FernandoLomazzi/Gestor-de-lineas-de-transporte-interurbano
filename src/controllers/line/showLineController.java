@@ -75,14 +75,12 @@ public class showLineController implements Initializable,returnScene {
     				stage.initModality(Modality.APPLICATION_MODAL);
     				try {
     					if (operation == avalibleOperations.MODIFY) {
-    						System.out.println("Funciono");
 							BusLine busLine = row.getItem();
 							FXMLLoader loader = null;
 							Parent root = null;
 							if (busLine.getType() == "Económica") {
 								loader = new FXMLLoader(getClass().getResource("/views/line/modLineCheap.fxml"));
 								root = loader.load();
-								System.out.println(loader);
 								modLineCheapController controller = loader.getController();
 								controller.setLineMapManager(lineMapManager);
 								controller.setCheapLine((CheapLine)busLine);
@@ -101,7 +99,7 @@ public class showLineController implements Initializable,returnScene {
     					}
     					else if (operation == avalibleOperations.DELETE) {
     						BusLine busLine = row.getItem();
-    						Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de la linea " + busLine.getName(), "¿Está seguro de que desea eliminar la linea " + busLine.getName() + "? Esta acción no se puede deshacer.");
+    						Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de la línea " + busLine.getName(), "¿Está seguro de que desea eliminar la línea " + busLine.getName() + "? Esta acción no se puede deshacer.");
     						Optional<ButtonType> action = alert.showAndWait();
     						if(action.get() == ButtonType.OK) {
 								if(busLine.getType() == "Económica") { 
@@ -110,7 +108,7 @@ public class showLineController implements Initializable,returnScene {
 										cheapLineDao.deleteData((CheapLine)busLine);
 									}
 									catch (DBConnectionException | DeleteFailException e) {
-										AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+										AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 										return;
 									}
 								}
@@ -120,7 +118,7 @@ public class showLineController implements Initializable,returnScene {
 										premiumLineDao.deleteData((PremiumLine)busLine);
 									}
 									catch (DBConnectionException | DeleteFailException e) {
-										AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+										AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 										return;
 									}
 								}
@@ -158,7 +156,6 @@ public class showLineController implements Initializable,returnScene {
     	this.operation = operation;
     }
     public void setManager(LineMapManager lineMapManager) {
-    	System.out.println(lineMapManager);
     	this.lineMapManager = lineMapManager;
 		lineRow = FXCollections.observableList(lineMapManager.getAllBusLines());
 		lineTable.setItems(lineRow);

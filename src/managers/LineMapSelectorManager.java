@@ -17,6 +17,7 @@ public class LineMapSelectorManager extends MapManager{
 		cityMapManager.getBusStops().forEach(b -> map.insertVertex(b));
 		cityMapManager.getRoutes().forEach(r -> map.insertEdge(r.getSourceStop(),r.getDestinationStop(),r));
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
+		mapView.setAutomaticLayout(true);
 	}
 	public void initView() {
 		super.initView();
@@ -44,7 +45,6 @@ public class LineMapSelectorManager extends MapManager{
 		mapView.updateAndWait();
 		this.setEdgeStyle(route, getRouteStyle(busLine.getColorStyle()));
 		mapView.updateAndWait();
-		//this.updateMapView();
 	}
 	public BusLine getBusLine() {
 		return busLine;

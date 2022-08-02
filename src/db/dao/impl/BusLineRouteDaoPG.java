@@ -2,6 +2,7 @@ package db.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import db.dao.BusLineRouteDao;
 import db.dao.DBConnection;
@@ -28,19 +29,21 @@ public class BusLineRouteDaoPG implements BusLineRouteDao{
 				ps.executeUpdate();
 			} 
 		}
-		catch (Exception e) {
-			throw new DBConnectionException("Error inesperado");
+		catch(SQLException e) {
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 		
 	@Override
 	public void modifyData(BusLineRoute t) throws DBConnectionException, ModifyFailException {
-		//No esta permitido
+		//No está permitido
+		throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 	}
 
 	@Override
 	public void deleteData(BusLineRoute t) throws DBConnectionException, DeleteFailException {
-		//No esta permitido
+		//No está permitido
+		throw new DeleteFailException("Error inesperado. Contacte con el administrador.");
 	}
 
 }

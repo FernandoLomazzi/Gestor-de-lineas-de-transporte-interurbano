@@ -83,9 +83,9 @@ public class busPathScreenController implements Initializable,returnScene{
 	@FXML
 	public void searchPath(ActionEvent event) {
 		if(sourceStop==null || destinationStop==null)
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Debe seleccionar una parada de origen y una de fin.").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar una parada de origen y una de fin.").showAndWait();
 		else if(sourceStop.equals(destinationStop))
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Debe seleccionar una parada de origen y fin distintas.").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar una parada de origen y fin distintas.").showAndWait();
 		else {
 			buyButton.setDisable(false);
 			sourceStopField.setText(sourceStop.toString());
@@ -102,7 +102,7 @@ public class busPathScreenController implements Initializable,returnScene{
 					minPathProperty = pathManager.cheapestPath(sourceStop, destinationStop);
 				}
 				else {
-					AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Debe seleccionar qué tipo de camino desea.").showAndWait();
+					AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar qué tipo de camino desea.").showAndWait();
 					return;
 				}
 			}catch(NoPathException e) {
@@ -118,7 +118,7 @@ public class busPathScreenController implements Initializable,returnScene{
 	
 	@FXML
 	public void buy(ActionEvent event) {
-		AlertManager.createAlert(AlertType.INFORMATION,"Compra Exitosa", "Se ha comprado el boleto exitosamente").showAndWait();
+		AlertManager.createAlert(AlertType.INFORMATION,"Compra Exitosa", "Se ha comprado el boleto exitosamente.").showAndWait();
 	}
 	@Override
 	public void setPrevScene(Scene scene) {

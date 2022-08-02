@@ -69,7 +69,6 @@ public class modIncidentController implements Initializable {
 		beginDatePicker.setConverter(formatter);
 		endDatePicker.setConverter(formatter);
 	}
-	// Event Listener on Button[#addIncident].onAction
 	@FXML
 	public void modIncident(ActionEvent event) {
 		LocalDate endDate = endDatePicker.getValue();
@@ -90,10 +89,10 @@ public class modIncidentController implements Initializable {
 				cityMapManager.enableStyleStop(busStop);
 			}
 		}catch (ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR,"ERROR",e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION,"Exito","Se ha modificado la incidencia correctamente.").showAndWait();
+		AlertManager.createAlert(AlertType.INFORMATION,"EXITO","Se ha modificado la incidencia exitosamente.").showAndWait();
 		((Stage) (modIncident.getScene().getWindow())).close();
 	}
 }

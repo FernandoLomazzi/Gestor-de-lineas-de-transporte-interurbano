@@ -53,7 +53,6 @@ public class showIncidentController implements Initializable,returnScene {
 	private Button goToPrevSceneButton;
 	
 	private Scene previousScene;
-	
 	private ObservableList<Incident> incidentRow;
 	
 	@Override
@@ -62,7 +61,6 @@ public class showIncidentController implements Initializable,returnScene {
 		    TableRow<Incident> row = new TableRow<>();
 		    row.setOnMouseClicked(event -> {
 		        if (event.getClickCount() == 2 && !row.isEmpty() ) {
-		        	System.out.println(row.getItem());
 		        	Stage stage = new Stage(StageStyle.UTILITY);
 		    		stage.initModality(Modality.APPLICATION_MODAL);
 		    		try {
@@ -106,7 +104,7 @@ public class showIncidentController implements Initializable,returnScene {
 				heap.pop();
 			}
 		} catch (DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 		}
 	}
 	@Override

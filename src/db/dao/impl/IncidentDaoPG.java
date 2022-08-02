@@ -29,10 +29,10 @@ public class IncidentDaoPG implements IncidentDao{
 	@Override
 	public void addData(Incident incident) throws AddFailException,DBConnectionException {
 		if(!incident.areDatesCorrect()) {
-			throw new AddFailException("ERROR: La fecha de finalización debe ser posterior o igual a la de inicio de la incidencia.");
+			throw new AddFailException("La fecha de finalización debe ser posterior o igual a la de inicio de la incidencia.");
 		}
 		else if(!incident.isConcludedCorrect()) {
-			throw new AddFailException("ERROR: Debe establecer la fecha de finalización de la incidencia.");
+			throw new AddFailException("Debe establecer la fecha de finalización de la incidencia.");
 		}
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)){
@@ -46,19 +46,19 @@ public class IncidentDaoPG implements IncidentDao{
 		} catch (SQLException e) {
 			switch(e.getSQLState()) {
 				case "23505": //unique_violation
-					throw new AddFailException("ERROR: Ya existe una incidencia iniciada el "+incident.getBeginDate()+" para la parada "+incident.getBusStopDisabled()+".");
+					throw new AddFailException("Ya existe una incidencia iniciada el "+incident.getBeginDate()+" para la parada de calle "+incident.getBusStopDisabled()+".");
 				default:
-					throw new AddFailException("ERROR: Ocurrió un error al agregar la incidencia al sistema.");
+					throw new AddFailException("Error inesperado. Contacte con el administrador.");
 			}
 		}
 	}
 	@Override
 	public void modifyData(Incident incident) throws ModifyFailException,DBConnectionException {
 		if(!incident.areDatesCorrect()) {
-			throw new ModifyFailException("ERROR: La fecha de finalización debe ser posterior o igual a la de inicio de la incidencia.");
+			throw new ModifyFailException("La fecha de finalización debe ser posterior o igual a la de inicio de la incidencia.");
 		}
 		else if(!incident.isConcludedCorrect()) {
-			throw new ModifyFailException("ERROR: Debe establecer la fecha de finalización de la incidencia.");
+			throw new ModifyFailException("Debe establecer la fecha de finalización de la incidencia.");
 		}
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
@@ -70,7 +70,7 @@ public class IncidentDaoPG implements IncidentDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); // no deberia ocurrir
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	//No se usa para nada
@@ -83,7 +83,7 @@ public class IncidentDaoPG implements IncidentDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); // no deberia ocurrir
+				throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	@Override
@@ -101,15 +101,15 @@ public class IncidentDaoPG implements IncidentDao{
 					BusStop busStop;
 					try {
 						busStop = bsDao.getBusStop(busNumber);
+						Incident incid = new Incident(busStop,bDate,eDate,descr,false);
+						ret.add(incid);		
 					} catch (BusStopNotFoundException e) {
-						return null; // no deberia ocurrir
+						throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 					}
-					Incident incid = new Incident(busStop,bDate,eDate,descr,false);
-					ret.add(incid);					
 				}
 			}
 		} catch (SQLException e) {
-			return null; // no deberia ocurrir
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		return ret;
 	}

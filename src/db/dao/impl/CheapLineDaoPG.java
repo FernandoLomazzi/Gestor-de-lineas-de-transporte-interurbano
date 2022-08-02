@@ -45,8 +45,7 @@ public class CheapLineDaoPG implements CheapLineDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//Se supone que es él padre quien produce el error.
+			throw new AddFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	
@@ -62,8 +61,7 @@ public class CheapLineDaoPG implements CheapLineDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//Se supone que es él padre quien produce el error.
+			throw new ModifyFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	
@@ -77,8 +75,7 @@ public class CheapLineDaoPG implements CheapLineDao{
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//Se supone que es él padre quien produce el error.
+			throw new DeleteFailException("Error inesperado. Contacte con el administrador.");
 		}
 	}
 	
@@ -98,7 +95,7 @@ public class CheapLineDaoPG implements CheapLineDao{
 			}
 		}
 		catch(SQLException | DBConnectionException  e) {
-			throw new DBConnectionException("Error en CheapLineDaoPG.getAllCheapLines()");
+			throw new DBConnectionException("Error inesperado. Contacte con el administrador.");
 		}
 		return ret;
 	}

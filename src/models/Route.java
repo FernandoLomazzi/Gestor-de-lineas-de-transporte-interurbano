@@ -35,7 +35,7 @@ public class Route {
 
 	@Override
 	public String toString() {
-		return sourceStop+" a "+destinationStop;
+		return "desde "+sourceStop+" hacia "+destinationStop;
 	}
 
 	@Override

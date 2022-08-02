@@ -157,27 +157,4 @@ public abstract class BusLine {
 	public Boolean validateChanges(BusLine busLine) {
 		return this.color.equals(busLine.getColor()) && this.seatingCapacity.equals(busLine.getSeatingCapacity());
 	}
-	public static void main(String[] arg) {
-		BusLine bl = new CheapLine("Hola",Color.RED);
-		BusStop b1 = new BusStop(1,"b1",111,true);
-		BusStop b2 = new BusStop(2,"b2",222,true);
-		//BusStop b3 = new BusStop(3,"b3",333,true);
-		bl.addStopLine(new BusLineStop(bl,b1,true));
-		bl.addStopLine(new BusLineStop(bl,b2,true));
-		//bl.insertStop(new BusLineStop(bl,b3,true));
-		Route r1 = new Route(b1,b2,20.0);
-		//Route r2 = new Route(b2,b3,20.0);
-		bl.addRouteLine(new BusLineRoute(bl,r1));
-		//bl.insertRoute(new BusLineRoute(bl,r2));
-		System.out.println(bl.getBusStops());
-		System.out.println(bl.getRoutes());
-		System.out.println(bl.inDegree(b1));
-		System.out.println(bl.inDegree(b2));
-		System.out.println(bl.outDegree(b1));
-		System.out.println(bl.outDegree(b2));
-		System.out.println(bl.getBeginStop());
-		System.out.println(bl.getEndStop());
-		//System.out.println(bl.inDegree(b3));
-		
-	}
 }

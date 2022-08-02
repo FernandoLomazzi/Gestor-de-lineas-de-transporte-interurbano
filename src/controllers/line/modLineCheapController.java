@@ -27,9 +27,11 @@ public class modLineCheapController extends modLineController {
 	private Label standingPorcentageLabel;
 	@FXML
 	private Slider standingSlider;
+	
 	private StringProperty standingCapacityProperty;
 	private CheapLine cheapLineToModify;
 	private CheapLine modifiedCheapLine;
+	
 	private class CheapLineListener implements ChangeListener<Object> {
 		@Override
 		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
@@ -70,13 +72,12 @@ public class modLineCheapController extends modLineController {
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return;
     	}
-    	AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se modificó la linea exitosamente.");
+    	AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se modificó la línea exitosamente.");
     	((Stage)standingLabel.getScene().getWindow()).close();
 	}
 	
 	@FXML
 	protected void restoreChanges(ActionEvent event) {
-		System.out.println(cheapLineToModify.getStandingCapacityPercentage());
 		super.restoreChanges();
 		standingSlider.setValue(cheapLineToModify.getStandingCapacityPercentage()*100);
 	}

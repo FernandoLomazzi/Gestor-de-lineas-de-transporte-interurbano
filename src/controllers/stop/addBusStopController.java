@@ -33,11 +33,11 @@ public class addBusStopController {
 	public void addNewStop(ActionEvent event) {
 		BusStop busStop = new BusStop();
 		try {
-			busStop.setStopNumber(Integer.parseInt(stopNumberField.getText().trim()));
+			busStop.setStopNumber(Integer.parseUnsignedInt(stopNumberField.getText().trim()));
 			busStop.setStopStreetName(stopStreetNameField.getText().trim());
-			busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText().trim()));
+			busStop.setStopStreetNumber(Integer.parseUnsignedInt(stopStreetNumberField.getText().trim()));
 		}catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para el número de parada y el número de calle de la misma.").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe ingresar números para el número de parada y el número de calle de la misma.").showAndWait();
 			return;
 		}
 		BusStopDao stopDao = new BusStopDaoPG();
@@ -46,10 +46,10 @@ public class addBusStopController {
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.addStopMap(busStop);
 		} catch(AddFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se añadió a la persona correctamente").showAndWait();
+		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se ha agregado la parada de colectivos exitosamente.").showAndWait();
 	    ((Stage) (addStop.getScene().getWindow())).close();
 	}
 }

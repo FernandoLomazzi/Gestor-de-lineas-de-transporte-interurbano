@@ -84,7 +84,6 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 					stage.setScene(scene);
 					stage.showAndWait();
 					if(controller.isNewRoute()) {
-						System.out.println(busLineRoute);
 						checkRoutePath(busLineRoute);
 					}
 				} catch (IOException e) {
@@ -115,7 +114,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 				selectorManager.addRouteLine(newRoute);
 			}
 			else {
-				AlertManager.createAlert(AlertType.ERROR,"ERROR","ERROR: Debe seleccionar una calle que continúe el recorrido actual.").showAndWait();
+				AlertManager.createAlert(AlertType.ERROR,"ERROR","Debe seleccionar una calle que continúe, por el inicio o el fin, el recorrido actual.").showAndWait();
 			}
 		}
 	}
@@ -130,7 +129,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	public void save(ActionEvent event) {
 		BusLine busLine = selectorManager.getBusLine();
 		if(busLine.getRoutes().isEmpty()) {
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar al menos una calle para el recorrido.").showAndWait();
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar al menos una calle para el recorrido de la línea.").showAndWait();
 			return;
 		}
 		if(busLine.getType()=="Económica") {

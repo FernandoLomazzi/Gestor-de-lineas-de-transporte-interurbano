@@ -63,7 +63,6 @@ public class busLineScreenController implements Initializable,returnScene{
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
             AnchorPane root = loader.load();
-            System.out.println(lineMapManager);
             addLineController controller = loader.getController();
             controller.setManager(this.lineMapManager);
             Scene scene = new Scene(root);

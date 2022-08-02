@@ -48,6 +48,7 @@ public class CityMapManager extends MapManager{
 		busStops.forEach(b -> map.insertVertex(b));
 		routes.forEach(r -> map.insertEdge(r.getSourceStop(), r.getDestinationStop(), r));
 		mapView = new SmartGraphPanel<>(map,new SmartCircularSortedPlacementStrategy());
+		mapView.setAutomaticLayout(true);
 	}
 	
 	public static CityMapManager getInstance() {

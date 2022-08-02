@@ -77,13 +77,12 @@ public class cityMapScreenController implements Initializable,returnScene{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		borderPane.setCenter(CityMapManager.getInstance().getMapView());
-		//Reveer
 		modifyButton.setToggleGroup(toggleGroup);
 		deleteButton.setToggleGroup(toggleGroup);
 		addRouteButton.setToggleGroup(toggleGroup);
 		addIncidentButton.setToggleGroup(toggleGroup);
 	}
-	// Event Listener on Button[#addStopButton].onAction
+	
 	@FXML
 	public void addStop(ActionEvent event) {
 		Stage stage = new Stage(StageStyle.UTILITY);
@@ -141,7 +140,7 @@ public class cityMapScreenController implements Initializable,returnScene{
 		CityMapManager cityMapManager = CityMapManager.getInstance();
 		if(deleteButton.isSelected()) {
 			cityMapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
-				Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de parada de colectivos", "Desea eliminar la parada de colectivo "+v.getUnderlyingVertex().element()+"?");
+				Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de parada de colectivos", "Desea eliminar la parada de colectivos de calle "+v.getUnderlyingVertex().element()+"?");
 			    Optional<ButtonType> action = alert.showAndWait();
 			    if (action.get() == ButtonType.OK) {
 			    	BusStopDao busStopDao = new BusStopDaoPG();
@@ -149,12 +148,12 @@ public class cityMapScreenController implements Initializable,returnScene{
 						busStopDao.deleteData(v.getUnderlyingVertex().element());
 				    	cityMapManager.deleteStopMap(v.getUnderlyingVertex());
 					} catch (DeleteFailException|DBConnectionException e) {
-						AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+						AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 					}
 			    }
 			});
 			cityMapManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) -> {
-				Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de calle", "Desea eliminar la calle que conecta "+ed.getUnderlyingEdge().element()+"?");
+				Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de calle", "Desea eliminar la calle que recorre "+ed.getUnderlyingEdge().element()+"?");
 			    Optional<ButtonType> action = alert.showAndWait();
 			    if (action.get() == ButtonType.OK) {
 			    	RouteDao routeDao = new RouteDaoPG();
@@ -162,7 +161,7 @@ public class cityMapScreenController implements Initializable,returnScene{
 						routeDao.deleteData(ed.getUnderlyingEdge().element());
 						cityMapManager.deleteRouteMap(ed.getUnderlyingEdge());
 					} catch (DeleteFailException|DBConnectionException e) {
-						AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
+						AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 					}
 			    }
 			});
@@ -175,7 +174,6 @@ public class cityMapScreenController implements Initializable,returnScene{
 		if(addRouteButton.isSelected()) {
 			cityMapManager.setVertexDoubleClickAction((SmartGraphVertex<BusStop> v) -> {
 				SelectTwoStop.addStop(v.getUnderlyingVertex().element());
-				System.out.println(v.getUnderlyingVertex().element());
 				if(SelectTwoStop.full()) {
 					try {
 						Stage stage = new Stage(StageStyle.UTILITY);
@@ -199,7 +197,7 @@ public class cityMapScreenController implements Initializable,returnScene{
 			cityMapManager.setEdgeDoubleClickAction(null);
 		}
 	}
-	// Event Listener on Button[#addIncidentButton].onAction
+
 	@FXML
 	public void addIncident(ActionEvent event) {
 		CityMapManager cityMapManager = CityMapManager.getInstance();
@@ -223,7 +221,7 @@ public class cityMapScreenController implements Initializable,returnScene{
 			cityMapManager.setEdgeDoubleClickAction(null);
 		}
 	}
-	// Event Listener on Button[#showIncidentButton].onAction
+
 	@FXML
 	public void showIncident(ActionEvent event) {
 		Stage stage = (Stage) borderPane.getScene().getWindow();
