@@ -25,4 +25,4 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 * **Lucio Rivera** - [(GitHub page)](https://github.com/Afterjack) 
 
 # Licencia
-This project is licensed under the MIT License - see the LICENSE file for details. All derivative work should include this license.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details. All derivative work should include this license.
