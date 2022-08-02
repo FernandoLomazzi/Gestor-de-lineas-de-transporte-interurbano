@@ -6,7 +6,7 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 * CRUD de incidencias en las paradas de transporte, deshabilitando las mismas para su uso.
 * Gestión del viaje de un pasajero en el sistema, permitiéndole hallar el camino más rápido, corto o barato para dos paradas concretas.
 
-
+![CaminoMínimo](minPath.gif)
 
 # Diagrama Entidad-Relación
 
