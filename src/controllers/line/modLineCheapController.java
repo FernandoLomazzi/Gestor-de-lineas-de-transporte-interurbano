@@ -66,7 +66,7 @@ public class modLineCheapController extends modLineController {
     		cheapLineDao.modifyData(cheapLineToModify);
     	}
     	catch(DBConnectionException | ModifyFailException e) {
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return;
     	}
 

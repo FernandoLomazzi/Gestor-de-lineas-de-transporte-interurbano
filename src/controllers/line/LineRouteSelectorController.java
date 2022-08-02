@@ -20,9 +20,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import managers.AlertManager;
 import managers.LineMapManager;
 import managers.LineMapSelectorManager;
@@ -60,6 +63,9 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Tooltip helpToolTip = new Tooltip("Haga doble click sobre una calle para agregarla al trayecto.\nHaga doble click sobre una parada para indicar que no se para en la misma.");
+		helpToolTip.setFont(Font.font("Verdana",13));
+		Tooltip.install(borderPane, helpToolTip);
 		borderPane.setCenter(selectorManager.getMapView());
 		selectorManager.setEdgeDoubleClickAction((SmartGraphEdge<Route,BusStop> ed) ->{
 			if(ed.getUnderlyingEdge().element() instanceof BusLineRoute)
@@ -72,8 +78,9 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 					EstimatedTimeRouteController controller = loader.getController();
 					controller.setBusLineRoute(busLineRoute);
 					Scene scene = new Scene(root);
-					Stage stage = new Stage();
+					Stage stage = new Stage(StageStyle.UTILITY);
 					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setTitle("Asignación de trayecto de línea de colectivos");
 					stage.setScene(scene);
 					stage.showAndWait();
 					if(controller.isNewRoute()) {
@@ -108,7 +115,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 				selectorManager.addRouteLine(newRoute);
 			}
 			else {
-				AlertManager.createAlert(AlertType.ERROR,"ERROR","ERROR: Debe seleccionar una calle que continúe el recorrido actual.");
+				AlertManager.createAlert(AlertType.ERROR,"ERROR","ERROR: Debe seleccionar una calle que continúe el recorrido actual.").showAndWait();
 			}
 		}
 	}
@@ -123,7 +130,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	public void save(ActionEvent event) {
 		BusLine busLine = selectorManager.getBusLine();
 		if(busLine.getRoutes().isEmpty()) {
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar al menos una calle para el recorrido.");
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "Debe seleccionar al menos una calle para el recorrido.").showAndWait();
 			return;
 		}
 		if(busLine.getType()=="Económica") {
@@ -131,7 +138,7 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 			try {
 				cheapLineDao.addData((CheapLine) busLine);
 			} catch (AddFailException|DBConnectionException e) {
-				AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
+				AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 				return;
 			}
 		}
@@ -140,12 +147,12 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 			try {
 				premiumLineDao.addData((PremiumLine) busLine);
 			} catch (AddFailException|DBConnectionException e) {
-				AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
+				AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 				return;
 			}
 		}
 		lineManager.addLine(busLine);
-		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se creó la linea exitosamente.");
+		AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se creó la linea exitosamente.").showAndWait();
 		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	@Override
@@ -155,7 +162,8 @@ public class LineRouteSelectorController implements Initializable,returnScene{
 	@FXML
 	@Override
 	public void goToPrevScene(ActionEvent event) {
-		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
+		Stage stage = (Stage) goToPrevSceneButton.getScene().getWindow();
+		stage.setScene(prevScene);
 	}
 
 }

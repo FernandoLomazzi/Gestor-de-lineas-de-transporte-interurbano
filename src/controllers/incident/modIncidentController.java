@@ -90,10 +90,10 @@ public class modIncidentController implements Initializable {
 				cityMapManager.enableStyleStop(busStop);
 			}
 		}catch (ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION,"Exito","Se ha modificado la incidencia correctamente.");
+		AlertManager.createAlert(AlertType.INFORMATION,"Exito","Se ha modificado la incidencia correctamente.").showAndWait();
 		((Stage) (modIncident.getScene().getWindow())).close();
 	}
 }

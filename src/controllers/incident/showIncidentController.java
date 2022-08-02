@@ -23,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import managers.AlertManager;
 import managers.StageManager;
 import models.BusStop;
@@ -32,6 +33,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -61,7 +63,7 @@ public class showIncidentController implements Initializable,returnScene {
 		    row.setOnMouseClicked(event -> {
 		        if (event.getClickCount() == 2 && !row.isEmpty() ) {
 		        	System.out.println(row.getItem());
-		    		Stage stage = new Stage();
+		        	Stage stage = new Stage(StageStyle.UTILITY);
 		    		stage.initModality(Modality.APPLICATION_MODAL);
 		    		try {
 		    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/incident/modIncident.fxml"));
@@ -70,6 +72,7 @@ public class showIncidentController implements Initializable,returnScene {
 		    			Incident incident = row.getItem();
 		    			controller.setIncident(incident);
 		    			Scene scene =  new Scene(root);
+		    			stage.setTitle("Modificación de incidencia");
 		    	        stage.setScene(scene);
 		    	        stage.showAndWait();
 		    	        if(incident.getConcluded())
@@ -90,7 +93,7 @@ public class showIncidentController implements Initializable,returnScene {
 		beginDateColumn.setCellValueFactory(new PropertyValueFactory<>("beginDate"));
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
+		incidentTable.setPlaceholder(new Label("No se encuentran incidencias activas en el sistema."));
 		try {
 			IncidentDao incidentDao = new IncidentDaoPG();
 			MyHeap<Incident> heap = new MyHeap<>(Incident::compareTo);
@@ -102,7 +105,7 @@ public class showIncidentController implements Initializable,returnScene {
 				heap.pop();
 			}
 		} catch (DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 		}
 	}
 	@Override
@@ -112,7 +115,9 @@ public class showIncidentController implements Initializable,returnScene {
 	@FXML
 	@Override
 	public void goToPrevScene(ActionEvent event) {
-		((Stage) incidentTable.getScene().getWindow()).setScene(previousScene);
+		Stage stage = (Stage) incidentTable.getScene().getWindow();
+		stage.setTitle("Menú mapa de la ciudad");
+		stage.setScene(previousScene);
 		StageManager.updateMainStage();
 	}
 	

@@ -67,7 +67,7 @@ public class addRouteController implements Initializable{
 			if(distance<=0)
 				throw new NumberFormatException("Ingrese una distancia válida");
 		}catch(NumberFormatException|NullPointerException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.");
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.").showAndWait();
 			return;
 		}
 		switch(distanceUnitBox.getSelectionModel().getSelectedItem()) {
@@ -87,10 +87,10 @@ public class addRouteController implements Initializable{
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.addRouteMap(route);
 		} catch (AddFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha agregado la calle correctamente.");
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha agregado la calle correctamente.").showAndWait();
 	    ((Stage) (addRouteButton.getScene().getWindow())).close();
 	}
 

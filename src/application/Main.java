@@ -3,13 +3,11 @@ package application;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import managers.StageManager;
 
 
 public class Main extends Application {
@@ -21,8 +19,10 @@ public class Main extends Application {
 			mainStage = primaryStage; 
 			AnchorPane root = FXMLLoader.load(getClass().getResource("/views/mainScreen.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
+            primaryStage.setTitle("Gestor de líneas de colectivos");
+            primaryStage.getIcons().add(new Image("/icon.png"));
+            primaryStage.setScene(scene);
             primaryStage.show();
 		} catch(IOException e) {
 			e.printStackTrace();

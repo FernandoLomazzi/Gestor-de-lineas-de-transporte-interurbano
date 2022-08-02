@@ -42,7 +42,7 @@ public class CityMapManager extends MapManager{
 			busStops = busStopDao.getStopMap();
 			routes = routeDao.getRouteMap();
 		} catch (DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage()).showAndWait();
 			return;
 		}
 		busStops.forEach(b -> map.insertVertex(b));

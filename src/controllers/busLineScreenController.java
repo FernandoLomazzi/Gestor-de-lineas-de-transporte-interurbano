@@ -21,6 +21,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import managers.LineMapManager;
 import managers.StageManager;
 import src.com.brunomnsilva.smartgraph.containers.*;
@@ -57,7 +58,7 @@ public class busLineScreenController implements Initializable,returnScene{
     @FXML
     void addBusLine(ActionEvent event) {
     	try {
-    		Stage stage = new Stage();
+    		Stage stage = new Stage(StageStyle.UTILITY);
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/addLine.fxml"));
             AnchorPane root = loader.load();
@@ -65,6 +66,7 @@ public class busLineScreenController implements Initializable,returnScene{
             addLineController controller = loader.getController();
             controller.setManager(this.lineMapManager);
             Scene scene = new Scene(root);
+            stage.setTitle("Creación de línea de colectivos");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.showAndWait();
@@ -76,7 +78,7 @@ public class busLineScreenController implements Initializable,returnScene{
 
     @FXML
     void deleteBusLine(ActionEvent event) {
-      	Stage stage = new Stage();
+    	Stage stage = new Stage(StageStyle.UTILITY);
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
     		AnchorPane root = loader.load();
@@ -85,7 +87,7 @@ public class busLineScreenController implements Initializable,returnScene{
     		controller.setOperation(showLineController.avalibleOperations.DELETE);
     		Scene scene = new Scene(root);
     		stage.initModality(Modality.APPLICATION_MODAL);
-    		stage.setTitle("Eliminar Linea");
+    		stage.setTitle("Eliminación de línea de colectivos");
     		stage.setScene(scene);
     		stage.showAndWait();
     	}
@@ -96,7 +98,7 @@ public class busLineScreenController implements Initializable,returnScene{
 
     @FXML
     void modifyBusLine(ActionEvent event) {
-      	Stage stage = new Stage();
+    	Stage stage = new Stage(StageStyle.UTILITY);
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
     		AnchorPane root = loader.load();
@@ -105,7 +107,7 @@ public class busLineScreenController implements Initializable,returnScene{
     		controller.setOperation(showLineController.avalibleOperations.MODIFY);
     		Scene scene = new Scene(root);
     		stage.initModality(Modality.APPLICATION_MODAL);
-    		stage.setTitle("Modificar Linea");
+    		stage.setTitle("Modificación de línea de colectivos");
     		stage.setScene(scene);
     		stage.showAndWait();
     	}
@@ -120,7 +122,9 @@ public class busLineScreenController implements Initializable,returnScene{
 	@FXML
 	@Override
 	public void goToPrevScene(ActionEvent event) {
-		((Stage) goToPrevSceneButton.getScene().getWindow()).setScene(prevScene);
+		Stage stage = (Stage) goToPrevSceneButton.getScene().getWindow();
+		stage.setTitle("Gestor de líneas de colectivos");
+		stage.setScene(prevScene);
 		StageManager.updateMainStage();
 	}
 }

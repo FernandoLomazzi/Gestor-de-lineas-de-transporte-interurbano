@@ -90,7 +90,7 @@ public class addLineController implements Initializable{
     @FXML
     public void next(ActionEvent event) {
     	if(typeLineBox.getValue()==null) {
-    		AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Debe seleccionar un tipo de línea.");
+    		AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Debe seleccionar un tipo de línea.").showAndWait();
     	}
     	else if(typeLineBox.getValue().equals(lineTypes[0])) { //Economic
     		if(busLine==null)
@@ -147,11 +147,11 @@ public class addLineController implements Initializable{
 			}
 	    }
 	    catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para la cantidad máxima de pasajeros sentados");
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para la cantidad máxima de pasajeros sentados").showAndWait();
 			return false;
 		}
     	catch(EmptyFieldException|IncompleteFieldException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 			return false;
     	}
 	    return true;
@@ -169,11 +169,11 @@ public class addLineController implements Initializable{
 			//Este no deberia tener errores nunca
 			
 		}catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para la cantidad máxima de pasajeros sentados");
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para la cantidad máxima de pasajeros sentados").showAndWait();
 			return false;
 		}
     	catch(EmptyFieldException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 			return false;
     	}
     	return true;

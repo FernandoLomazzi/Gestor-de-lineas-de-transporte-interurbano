@@ -37,7 +37,7 @@ public class addBusStopController {
 			busStop.setStopStreetName(stopStreetNameField.getText().trim());
 			busStop.setStopStreetNumber(Integer.parseInt(stopStreetNumberField.getText().trim()));
 		}catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para el número de parada y el número de calle de la misma.");
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese números para el número de parada y el número de calle de la misma.").showAndWait();
 			return;
 		}
 		BusStopDao stopDao = new BusStopDaoPG();
@@ -46,10 +46,10 @@ public class addBusStopController {
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.addStopMap(busStop);
 		} catch(AddFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se añadió a la persona correctamente");
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se añadió a la persona correctamente").showAndWait();
 	    ((Stage) (addStop.getScene().getWindow())).close();
 	}
 }

@@ -29,6 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import managers.AlertManager;
 import managers.LineMapManager;
 import models.busline.BusLine;
@@ -59,7 +60,7 @@ public class showLineController implements Initializable {
     		TableRow<BusLine> row = new TableRow<>();
     		row.setOnMouseClicked(event -> {
     			if (event.getClickCount() == 2 && !row.isEmpty()) {
-    				Stage stage = new Stage();
+    				Stage stage = new Stage(StageStyle.UTILITY);
     				stage.initModality(Modality.APPLICATION_MODAL);
     				try {
     					if (operation == avalibleOperations.MODIFY) {
@@ -83,16 +84,13 @@ public class showLineController implements Initializable {
 								controller.setPremiumLine((PremiumLine)busLine);
 							}
 							Scene scene = new Scene(root);
-							stage.setTitle("Modificar " + busLine.getName());
+							stage.setTitle("Modificación de línea de colectivos");
 							stage.setScene(scene);							
 							stage.showAndWait();
     					}
     					else if (operation == avalibleOperations.DELETE) {
     						BusLine busLine = row.getItem();
-    						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    						alert.setHeaderText(null);
-    						alert.setTitle("Eliminación de la linea " + busLine.getName());
-    						alert.setContentText("¿Está seguro de que desea eliminar la linea " + busLine.getName() + "? Esta acción no se puede deshacer.");
+    						Alert alert = AlertManager.createAlert(AlertType.CONFIRMATION, "Eliminación de la linea " + busLine.getName(), "¿Está seguro de que desea eliminar la linea " + busLine.getName() + "? Esta acción no se puede deshacer.");
     						Optional<ButtonType> action = alert.showAndWait();
     						if(action.get() == ButtonType.OK) {
 								if(busLine.getType() == "Económica") { 
@@ -101,7 +99,7 @@ public class showLineController implements Initializable {
 										cheapLineDao.deleteData((CheapLine)busLine);
 									}
 									catch (DBConnectionException | DeleteFailException e) {
-										AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+										AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 										return;
 									}
 								}
@@ -111,7 +109,7 @@ public class showLineController implements Initializable {
 										premiumLineDao.deleteData((PremiumLine)busLine);
 									}
 									catch (DBConnectionException | DeleteFailException e) {
-										AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+										AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 										return;
 									}
 								}

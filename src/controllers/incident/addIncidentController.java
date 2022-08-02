@@ -87,10 +87,10 @@ public class addIncidentController implements Initializable{
 				cityMapManager.disableStyleStop(busStop);
 			}
 		} catch (AddFailException|ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR,"Error",e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha registrado la incidencia correctamente.");
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha registrado la incidencia correctamente.").showAndWait();
 		((Stage) (addIncident.getScene().getWindow())).close();
 	}
 }

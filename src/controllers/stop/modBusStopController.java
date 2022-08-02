@@ -59,10 +59,10 @@ public class modBusStopController{
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.updateMapView();
 		} catch (ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la parada correctamente");
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la parada correctamente").showAndWait();
 		((Stage) modStopButton.getScene().getWindow()).close();
 	}
 	@FXML

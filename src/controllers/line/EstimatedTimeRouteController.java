@@ -49,11 +49,11 @@ public class EstimatedTimeRouteController{
 				estimatedTimeInSeconds += Integer.parseUnsignedInt(secondsField.getText().trim());
 			
 		}catch(NumberFormatException e) {
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Ingrese sólo números en al menos un campo.");
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: Ingrese sólo números en al menos un campo.").showAndWait();
 			return;
 		}
 		if(estimatedTimeInSeconds<=0)
-			AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: El tiempo estimado no debe ser nulo");
+			AlertManager.createAlert(AlertType.ERROR, "ERROR", "ERROR: El tiempo estimado no debe ser nulo").showAndWait();
 		else {
 			routeLine.setEstimatedTime(estimatedTimeInSeconds);
 			newRoute=true;

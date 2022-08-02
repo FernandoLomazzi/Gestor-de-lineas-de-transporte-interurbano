@@ -30,7 +30,7 @@ public class Route {
 	}
 	@SmartLabelSource
 	public String routeLabel() {
-		return distanceInKM+" [km]";
+		return String.format("%.1f [km]", distanceInKM);
 	}
 
 	@Override

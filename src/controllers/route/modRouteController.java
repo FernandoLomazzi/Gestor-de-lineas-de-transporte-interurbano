@@ -62,7 +62,7 @@ public class modRouteController implements Initializable{
 			if(distance<=0)
 				throw new NumberFormatException("Ingrese una distancia válida");
 		}catch(NumberFormatException|NullPointerException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.");
+			AlertManager.createAlert(AlertType.ERROR, "Error", "Ingrese la distancia entre ambas paradas correctamente.").showAndWait();
 			return;
 		}
 		switch(distanceUnitBox.getSelectionModel().getSelectedItem()) {
@@ -82,10 +82,10 @@ public class modRouteController implements Initializable{
 			CityMapManager cityMapManager = CityMapManager.getInstance();
 			cityMapManager.updateMapView();
 		} catch (ModifyFailException|DBConnectionException e) {
-			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage());
+			AlertManager.createAlert(AlertType.ERROR, "Error", e.getMessage()).showAndWait();
 		    return;
 		}
-		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la calle correctamente.");
+		AlertManager.createAlert(AlertType.INFORMATION, "Exito", "Se ha modificado la calle correctamente.").showAndWait();
 	    ((Stage) (modRouteButton.getScene().getWindow())).close();
 	}
 }
