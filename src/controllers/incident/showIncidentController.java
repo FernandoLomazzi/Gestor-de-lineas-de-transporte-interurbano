@@ -94,6 +94,7 @@ public class showIncidentController implements Initializable,returnScene {
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 		incidentTable.setPlaceholder(new Label("No se encuentran incidencias activas en el sistema."));
+		incidentTable.setStyle("-fx-font: normal 14pt verdana;");
 		try {
 			IncidentDao incidentDao = new IncidentDaoPG();
 			MyHeap<Incident> heap = new MyHeap<>(Incident::compareTo);

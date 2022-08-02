@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import controllers.line.addLineController;
 import controllers.line.showLineController;
 import javafx.event.ActionEvent;
@@ -78,18 +79,18 @@ public class busLineScreenController implements Initializable,returnScene{
 
     @FXML
     void deleteBusLine(ActionEvent event) {
-    	Stage stage = new Stage(StageStyle.UTILITY);
+    	Stage stage = Main.mainStage;
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
-    		AnchorPane root = loader.load();
+    		BorderPane root = loader.load();
     		showLineController controller = loader.getController();
     		controller.setManager(lineMapManager);
     		controller.setOperation(showLineController.avalibleOperations.DELETE);
+    		controller.setPrevScene(deleteBusLineButton.getScene());
     		Scene scene = new Scene(root);
-    		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Eliminación de línea de colectivos");
     		stage.setScene(scene);
-    		stage.showAndWait();
+    		StageManager.updateMainStage();
     	}
     	catch(IOException e) {
     		e.printStackTrace();
@@ -98,18 +99,18 @@ public class busLineScreenController implements Initializable,returnScene{
 
     @FXML
     void modifyBusLine(ActionEvent event) {
-    	Stage stage = new Stage(StageStyle.UTILITY);
+    	Stage stage = Main.mainStage;
     	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/line/showLine.fxml"));
     	try {
-    		AnchorPane root = loader.load();
+    		BorderPane root = loader.load();
     		showLineController controller = loader.getController();
     		controller.setManager(lineMapManager);
     		controller.setOperation(showLineController.avalibleOperations.MODIFY);
+    		controller.setPrevScene(modifyBusLineButton.getScene());
     		Scene scene = new Scene(root);
-    		stage.initModality(Modality.APPLICATION_MODAL);
     		stage.setTitle("Modificación de línea de colectivos");
     		stage.setScene(scene);
-    		stage.showAndWait();
+    		StageManager.updateMainStage();
     	}
     	catch(IOException e) {
     		e.printStackTrace();

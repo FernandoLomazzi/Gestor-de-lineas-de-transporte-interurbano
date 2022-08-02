@@ -14,12 +14,18 @@
          <font>
             <Font name="Verdana" size="15.0" />
          </font></Label>
-      <TextField fx:id="sourceStopField" disable="true" editable="false" layoutX="48.0" layoutY="53.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0" />
+      <TextField fx:id="sourceStopField" disable="true" editable="false" layoutX="48.0" layoutY="53.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
       <Label layoutX="346.0" layoutY="36.0" text="Calle de Parada Destino" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Verdana" size="15.0" />
          </font></Label>
-      <TextField fx:id="destinationStopField" disable="true" editable="false" layoutX="315.0" layoutY="53.0" prefHeight="25.0" prefWidth="180.0" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="20.0" />
+      <TextField fx:id="destinationStopField" disable="true" editable="false" layoutX="315.0" layoutY="53.0" prefHeight="25.0" prefWidth="180.0" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
       <Label layoutX="50.0" layoutY="94.0" text="Distancia" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
          <font>
             <Font name="Verdana" size="15.0" />
@@ -28,8 +34,8 @@
          <font>
             <Font name="Verdana" size="13.0" />
          </font></TextField>
-      <ChoiceBox fx:id="distanceUnitBox" layoutX="346.0" layoutY="111.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.leftAnchor="296.0" AnchorPane.topAnchor="70.0" />
-      <Button fx:id="addRouteButton" layoutX="197.0" layoutY="156.0" mnemonicParsing="false" onAction="#addRoute" prefHeight="25.0" prefWidth="149.0" text="Agregar Calle" AnchorPane.bottomAnchor="-50.0">
+      <ChoiceBox fx:id="distanceUnitBox" layoutX="346.0" layoutY="111.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="70.0" />
+      <Button fx:id="addRouteButton" layoutX="223.0" layoutY="167.0" mnemonicParsing="false" onAction="#addRoute" prefHeight="25.0" prefWidth="149.0" text="Agregar Calle" AnchorPane.bottomAnchor="-50.0">
          <font>
             <Font name="Verdana" size="15.0" />
          </font></Button>

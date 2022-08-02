@@ -142,7 +142,7 @@ public class addLineController implements Initializable{
 			if (linePremiumWifiBox.isSelected()) {
 				((PremiumLine) busLine).getServices().add(PremiumLineService.WIFI);
 			}
-			if (linePremiumWifiBox.isSelected()) {
+			if (linePremiumAirBox.isSelected()) {
 				((PremiumLine) busLine).getServices().add(PremiumLineService.AIR_CONDITIONING);
 			}
 	    }

@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="546.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.route.modRouteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.route.modRouteController">
    <children>
-      <Label layoutX="48.0" layoutY="36.0" text="Parada Origen" />
-      <TextField fx:id="sourceStopField" disable="true" editable="false" layoutX="48.0" layoutY="53.0" />
-      <Label layoutX="346.0" layoutY="36.0" text="Parada Destino" />
-      <TextField fx:id="destinationStopField" disable="true" editable="false" layoutX="346.0" layoutY="53.0" />
-      <Label layoutX="50.0" layoutY="94.0" prefHeight="17.0" prefWidth="53.0" text="Distancia" />
-      <TextField fx:id="distanceField" layoutX="50.0" layoutY="111.0" prefHeight="25.0" prefWidth="296.0" promptText="Ingrese la distancia entre ambas Paradas" />
-      <ChoiceBox fx:id="distanceUnitBox" layoutX="346.0" layoutY="111.0" prefHeight="25.0" prefWidth="149.0" />
-      <Button fx:id="modRouteButton" layoutX="197.0" layoutY="156.0" mnemonicParsing="false" onAction="#modRoute" prefHeight="25.0" prefWidth="149.0" text="Modificar Calle" />
+      <Label layoutX="48.0" layoutY="36.0" text="Calle de Parada origen" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <TextField fx:id="sourceStopField" disable="true" editable="false" layoutX="48.0" layoutY="53.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
+      <Label layoutX="346.0" layoutY="36.0" text="Calle de Parada Destino" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <TextField fx:id="destinationStopField" disable="true" editable="false" layoutX="346.0" layoutY="53.0" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
+      <Label layoutX="50.0" layoutY="94.0" text="Distancia" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Label>
+      <TextField fx:id="distanceField" layoutX="50.0" layoutY="111.0" prefHeight="26.0" prefWidth="295.0" promptText="Ingrese la distancia entre ambas Paradas" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="70.0">
+         <font>
+            <Font name="Verdana" size="13.0" />
+         </font></TextField>
+      <ChoiceBox fx:id="distanceUnitBox" layoutX="346.0" layoutY="111.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="70.0" />
+      <Button fx:id="modRouteButton" layoutX="233.0" layoutY="166.0" mnemonicParsing="false" onAction="#modRoute" text="Modificar Calle" AnchorPane.bottomAnchor="-50.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font></Button>
    </children>
+   <padding>
+      <Insets bottom="75.0" left="75.0" right="75.0" top="50.0" />
+   </padding>
 </AnchorPane>

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import controllers.returnScene;
 import db.dao.CheapLineDao;
 import db.dao.PremiumLineDao;
 import db.dao.impl.CheapLineDaoPG;
@@ -21,7 +22,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -33,12 +36,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import managers.AlertManager;
 import managers.LineMapManager;
+import managers.StageManager;
 import models.busline.BusLine;
 import models.busline.CheapLine;
 import models.busline.PremiumLine;
 import models.utils.ColorFormatter;
 
-public class showLineController implements Initializable {
+public class showLineController implements Initializable,returnScene {
 	static public enum avalibleOperations {
 		MODIFY,
 		DELETE
@@ -51,13 +55,18 @@ public class showLineController implements Initializable {
     private TableColumn<BusLine, Color> lineColorColumn;
     @FXML
     private TableColumn<BusLine, String> lineTypeColumn;
-
+    @FXML
+    private Button goToPrevSceneButton;
+    
 	private LineMapManager lineMapManager;
 	private ObservableList<BusLine> lineRow;
 	private avalibleOperations operation;
+	private Scene prevScene;
 	
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+    	lineTable.setStyle("-fx-font: normal 14pt verdana;");
+    	lineTable.setPlaceholder(new Label("No se encuentran líneas de colectivos en el sistema."));
     	lineTable.setRowFactory( tv -> {
     		TableRow<BusLine> row = new TableRow<>();
     		row.setOnMouseClicked(event -> {
@@ -115,9 +124,8 @@ public class showLineController implements Initializable {
 										return;
 									}
 								}
+								lineMapManager.removeLine(busLine);
     						}
-    						lineMapManager.removeLine(busLine);
-    						((Stage)lineTable.getScene().getWindow()).close();
     					}
     				}
     				catch(IOException e) {
@@ -145,11 +153,6 @@ public class showLineController implements Initializable {
     		};
     	});
 	}
-	@FXML
-    public void goBack(ActionEvent event) {
-		Stage stage = (Stage) lineTable.getScene().getWindow();
-		stage.close();
-    }
 
     public void setOperation(avalibleOperations operation) {
     	this.operation = operation;
@@ -163,4 +166,15 @@ public class showLineController implements Initializable {
 		lineColorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
 		lineTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
+	@Override
+	public void setPrevScene(Scene scene) {
+		this.prevScene=scene;
+	}
+	@Override
+	public void goToPrevScene(ActionEvent event) {
+		Stage stage = (Stage) goToPrevSceneButton.getScene().getWindow();
+		stage.setTitle("Menú líneas de colectivos");
+		stage.setScene(prevScene);
+		StageManager.updateMainStage();
+	}
 }

@@ -6,61 +6,65 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.line.modLinePremiumController">
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.line.modLinePremiumController">
+   <children>
+      <Label text="Color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font>
+      </Label>
+      <Label text="Capacidad de asientos" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font>
+      </Label>
+      <ColorPicker fx:id="color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0" />
+      <Spinner fx:id="seatingCapacity" editable="true" prefHeight="12.0" prefWidth="165.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="20.0" />
+      <VBox spacing="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <Label fx:id="servicesLabel" text="Servicios incluídos">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="wifiService" mnemonicParsing="false" text="Wi-Fi">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="airService" mnemonicParsing="false" text="Aire acondicionado">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font>
+            </CheckBox>
+         </children>
+      </VBox>
+      <AnchorPane AnchorPane.bottomAnchor="-50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBack" text="Cancelar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="confirmChangesButton" layoutX="396.0" mnemonicParsing="false" onAction="#confirmChanges" text="Confirmar" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="restoreChangesButton" layoutX="143.0" layoutY="1.0" mnemonicParsing="false" onAction="#restoreChanges" text="Reestablecer cambios" AnchorPane.bottomAnchor="-1.0">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
    <padding>
-      <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
+      <Insets bottom="75.0" left="75.0" right="75.0" top="50.0" />
    </padding>
-   <opaqueInsets>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </opaqueInsets>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBack" text="Cancelar" />
-            <Button fx:id="confirmChangesButton" mnemonicParsing="false" onAction="#confirmChanges" text="Confirmar" />
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </HBox>
-   </bottom>
-   <left>
-      <GridPane alignment="CENTER" prefHeight="224.0" prefWidth="400.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.0" minWidth="10.0" prefWidth="282.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.0" minWidth="10.0" prefWidth="278.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Color" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
-            <Label text="Cantidad de personas sentadas" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM" />
-            <ColorPicker fx:id="color" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-            <Spinner fx:id="seatingCapacity" editable="true" prefHeight="12.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-            <Label fx:id="servicesLabel" text="Servicios incluidos" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0" GridPane.rowIndex="4">
-               <children>
-                  <CheckBox fx:id="wifiService" mnemonicParsing="false" text="Wi-Fi" />
-                  <CheckBox fx:id="airService" mnemonicParsing="false" text="Aire acondicionado" />
-               </children>
-            </VBox>
-            <Button fx:id="restoreChangesButton" mnemonicParsing="false" onAction="#restoreChanges" text="Reestablecer cambios" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-         </children>
-      </GridPane>
-   </left>
-</BorderPane>
+</AnchorPane>
