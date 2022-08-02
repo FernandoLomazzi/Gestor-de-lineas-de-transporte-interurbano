@@ -1,13 +1,18 @@
 package controllers;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -15,7 +20,7 @@ import javafx.stage.Stage;
 import managers.CityMapManager;
 import managers.StageManager;
 
-public class mainScreenController{
+public class mainScreenController implements Initializable{
 	@FXML
 	private AnchorPane pane;
 	@FXML
@@ -24,9 +29,15 @@ public class mainScreenController{
 	private Button lineScreenButton;
 	@FXML
 	private Button travelScreenButton;
-
+	@FXML
+	private ImageView imageView;
+	
 	private Stage mainStage = Main.mainStage;
-
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		imageView.setImage(new Image("MainScreenImage.png"));
+	}
 	@FXML
 	public void setCityMap(ActionEvent event) {
 		try {
@@ -78,5 +89,6 @@ public class mainScreenController{
 			e.printStackTrace();
 		}
 	}
+
 }
 

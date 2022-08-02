@@ -14,6 +14,9 @@
          <BorderPane.margin>
             <Insets top="20.0" />
          </BorderPane.margin>
+         <font>
+            <Font name="Verdana" size="15.0" />
+         </font>
       </Button>
    </bottom>
    <center>

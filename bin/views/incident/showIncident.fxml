@@ -23,7 +23,7 @@
       </TableView>
    </center>
    <bottom>
-      <Button fx:id="goToPrevSceneButton" alignment="CENTER" mnemonicParsing="false" onAction="#goToPrevScene" prefHeight="25.0" prefWidth="95.0" text="Volver" BorderPane.alignment="BOTTOM_LEFT">
+      <Button fx:id="goToPrevSceneButton" alignment="CENTER" mnemonicParsing="false" onAction="#goToPrevScene" text="Volver" BorderPane.alignment="BOTTOM_LEFT">
          <font>
             <Font name="Verdana" size="15.0" />
          </font>
