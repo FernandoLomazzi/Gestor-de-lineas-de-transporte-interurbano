@@ -33,6 +33,7 @@ public class modLineCheapController extends modLineController {
 	private class CheapLineListener implements ChangeListener<Object> {
 		@Override
 		public void changed(ObservableValue<? extends Object> arg0, Object arg1, Object arg2) {
+			changedBusLine();
 			modifiedCheapLine.setStandingCapacityPercentage(Double.parseDouble(standingCapacityProperty.getValue().trim().replace(',','.'))/100);
 			if (modifiedCheapLine.validateChanges(cheapLineToModify)) {
 				confirmChangesButton.setDisable(true);
@@ -69,12 +70,13 @@ public class modLineCheapController extends modLineController {
 			AlertManager.createAlert(AlertType.ERROR, "ERROR", e.getMessage());
 			return;
     	}
-
+    	AlertManager.createAlert(AlertType.INFORMATION, "EXITO", "Se modificó la linea exitosamente.");
     	((Stage)standingLabel.getScene().getWindow()).close();
 	}
 	
 	@FXML
 	protected void restoreChanges(ActionEvent event) {
+		System.out.println(cheapLineToModify.getStandingCapacityPercentage());
 		super.restoreChanges();
 		standingSlider.setValue(cheapLineToModify.getStandingCapacityPercentage()*100);
 	}
@@ -87,8 +89,12 @@ public class modLineCheapController extends modLineController {
 		standingSlider.setValue(cheapLineToModify.getStandingCapacityPercentage()*100);
 		super.restoreChanges();
 
-		standingCapacityProperty.addListener(new CheapLineListener());
-		colorProperty.addListener(new CheapLineListener());
-		seatingCapacityProperty.addListener(new CheapLineListener());
+		setListeners(new CheapLineListener());
+	}
+	
+	@Override
+	public void setListeners(ChangeListener<Object> listener) {
+		super.setListeners(listener);
+		standingCapacityProperty.addListener(listener);
 	}
 }

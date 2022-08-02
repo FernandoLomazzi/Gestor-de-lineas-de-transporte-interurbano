@@ -31,7 +31,7 @@ public class BusLineDaoPG implements BusLineDao{
 			"VALUES (?,?,?);";
 	private static final String UPDATE_SQL = 
 			"UPDATE BusLine SET " + 
-			"name=?,color=?,seating_capacity=? " +
+			"color=?,seating_capacity=? " +
 			"WHERE name=?;";
 	private static final String DELETE_SQL = 
 			"DELETE FROM BusLine " +
@@ -61,9 +61,9 @@ public class BusLineDaoPG implements BusLineDao{
 	public void modifyData(BusLine busLine) throws DBConnectionException, ModifyFailException {
 		try(Connection connection = DBConnection.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(UPDATE_SQL)){
-				ps.setString(1, busLine.getName());
-				ps.setString(2, busLine.getColor().toString());
-				ps.setInt(3, busLine.getSeatingCapacity());
+				ps.setString(1, busLine.getColor().toString());
+				ps.setInt(2, busLine.getSeatingCapacity());
+				ps.setString(3, busLine.getName());
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
