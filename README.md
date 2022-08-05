@@ -8,7 +8,7 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 
 ![CaminoMínimo](minPath.gif)
 
-# Diagrama Entidad-Relación
+# Diagrama Entidad-Relación en su forma tabular
 
 ![E-R](E-R.png)
 
