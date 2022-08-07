@@ -6,9 +6,9 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 * CRUD de incidencias en las paradas de transporte, deshabilitando las mismas para su uso.
 * Gestión del viaje de un pasajero en el sistema, permitiéndole hallar el camino más rápido, corto o barato para dos paradas concretas.
 
+![CaminoMínimo](minPath.gif)
 
-
-# Diagrama Entidad-Relación
+# Diagrama Entidad-Relación en su forma tabular
 
 ![E-R](E-R.png)
 
@@ -17,6 +17,7 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 * JDK 11
 * JavaFX 18.0.1
 * PostgreSql 42.4.0
+* JavaFXSmartGraph 0.9.4
 * ControlsFX 11.1.1
 
 # Autores
@@ -25,4 +26,4 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 * **Lucio Rivera** - [(GitHub page)](https://github.com/Afterjack) 
 
 # Licencia
-This project is licensed under the MIT License - see the LICENSE file for details. All derivative work should include this license.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details. All derivative work should include this license.
