@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 import exceptions.DBConnectionException;
 
 public class DBConnection {
-	private static final String URL = "jdbc:postgresql://localhost:5432/Prueba";
-	private static final String USER = "postgres";
-	private static final String PASS = "3435";
+	private static final String URL = ""; //Example "jdbc:postgresql://localhost:5432/databaseName"
+	private static final String USER = ""; //Example "postgres"
+	private static final String PASS = ""; //Example "123"
 	private static final String DRIVER = "org.postgresql.Driver";
 	private DBConnection() {
 		;
@@ -25,7 +25,7 @@ public class DBConnection {
 		} catch (ClassNotFoundException e) {
 			throw new DBConnectionException("Hubo un problema al intentar cargar los drivers de la base de datos.");
 		} catch (SQLException  e) {
-			throw new DBConnectionException("Hubo un problema al intentar establecer una conexión con la base de datos.");
+			throw new DBConnectionException("Hubo un problema al intentar establecer una conexiÃ³n con la base de datos.");
 		}
 		return connection;
 	}
