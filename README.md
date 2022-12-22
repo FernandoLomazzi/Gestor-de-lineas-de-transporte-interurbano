@@ -22,7 +22,7 @@ Este proyecto permite la gestión de líneas de transporte a través de:
 
 # Autores
 
-* **Fernando Sebastián Lomazzi** - [(GitHub page)](https://github.com/Lascot29) 
+* **Fernando Sebastián Lomazzi** - [(GitHub page)](https://github.com/FernandoLomazzi) 
 * **Lucio Rivera** - [(GitHub page)](https://github.com/Afterjack) 
 
 # Licencia
