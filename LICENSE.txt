@@ -1,4 +1,4 @@
-Gestor de líneas de transporte interurbano - https://github.com/Lascot29/Gestor-de-lineas-de-transporte-interurbano
+Gestor de líneas de transporte interurbano - https://github.com/FernandoLomazzi/Gestor-de-lineas-de-transporte-interurbano
 
 The MIT License
 
